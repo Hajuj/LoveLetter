@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-
-
 public class MyChatServer {
     private static int port = 47329;
     private Set<UserThread> userThreads = new HashSet<>();
@@ -20,7 +18,7 @@ public class MyChatServer {
     }
 
     public void execute() {
-        try (ServerSocket serverSocket = new ServerSocket(port)){
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Chat server is online!");
 
             while (true) {
@@ -55,7 +53,7 @@ public class MyChatServer {
     }
 
     public void directMessage(String message, UserThread user) {
-            user.sendMessage(message);
+        user.sendMessage(message);
     }
 
     public void removeUser(String username, UserThread user) {

@@ -1,7 +1,6 @@
 import java.io.*;
 import java.net.Socket;
 
-
 public class UserThread extends Thread {
     private Socket socket;
     private MyChatServer server;
@@ -9,7 +8,6 @@ public class UserThread extends Thread {
     private String username;
 
     /**
-     *
      * @param socket server socket
      * @param server chat server
      */
@@ -23,13 +21,12 @@ public class UserThread extends Thread {
         try {
             InputStream input = socket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-//            BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
 
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
 
             while (true) {
-                 username = reader.readLine();
+                username = reader.readLine();
                 if (username == null) {
                     return;
                 }
@@ -41,7 +38,7 @@ public class UserThread extends Thread {
 
             String serverMessage = username + " joined the room.";
             server.broadcast(serverMessage, this);
-            server.directMessage("Welcome " + username,this);
+            server.directMessage("Welcome " + username, this);
 
             String clientMessage;
 
@@ -49,7 +46,7 @@ public class UserThread extends Thread {
                 clientMessage = reader.readLine();
                 serverMessage = "[" + username + "]: " + clientMessage;
                 server.broadcast(serverMessage, this);
-            } while(!"bye".equalsIgnoreCase(clientMessage));
+            } while (!"bye".equalsIgnoreCase(clientMessage));
 
             server.removeUser(username, this);
             serverMessage = username + "left the room";
@@ -62,6 +59,6 @@ public class UserThread extends Thread {
     }
 
     public void sendMessage(String message) {
-        writer.write(message);
+        writer.println(message);
     }
 }

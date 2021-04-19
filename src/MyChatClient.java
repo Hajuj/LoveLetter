@@ -1,33 +1,41 @@
-import java.io.BufferedReader;
-import java.io.PrintWriter;
 import java.io.*;
 import java.net.Socket;
+import java.net.*;
 
 public class MyChatClient {
+    private String hostname;
+    private int port;
+    private String userName;
 
-    private String serverAddress;
-    private BufferedReader in;
-    private PrintWriter out;
-    private static final String SERVER_IP = "127.0.0.1";
-    private static final int SERVER_PORT = 47329;
+    public MyChatClient(String hostname, int port) {
+        this.hostname = hostname;
+        this.port = port;
+    }
 
-    public static void main(String[] args) throws IOException {
-        Socket socket = new Socket(SERVER_IP, SERVER_PORT);
-        BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+    public void execute() {
+        try {
+            Socket socket = new Socket(hostname, port);
 
-        while (true) {
-            System.out.println("> " + System.in);
-            String command = keyboard.readLine();
-            if (command.equals("bye")) break;
-            out.println(command);
-            String serverResponse = input.readLine();
-            System.out.println("chatHandler.Server says: " + serverResponse);
+            System.out.println("Du bist nun connected!");
+
+            new ReadThread(socket, this).start();
+            new WriteThread(socket, this).start();
+
+        } catch (UnknownHostException ex) {
+            System.out.println("Server not found: " + ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println("I/O Error: " + ex.getMessage());
         }
-        socket.close();
-        System.exit(0);
 
     }
-}
 
+    void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
+    public static void main(String[] args) {
+        MyChatClient client = new MyChatClient("127.0.0.1", 47329);
+        client.execute();
+    }
+}
