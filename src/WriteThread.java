@@ -1,13 +1,6 @@
 import java.io.*;
 import java.net.*;
 
-/**
- * This thread is responsible for reading user's input and send it
- * to the server.
- * It runs in an infinite loop until the user types 'bye' to quit.
- *
- * @author www.codejava.net
- */
 public class WriteThread extends Thread {
     private PrintWriter writer;
     private Socket socket;
@@ -27,21 +20,19 @@ public class WriteThread extends Thread {
     }
 
     public void run() {
-
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.print("Was ist dein Nickname? ");
+        System.out.print("What is your Nickname?" + "\n");
         String userName = null;
         try {
             userName = consoleReader.readLine();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        client.setUserName(userName);
+        client.setUserName();
         writer.println(userName);
 
         String text;
-
         do {
             text = "";
             try {
@@ -52,13 +43,11 @@ public class WriteThread extends Thread {
             if (!text.equals("")) {
                 writer.println(text);
             }
-
         } while (!text.equals("bye"));
 
         try {
             socket.close();
         } catch (IOException ex) {
-
             System.out.println("Error writing to server: " + ex.getMessage());
         }
     }
