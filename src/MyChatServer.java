@@ -3,7 +3,6 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
 
-
 public class MyChatServer {
     private static int port = 47329;
     private Set<UserThread> userThreads = new HashSet<>();
@@ -19,8 +18,7 @@ public class MyChatServer {
 
     public void execute() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            System.out.println("Chat server is online!");
-
+            System.out.println("The chat server is now online!");
             while (true) {
                 Socket socket = serverSocket.accept();
                 System.out.println("New user connected");
@@ -60,7 +58,7 @@ public class MyChatServer {
         boolean removed = usernames.remove(username);
         if (removed) {
             userThreads.remove(user);
-            System.out.println("The user " + username + " quitted");
+            System.out.println("[" + username + "] is now disconnected");
         }
     }
 }

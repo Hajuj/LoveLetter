@@ -5,7 +5,6 @@ import java.net.*;
 public class MyChatClient {
     private String hostname;
     private int port;
-    private String userName;
 
     public MyChatClient(String hostname, int port) {
         this.hostname = hostname;
@@ -16,9 +15,9 @@ public class MyChatClient {
         try {
             Socket socket = new Socket(hostname, port);
 
-            System.out.println("Du bist nun connected!");
+            System.out.println("You are now connected to the server!");
 
-            new ReadThread(socket, this).start();
+            new ReadThread(socket).start();
             new WriteThread(socket, this).start();
 
         } catch (UnknownHostException ex) {
@@ -29,10 +28,8 @@ public class MyChatClient {
 
     }
 
-    void setUserName(String userName) {
-        this.userName = userName;
+    void setUserName() {
     }
-
 
     public static void main(String[] args) {
         MyChatClient client = new MyChatClient("127.0.0.1", 47329);

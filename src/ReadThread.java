@@ -6,13 +6,8 @@ import java.net.Socket;
 
 public class ReadThread extends Thread {
     private BufferedReader reader;
-    private Socket socket;
-    private MyChatClient client;
 
-    public ReadThread(Socket socket, MyChatClient client) {
-        this.socket = socket;
-        this.client = client;
-
+    public ReadThread(Socket socket) {
         try {
             InputStream input = socket.getInputStream();
             reader = new BufferedReader(new InputStreamReader(input));
@@ -26,10 +21,9 @@ public class ReadThread extends Thread {
         while (true) {
             try {
                 String response = reader.readLine();
-                System.out.println("\n" + response);
+                System.out.println(response);
             } catch (IOException ex) {
-                System.out.println("Error reading from server: " + ex.getMessage());
-                ex.printStackTrace();
+                System.out.println("You left the server!");
                 break;
             }
         }
