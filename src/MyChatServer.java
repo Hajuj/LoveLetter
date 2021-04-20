@@ -5,9 +5,12 @@ import java.util.Set;
 
 public class MyChatServer {
     private static int port = 47329;
+
+    //two set collections; no duplication; the names and threads of the clients where keep to track
     private Set<UserThread> userThreads = new HashSet<>();
     private Set<String> usernames = new HashSet<>();
 
+    //to allocate the port
     public MyChatServer(int port) {
         MyChatServer.port = port;
     }
@@ -16,6 +19,7 @@ public class MyChatServer {
         return usernames;
     }
 
+    //to do Server is online
     public void execute() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("The chat server is now online!");
@@ -32,7 +36,7 @@ public class MyChatServer {
             e.printStackTrace();
         }
     }
-
+    //execute the
     public static void main(String[] args) {
         MyChatServer server = new MyChatServer(port);
         server.execute();
@@ -42,6 +46,7 @@ public class MyChatServer {
         usernames.add(username);
     }
 
+    //to send a message from one client to all others
     public void broadcast(String message, UserThread excludedUser) {
         for (UserThread user : userThreads) {
             if (user != excludedUser) {

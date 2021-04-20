@@ -1,3 +1,5 @@
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,11 +22,17 @@ public class Login_Controller {
 
     public Label serverReturn;
 
-    //public void initialize() {inputTextfield.clear();}
+    public void initialize() {
+        username.clear();
+    }
+
     @FXML
-    private void handleSubmitButtonAction(ActionEvent event){
-        btn_signIn.setDisable(true);
-        String text = username.getText();
+    private void handleSubmitButtonAction(ActionEvent event) {
+        MyChatServer chatServer;
+
+
+        /*btn_signIn.setDisable(true);
+        String text = username.getText();*/
 
         /*if (text.equals("")) {
             btn_signIn.setText("Well... If you want me to say nothing, then that's the way it is.");
@@ -34,11 +42,13 @@ public class Login_Controller {
             btn_signIn.setText("Ok.. here you go: " + text);
         } else {
             btn_signIn.setText("Nah! I already said that!");
-        }*/
+        }
         username.clear();
 
         btn_signIn.setDisable(false);
-    }
+    }*/
+
+
     /*
     //private final MyChatServer chatServer;
 
@@ -57,15 +67,14 @@ public class Login_Controller {
         //Fehlerrückmeldung
 
     }
-
+*//*
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
 
+    } */
+
     }
-    }*/
+
 
 }
-
-
- 
