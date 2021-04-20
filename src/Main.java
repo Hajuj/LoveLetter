@@ -8,10 +8,8 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
-    //Button button;
-
     public ArrayList<Thread> threads;
-    //private Object MyChatServer;
+    private Object MyChatServer;
 
 
     //wenn Programm Parameter enthält;
