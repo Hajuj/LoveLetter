@@ -1,0 +1,14 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+
+.background{
+	-fx-background-color: #ADADAD ;
+}
+
+.registration{
+	-fx-font-size: 20;
+}
+
+.username{
+    -fx-font-size:14;
+}
