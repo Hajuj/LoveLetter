@@ -5,9 +5,6 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
 
-
-
-
 public class MyChatServer {
     private static int port = 47329;
     private Set<UserThread> userThreads = new HashSet<>();

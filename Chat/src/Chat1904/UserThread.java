@@ -33,6 +33,7 @@ public class UserThread extends Thread {
                     System.out.println(server.getUsernames());
                     break;
                 }
+                else server.directMessage("Probiers noch mal", this);
             }
 
             String serverMessage = username + " joined the room.";
@@ -44,7 +45,9 @@ public class UserThread extends Thread {
             do {
                 clientMessage = reader.readLine();
                 serverMessage = "[" + username + "]: " + clientMessage;
-                server.broadcast(serverMessage, this);
+                if (!serverMessage.isBlank()) {
+                    server.broadcast(serverMessage, this);
+                }
             } while(!"bye".equalsIgnoreCase(clientMessage));
 
             server.removeUser(username, this);

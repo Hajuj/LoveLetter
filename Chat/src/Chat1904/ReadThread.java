@@ -18,7 +18,6 @@ public class ReadThread extends Thread {
         try {
             InputStream input = socket.getInputStream();
             reader = new BufferedReader(new InputStreamReader(input));
-           // System.out.println("reader def");
         } catch (IOException ex) {
             System.out.println("Error getting input stream: " + ex.getMessage());
             ex.printStackTrace();
@@ -28,14 +27,8 @@ public class ReadThread extends Thread {
     public void run() {
         while (true) {
             try {
-              //  System.out.println("wait if responce");
                 String response = reader.readLine();
-                System.out.println("\n" + response);
-
-                // prints the username after displaying the server's message
-               // if (client.getUserName() != null) {
-               //     System.out.print("[" + client.getUserName() + "]: ");
-               //
+                System.out.println(response);
             } catch (IOException ex) {
                 System.out.println("Du bist weg!");
                 break;
