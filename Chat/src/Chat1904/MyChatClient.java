@@ -3,7 +3,6 @@ package Chat1904;
 
 import java.io.*;
 import java.net.Socket;
-
 import java.net.*;
 public class MyChatClient {
     private String hostname;
@@ -35,11 +34,6 @@ public class MyChatClient {
     void setUserName(String userName) {
         this.userName = userName;
     }
-
-    String getUserName() {
-        return this.userName;
-    }
-
 
     public static void main(String[] args) {
         MyChatClient client = new MyChatClient("127.0.0.1", 47329);
