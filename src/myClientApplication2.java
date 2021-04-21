@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
+/*
 public class myClientApplication2 extends Application {
 
     public ArrayList<Thread> threads = new ArrayList<>();
@@ -71,8 +71,8 @@ public class myClientApplication2 extends Application {
             //primaryStage.setX(10);
             primaryStage.show();
 
-        */} /*catch(Exception e) {
+        } /*catch(Exception e) {
             e.printStackTrace();
-        }*/
+        }
     }
-
+            */

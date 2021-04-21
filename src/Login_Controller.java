@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
-
+/*
 public class Login_Controller {
 
 
@@ -75,7 +75,7 @@ public class Login_Controller {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-    } */
+    } */ /*
 
     }
 
@@ -85,3 +85,4 @@ public class Login_Controller {
 
     }
 }
+*/
