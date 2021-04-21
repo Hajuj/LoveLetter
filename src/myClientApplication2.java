@@ -6,10 +6,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Main extends Application {
+public class myClientApplication2 extends Application {
 
-    public ArrayList<Thread> threads;
-    private Object MyChatServer;
+    public ArrayList<Thread> threads = new ArrayList<>();
+    //private Object MyChatServer;
 
 
     //wenn Programm Parameter enthält;
@@ -34,7 +34,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(myClientApplication2.class.getResource("Login.fxml"));
         scene = new Scene(fxmlLoader.load());
 
         primaryStage.setTitle("LoveLetters");
