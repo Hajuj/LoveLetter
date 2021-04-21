@@ -8,17 +8,20 @@ public class MyChatClient {
     private String hostname;
     private int port;
     private String userName;
+    private ClientApplication clientApplication;
 
     public MyChatClient(String hostname, int port) {
         this.hostname = hostname;
         this.port = port;
+        execute();
+
     }
 
     public void execute() {
         try {
             Socket socket = new Socket(hostname, port);
 
-            System.out.println("Du bist nun connected!");
+            clientApplication.
 
             new ReadThread(socket, this).start();
             new WriteThread(socket, this).start();

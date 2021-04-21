@@ -24,7 +24,7 @@ public class WriteThread extends Thread {
 
     public void run() {
 
-        BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+        ObjectInputStream notconsole = new ObjectInputStream()
 
         System.out.print("Was ist dein Nickname? ");
         String userName = null;
