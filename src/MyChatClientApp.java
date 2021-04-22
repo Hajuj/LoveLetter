@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -17,7 +19,6 @@ import javafx.scene.text.Text;
 
 
 public class MyChatClientApp extends Application {
-
     private ArrayList<Thread> threads;
 
     public static void main(String[] args) {
@@ -76,9 +77,8 @@ public class MyChatClientApp extends Application {
 
             @Override
             public void handle(ActionEvent actionEvent) {
-                MyChatClient client;
                 try{
-                    client = new MyChatClient(nickNameField.getText(), Integer.parseInt(portField.getText()));
+                    MyChatClient client = new MyChatClient(nickNameField.getText(), Integer.parseInt(portField.getText()));
                     Thread UserThread = new Thread(String.valueOf(client));
                     UserThread.setDaemon(true);
                     UserThread.start();

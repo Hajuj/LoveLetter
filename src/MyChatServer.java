@@ -1,3 +1,4 @@
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 
 
-public class MyChatServer {
+public class MyChatServer implements Observer{
     private static int port = 47329;
     public ObservableList<String> serverLog;
     public ObservableList<String> clientNames;
@@ -75,6 +76,7 @@ public class MyChatServer {
                 newUserThread.setDaemon(true);
                 newUserThread.start();
                 MyChatServerApp.threads.add(newUserThread);
+
             }
         } catch (Exception e) {
             //System.out.println("Error in the server: " + e.getMessage());
@@ -128,5 +130,10 @@ public class MyChatServer {
             userThreads.remove(user);
             System.out.println("The user " + username + " left the room");
         }
+    }
+
+    @Override
+    public void update(Object arg) {
+
     }
 }

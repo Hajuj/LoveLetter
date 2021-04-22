@@ -29,7 +29,7 @@ public class WriteThread extends Thread {
 
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.print("Was ist dein Nickname? ");
+        //System.out.print("Was ist dein Nickname? ");
         String userName = null;
         try {
             userName = consoleReader.readLine();

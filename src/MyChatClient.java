@@ -1,12 +1,11 @@
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.net.Socket;
 
 import java.net.*;
-import java.util.ArrayList;
+
 
 public class MyChatClient {
     private String hostname;
@@ -21,13 +20,6 @@ public class MyChatClient {
     //name of the client
     private String userName;
 
-
-
-    /*
-    public MyChatClient(String hostname, int port) {
-        this.hostname = hostname;
-        this.port = port;
-    } */
 
     public MyChatClient(String hostname, int port){
         this.hostname =hostname;
@@ -75,8 +67,8 @@ public class MyChatClient {
         this.clientSocket = clientSocket;
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         MyChatClient client = new MyChatClient("127.0.0.1", 47329);
         client.execute();
-    }*/
+    }
 }
