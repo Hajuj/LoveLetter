@@ -7,9 +7,9 @@ public class WriteThread extends Thread {
     private Socket socket;
     private MyChatClient client;
 
-    public WriteThread(Socket socket, MyChatClient client) {
+    public WriteThread(Socket socket, Runnable client) {
         this.socket = socket;
-        this.client = client;
+        this.client = (MyChatClient) client;
 
         try {
             OutputStream output = socket.getOutputStream();

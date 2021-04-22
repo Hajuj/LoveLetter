@@ -51,7 +51,7 @@ public class MyChatClientApp extends Application {
         rootPane.setAlignment(Pos.CENTER);
 
         //Creating a Text Fields and set Properties
-        TextField nicKNameField = new TextField();
+        TextField nickNameField = new TextField();
         TextField portField = new TextField();
 
         //Creating a Text and set Properties
@@ -62,6 +62,7 @@ public class MyChatClientApp extends Application {
         Text text1 = new Text("Welcome to LoveLatter Chat");
         text1.setFont(Font.font( "" , FontPosture.ITALIC, 20));
         text1.setFill(Color.BLANCHEDALMOND);
+
 
         Text portText = new Text("Port Number");
         portText.setStyle("-fx-font: normal Bold 15px 'Edwardian Script ITC' ");
@@ -77,7 +78,7 @@ public class MyChatClientApp extends Application {
             public void handle(ActionEvent actionEvent) {
                 MyChatClient client;
                 try{
-                    client = new MyChatClient(nicKNameField.getText(), Integer.parseInt(portField.getText()));
+                    client = new MyChatClient(nickNameField.getText(), Integer.parseInt(portField.getText()));
                     Thread UserThread = new Thread(String.valueOf(client));
                     UserThread.setDaemon(true);
                     UserThread.start();
@@ -94,7 +95,7 @@ public class MyChatClientApp extends Application {
         });
         //Adding the Components to the root pane arguments
         rootPane.add(text, 0, 20);
-        rootPane.add(nicKNameField, 1,20);
+        rootPane.add(nickNameField, 1,20);
         rootPane.add(submitClientInfoButton, 1,24);
         rootPane.add(portText,0,22);
         rootPane.add(portField,1,22);
@@ -118,7 +119,20 @@ public class MyChatClientApp extends Application {
         ListView<String> chatListView = new ListView<String>();
         chatListView.setItems(client.chatLog);
 
+        //Creating chat textbox and send a message to the server
+        TextField chatTextField = new TextField();
+        chatTextField.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // TODO Auto-generated method stub
+                UserThread.sendMessage(chatTextField.getText());
+                chatTextField.clear();
+            }
+        });
 
+        /* Add the components to the root pane */
+        rootPane.add(chatListView, 0, 0);
+        rootPane.add(chatTextField, 0, 1);
 
         return new Scene(rootPane, 400, 400);
     }

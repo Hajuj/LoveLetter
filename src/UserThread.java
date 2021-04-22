@@ -4,17 +4,17 @@ import java.net.Socket;
 
 
 public class UserThread extends Thread {
-    private  MyChatClient client;
+    private MyChatClient client;
     private MyChatServer server;
 
     private Socket userSocket;
 
-    private PrintWriter writer;
+    private static PrintWriter writer;
     private BufferedReader reader;
     //name of user
     private String username;
 
-
+    //Thread for multiple clients: connection for each connected client
     public UserThread(Socket userSocket, MyChatServer server) {
         this.userSocket = userSocket;
         this.server = server;
@@ -42,13 +42,13 @@ public class UserThread extends Thread {
                     break;
                 }
             }
-
+            //Server Messages
             String serverMessage = username + " joined the room.";
             server.broadcast(serverMessage, this);
             server.directMessage("Welcome " + username,this);
 
+            //Client Messages
             String clientMessage;
-
             do {
                 clientMessage = reader.readLine();
                 serverMessage = "[" + username + "]: " + clientMessage;
@@ -65,7 +65,7 @@ public class UserThread extends Thread {
         }
     }
 
-    public void sendMessage(String message) {
+    public static void sendMessage(String message) {
         writer.println(message);
     }
 

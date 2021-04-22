@@ -9,16 +9,16 @@ public class ReadThread extends Thread {
     private Socket socket;
     private MyChatClient client;
 
-    public ReadThread(Socket socket, MyChatClient client) {
+    public ReadThread(Socket socket, Runnable client) {
         this.socket = socket;
-        this.client = client;
+        this.client = (MyChatClient) client;
 
         try {
             InputStream input = socket.getInputStream();
             reader = new BufferedReader(new InputStreamReader(input));
             // System.out.println("reader def");
         } catch (IOException ex) {
-            System.out.println("Error getting input stream: " + ex.getMessage());
+            //System.out.println("Error getting input stream: " + ex.getMessage());
             ex.printStackTrace();
         }
     }

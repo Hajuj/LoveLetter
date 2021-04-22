@@ -15,19 +15,18 @@ public class MyChatServer {
     public ObservableList<String> serverLog;
     public ObservableList<String> clientNames;
     private ArrayList<UserThread> userThreads;
-    private  ArrayList<Socket> usernames;
+    private ArrayList<Socket> usernames;
     private ServerSocket socket;
     private Socket userSocket;
 
-    public MyChatServer(int port) throws IOException {
 
+    public MyChatServer(int port) throws IOException {
         MyChatServer.port = port;
         serverLog = FXCollections.observableArrayList();
         clientNames = FXCollections.observableArrayList();
         usernames = new ArrayList<Socket>();
         userThreads = new ArrayList<UserThread>();
         socket = new ServerSocket(port);
-
     }
 
 
