@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -18,7 +21,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 
 
-public class MyChatClientApp extends Application {
+public class MyChatClientApp extends Application implements Observer {
     private ArrayList<Thread> threads;
 
     public static void main(String[] args) {
@@ -78,9 +81,11 @@ public class MyChatClientApp extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try{
-                    MyChatClient client = new MyChatClient(nickNameField.getText(), Integer.parseInt(portField.getText()));
+                    MyChatClient client = new MyChatClient(nickNameField.getText(), Integer.parseInt(portField.getText());
                     Thread UserThread = new Thread(String.valueOf(client));
                     UserThread.setDaemon(true);
+                    //client.addObserver( );
+
                     UserThread.start();
                     threads.add(UserThread);
                     //Changing the scene of the PrimaryStage
@@ -137,4 +142,8 @@ public class MyChatClientApp extends Application {
         return new Scene(rootPane, 400, 400);
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        return;
+    }
 }

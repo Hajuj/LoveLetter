@@ -7,11 +7,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Observable;
 
 
-
-
-public class MyChatServer implements Observer{
+public class MyChatServer extends Observable {
     private static int port = 47329;
     public ObservableList<String> serverLog;
     public ObservableList<String> clientNames;
@@ -40,6 +39,8 @@ public class MyChatServer implements Observer{
         try {
             socket = new ServerSocket(this.port);
             serverLog = FXCollections.observableArrayList();
+            setChanged();
+            notifyObservers();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,7 +66,8 @@ public class MyChatServer implements Observer{
                     @Override
                     public void run() {
                         serverLog.add("User " + clientSocket.getRemoteSocketAddress() + "connected");
-
+                        setChanged();
+                        notifyObservers(this);
                     }
                 });
 
@@ -76,6 +78,7 @@ public class MyChatServer implements Observer{
                 newUserThread.setDaemon(true);
                 newUserThread.start();
                 MyChatServerApp.threads.add(newUserThread);
+
 
             }
         } catch (Exception e) {
@@ -96,13 +99,18 @@ public class MyChatServer implements Observer{
                 usernames.remove(userThreads.indexOf(user));
                 clientNames.remove(userThreads.indexOf(user));
                 userThreads.remove((userThreads.indexOf(user)));
+                setChanged();
+                notifyObservers(this);
             }
+
         });
     }
     public void writeToAllSockets(String input){
         for (UserThread userThread : userThreads){
             userThread.sendMessage(input);
+            setChanged();
         }
+        notifyObservers();
     }
     public String addUseNames(String userName) {
         return userName;
@@ -130,10 +138,5 @@ public class MyChatServer implements Observer{
             userThreads.remove(user);
             System.out.println("The user " + username + " left the room");
         }
-    }
-
-    @Override
-    public void update(Object arg) {
-
     }
 }

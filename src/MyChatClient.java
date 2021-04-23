@@ -5,9 +5,10 @@ import java.io.*;
 import java.net.Socket;
 
 import java.net.*;
+import java.util.Observable;
 
 
-public class MyChatClient {
+public class MyChatClient extends Observable {
     private String hostname;
     private int port;
     private Socket clientSocket;
@@ -35,10 +36,14 @@ public class MyChatClient {
                 public void run() {
                     baseServer.clientNames.add(userName + " - "
                             + clientSocket.getRemoteSocketAddress());
+                    setChanged();
+                    notifyObservers(this);
 
                     new ReadThread(socket, this).start();
                     new WriteThread(socket, this).start();
+
                 }
+
             });
             //System.out.println("Du bist nun connected!");
 
@@ -53,6 +58,8 @@ public class MyChatClient {
 
     void setUserName(String userName) {
         this.userName = userName;
+        setChanged();
+        notifyObservers(this);
     }
 
     String getUserName() {
@@ -65,6 +72,8 @@ public class MyChatClient {
 
     public void setClientSocket(Socket clientSocket) {
         this.clientSocket = clientSocket;
+        setChanged();
+        notifyObservers(this);
     }
 
     public static void main(String[] args) {

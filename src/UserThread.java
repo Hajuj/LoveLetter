@@ -31,6 +31,7 @@ public class UserThread extends Thread {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
             writer = new PrintWriter(userSocket.getOutputStream(), true);
+
             while (true) {
                 username = reader.readLine();
                 if (username == null) {
