@@ -23,6 +23,7 @@ public class Login_Controller{
     private MyChatClient myChatClient;
     private MyChatServer myChatServer;
 
+
     @FXML private TextField userNameID;
     @FXML private Button btnSignIn;
     @FXML private Text errorTextID;
@@ -34,18 +35,31 @@ public class Login_Controller{
      public void handleBtnSign (ActionEvent event) throws IOException {
         this.myChatClient = myChatClient;
         this.myChatServer = myChatServer;
+
+
         myChatClient.setUserName(userNameID.getText());
-        String error = "This username is already given!";
+        myChatServer.directMessage(errorTextID.getText(), this);
+
 
         while (true) {
             if (userNameID.getText().isEmpty()) {
                 errorTextID.setText("Es wurde kein Nutzername eingegeben!");
-            } else if (error == myChatServer.directMessage()) {
+            } else if (!userNameID.getText().isEmpty()&&) {
                 errorTextID.setText("");
             }
         }
-        Parent chatViewParent = FXMLLoader.load(getClass().getResource("Chat.fxml"));
-        Scene chatViewScene = new Scene(chatViewParent);
+
+        MyChatServer model = new MyChatServer();
+        Chat_Controller chat;
+
+
+        FXMLLoader chatViewParent = new FXMLLoader(getClass().getResource("Chat.fxml"));
+        chat = new Chat_Controller(model);
+
+        chatViewParent.setController(chat);
+
+        Parent root = chatViewParent.load();
+        Scene chatViewScene = new Scene(root);
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
     }

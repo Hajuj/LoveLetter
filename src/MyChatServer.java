@@ -47,12 +47,6 @@ public class MyChatServer {
             //serverLog = FXCollections.observableArrayList();
             while (true) {
                 Socket socket = serverSocket.accept();
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
                 System.out.println("New user connected");
 
                 UserThread newUserThread = new UserThread(socket, this);
@@ -149,6 +143,12 @@ public class MyChatServer {
     public void directMessage(String message, UserThread user) {
         user.sendMessage(message);
     }
+
+    public void directMessageWelcome(String message, UserThread user) {
+        user.sendMessage(message);
+    }
+
+
 
     public void removeUser(String username, UserThread user) {
         boolean removed = usernames.remove(username);

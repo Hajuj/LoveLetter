@@ -4,30 +4,32 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/*Start soll die Login.fxml aufrufen. */
 
 public class Start extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            //Model wird Subjekt (erbt von Observable)
+            /*//Model wird Subjekt (erbt von Observable)
             MyChatClient myChatClient = new MyChatClient("127.0.01", 47329);
 
             //View ist nun auch ein Beobachter (implementiert das IFace Observer)
             MyChatClientApp myChatClientApp = new MyChatClientApp(myChatClient);
 
             //Subjekt dem Beobachter anfügen
-            myChatClient.addObserver(myChatClientApp);
+            myChatClient.addObserver(myChatClientApp); */
 
             //FXML laden
-            Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+            FXMLLoader login = new FXMLLoader(getClass().getResource("Login.fxml"));
+            Parent root = login.load();
 
             //Szene erstellen
-            Scene scene_ChatClientApp = new Scene(myChatClientApp);
+            Scene loginScene = new Scene(root);
 
 
             //Creating Chat Title
             primaryStage.setTitle("Love Letter");
-            primaryStage.setScene(scene_ChatClientApp);
+            primaryStage.setScene(loginScene);
             primaryStage.show();
 
 

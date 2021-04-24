@@ -39,7 +39,8 @@ public class UserThread extends Thread {
             //Server Messages
             String serverMessage = username + " joined the room.";
             server.broadcast(serverMessage, this);
-            server.directMessage("Welcome " + username,this);
+            server.directMessageWelcome("Welcome " + username,this);
+
 
             //Client Messages
             String clientMessage;
@@ -50,6 +51,7 @@ public class UserThread extends Thread {
             }
             while(!"bye".equalsIgnoreCase(clientMessage));
 
+            //Server send removeUser
             server.removeUser(username, this);
             serverMessage = username + "left the room";
             server.broadcast(serverMessage, this);
