@@ -1,9 +1,14 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -20,31 +25,108 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 
+import static com.sun.javafx.scene.control.skin.Utils.getResource;
 
-public class MyChatClientApp extends Application implements Observer {
-    private ArrayList<Thread> threads;
 
-    public static void main(String[] args) {
-        launch(args);
+public class MyChatClientApp extends Parent implements Observer {
+    private ArrayList<Thread> threads = new ArrayList<Thread>();
+    private MyChatClient myChatClient;
+
+    @FXML private TextField userNameID;
+    @FXML private Button btnSignID;
+
+    public MyChatClientApp(MyChatClient myChatClient) {
     }
 
-    @Override
-    public void stop() throws Exception{
-        super.stop();
-        for(Thread thread: threads){
-            thread.interrupt();
+    public void handleBtnSign(ActionEvent) throws IOException{
+        userNameID.textProperty()
+
+        Parent chatViewParent = FXMLLoader.load(getClass()getResource("Chat.fxml"));
+        Scene chatViewScene = new Scene(chatViewParent);
+
+        Stage window = (Stage)((Node))event.getSource()).getScene().getWindow();
+
+        window.setScene(chatViewScene);
+        window.show();
+
+    }
+}
+
+
+    /*public MyChatClientApp(MyChatClient myChatClient){
+        this.myChatClient = myChatClient;
+
+        //Creating the root Pane and set Properties
+        GridPane rootPane = new GridPane();
+        rootPane.setPadding(new Insets(20));
+        rootPane.setVgap(5);
+        rootPane.setHgap(5);
+        rootPane.setAlignment(Pos.CENTER);
+
+        //Creating a Text Fields and set Properties
+        TextField nickNameField = new TextField();
+        TextField portField = new TextField();
+
+        //Creating a Text and set Properties
+        Text text = new Text("Nickname");
+        text.setStyle("-fx-font: normal Bold 15px 'Edwardian Script ITC' ");
+        text.setFill(Color.BLANCHEDALMOND);
+
+        Text text1 = new Text("Welcome to LoveLatter Chat");
+        text1.setFont(Font.font( "" , FontPosture.ITALIC, 20));
+        text1.setFill(Color.BLANCHEDALMOND);
+
+
+        Text portText = new Text("Port Number");
+        portText.setStyle("-fx-font: normal Bold 15px 'Edwardian Script ITC' ");
+        portText.setFill(Color.BLANCHEDALMOND);
+
+        Text errorText = new Text();
+
+        //Creating a Button and its handler
+        Button submitClientInfoButton = new Button("Done");
+
+
+        submitClientInfoButton.setOnAction(new EventHandler<ActionEvent>(){
+            MyChatClient.setUserName(String.parseString.nickName
+
+                    )
         }
+
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try{
+                    MyChatClient client = new MyChatClient(nickNameField.getText(), Integer.parseInt(portField.getText());
+                    Thread UserThread = new Thread(String.valueOf(client));
+                    UserThread.setDaemon(true);
+                    //client.addObserver( );
+
+                    UserThread.start();
+                    threads.add(UserThread);
+                    //Changing the scene of the PrimaryStage
+                    primaryStage.close();
+                    primaryStage.setScene(makeChatUI(client));
+                    primaryStage.show();
+                } catch (NumberFormatException e) {
+                    errorText.setText("Try again, Invalid Port Number");
+                    errorText.setFill(Color.WHITESMOKE);
+                }
+            }
+        });
+        //Adding the Components to the root pane arguments
+        rootPane.add(text, 0, 20);
+        rootPane.add(nickNameField, 1,20);
+        rootPane.add(submitClientInfoButton, 1,24);
+        rootPane.add(portText,0,22);
+        rootPane.add(portField,1,22);
+        rootPane.add(text1, 1, 0);
+        rootPane.setStyle("-fx-background-color: rgb(178,34,34); ");
+        rootPane.add(errorText,1,26);
+
+        return new Scene(rootPane, 400,400 );
+
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
-        threads = new ArrayList<Thread>();
-        //Creating Chat Title
-        primaryStage.setTitle("Love Letter");
-        primaryStage.setScene(makeInitScene(primaryStage));
-        primaryStage.show();
-    }
 
     private Scene makeInitScene(Stage primaryStage){
         //Creating the root Pane and set Properties
@@ -135,7 +217,7 @@ public class MyChatClientApp extends Application implements Observer {
             }
         });
 
-        /* Add the components to the root pane */
+        // Add the components to the root pane
         rootPane.add(chatListView, 0, 0);
         rootPane.add(chatTextField, 0, 1);
 
@@ -147,3 +229,4 @@ public class MyChatClientApp extends Application implements Observer {
         return;
     }
 }
+*/

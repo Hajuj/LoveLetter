@@ -12,33 +12,41 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="332.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Login_Controller">
-    <GridPane alignment="center" hgap="10" layoutX="227.0" prefHeight="332.0" prefWidth="279.0" vgap="10">
-        <Text text="Registration" wrappingWidth="238.56372833251953" GridPane.columnSpan="2" GridPane.rowIndex="1">
-            <font>
-                <Font size="18.0" />
-            </font>
+    <AnchorPane prefHeight="332.0" prefWidth="506.0">
+        <GridPane alignment="center" hgap="10" layoutX="227.0" prefHeight="332.0" prefWidth="279.0" vgap="10">
+            <Text text="Registration" wrappingWidth="238.56372833251953" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Text>
+            <Label text="Your Username:" GridPane.rowIndex="4" />
+            <TextField fx:id="userNameID" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                <Button fx:id="btnSignID" onAction="#handleBtnSign" text="Sign In" />
+            </HBox>
+            <Label fx:id="serverReturn" GridPane.rowIndex="8" />
+           <Text fx:id="errorTextID" wrappingWidth="140.00000619888306" GridPane.rowIndex="11">
+
         </Text>
-        <Label text="Your Username:" GridPane.rowIndex="4" />
-        <TextField fx:id="username" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-        <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
-            <Button fx:id="btn_signIn" onAction="#handleSubmitButtonAction" text="Sign In" />
-        </HBox>
-        <Label fx:id="serverReturn" GridPane.rowIndex="8" />
-        <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-        </columnConstraints>
-        <rowConstraints>
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-        </rowConstraints>
-    </GridPane>
+            </rowConstraints>
+        </GridPane>
+    </AnchorPane>
 </AnchorPane>

@@ -23,6 +23,8 @@ public class ReadThread extends Thread {
         }
     }
 
+
+
     public void run() {
         while (true) {
             try {

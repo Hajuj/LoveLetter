@@ -1,36 +1,27 @@
+import javafx.application.Platform;
+
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 
 public class UserThread extends Thread {
-    private MyChatClient client;
-    private MyChatServer server;
-
     private Socket userSocket;
-
-    private static PrintWriter writer;
+    private MyChatServer server;
+    private PrintWriter writer;
     private BufferedReader reader;
-    //name of user
     private String username;
 
     //Thread for multiple clients: connection for each connected client
     public UserThread(Socket userSocket, MyChatServer server) {
         this.userSocket = userSocket;
         this.server = server;
-    }
-
-    /*public UserThread(MyChatClient client) {
-        this.client = client;
-    }*/
-
-    @Override
-    public void run() {
-        try {
+        try{
             InputStream input = userSocket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
-            writer = new PrintWriter(userSocket.getOutputStream(), true);
+            OutputStream output = userSocket.getOutputStream();
+            writer = new PrintWriter(output, true);
 
             while (true) {
                 username = reader.readLine();
@@ -38,11 +29,13 @@ public class UserThread extends Thread {
                     return;
                 }
                 if (!username.isBlank() && !server.getUsernames().contains(username)) {
-                    server.addUseNames(username);
-                    System.out.println(server.getUsernames());
+                    server.addUserNames(username);
                     break;
+                } else if (!username.isBlank()) {
+                    server.directMessage("This username is already given!", this);
                 }
             }
+
             //Server Messages
             String serverMessage = username + " joined the room.";
             server.broadcast(serverMessage, this);
@@ -54,25 +47,58 @@ public class UserThread extends Thread {
                 clientMessage = reader.readLine();
                 serverMessage = "[" + username + "]: " + clientMessage;
                 server.broadcast(serverMessage, this);
-            } while(!"bye".equalsIgnoreCase(clientMessage));
+            }
+            while(!"bye".equalsIgnoreCase(clientMessage));
 
             server.removeUser(username, this);
             serverMessage = username + "left the room";
             server.broadcast(serverMessage, this);
 
-        } catch (Exception e) {
-            System.out.println("Error in UserThread: " + e.getMessage());
+        } catch (IOException e) {
+            //System.out.println("Error in UserThread: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    public static void sendMessage(String message) {
-        writer.println(message);
+
+/*
+    @Override
+    public void run() {
+        try{
+            this.username = getClientNameFromNetwork();
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    MyChatServer.clientNames.add(username + " - ") + userSocket.getRemoteSocketAddress());
+
+                }
+            });
+            String inputToServer;
+            while (true) {
+                inputToServer = reader.readLine();
+                MyChatServer.writeToAllSockets(inputToServer);
+            }
+        } catch (SocketException e) {
+            MyChatServer.clientDisconnect(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public Socket getClientSocket() {
-        return userSocket;
+
+
+    public String getClientNameFromNetwork() throws IOException {
+        return reader.readLine();
     }
+*/
+
+    public void sendMessage(String message) {
+        writer.println(message);
+    }
+/*
+    public Socket setUserSocket(Socket userSocket) {
+        this.userSocket = userSocket;
+    }*/
 
 }
 

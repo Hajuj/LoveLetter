@@ -5,7 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -13,76 +15,37 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-/*
-public class Login_Controller {
 
+public class Login_Controller{
+    private MyChatClient myChatClient;
+    private MyChatServer myChatServer;
 
-    public TextField username;
-
-    public Button btn_signIn;
-
-    public Label serverReturn;
+    @FXML private TextField userNameID;
+    @FXML private Button btnSignIn;
+    @FXML private Text errorTextID;
 
     public void initialize() {
-        username.clear();
+        userNameID.clear();
     }
 
-    @FXML
-    private void handleSubmitButtonAction(ActionEvent event) {
-        MyChatServer chatServer;
+     public void handleBtnSign (ActionEvent event) throws IOException {
+        this.myChatClient = myChatClient;
+        this.myChatServer = myChatServer;
+        myChatClient.setUserName(userNameID.getText());
+        String error = "This username is already given!";
 
-
-        /*btn_signIn.setDisable(true);
-        String text = username.getText();*/
-
-        /*if (text.equals("")) {
-            btn_signIn.setText("Well... If you want me to say nothing, then that's the way it is.");
-            username.setDisable(true);
-            return;
-        } else if (!Model.getInstance().waseverSaid(text)) {
-            btn_signIn.setText("Ok.. here you go: " + text);
-        } else {
-            btn_signIn.setText("Nah! I already said that!");
+        while (true) {
+            if (userNameID.getText().isEmpty()) {
+                errorTextID.setText("Es wurde kein Nutzername eingegeben!");
+            } else if (error == myChatServer.directMessage()) {
+                errorTextID.setText("");
+            }
         }
-        username.clear();
+        Parent chatViewParent = FXMLLoader.load(getClass().getResource("Chat.fxml"));
+        Scene chatViewScene = new Scene(chatViewParent);
 
-        btn_signIn.setDisable(false);
-    }*/
-
-
-    /*
-    //private final MyChatServer chatServer;
-
-    public Login_Controller(MyChatServer chatServer){
-        this.chatServer = chatServer;
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
     }
-
-    @FXML private javafx.scene.control.TextField username;
-
-    @FXML protected void btnSignIn() {
-        //Schleife: Rückmeldung von Server
-
-        //Beim Senden soll der Nickname im MyChatServer überprüft und gespeichert werden
-        chatServer.addUsername(username.getText());
-
-        //Fehlerrückmeldung
-
-    }
-*//*
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-
-    } */ /*
-
-    }
-
-
-    @Override
-    public void start(Stage stage) throws Exception {
-
-    }
-}
-*/
