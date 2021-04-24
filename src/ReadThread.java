@@ -9,7 +9,7 @@ public class ReadThread extends Thread {
     private Socket socket;
     private MyChatClient client;
 
-    public ReadThread(Socket socket, Runnable client) {
+    public ReadThread(Socket socket) {
         this.socket = socket;
         this.client = (MyChatClient) client;
 
@@ -28,7 +28,7 @@ public class ReadThread extends Thread {
     public void run() {
         while (true) {
             try {
-                //  System.out.println("wait if responce");
+                //  System.out.println("wait if response");
                 String response = reader.readLine();
                 System.out.println("\n" + response);
 

@@ -42,6 +42,7 @@ public class MyChatClient extends Observable {
         try {
             Socket socket = new Socket(hostname, port);
 
+
             System.out.println("You are now connected to the server!");
 
             new ReadThread(socket).start();
