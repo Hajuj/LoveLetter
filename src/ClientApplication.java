@@ -70,9 +70,7 @@ public class ClientApplication extends Application implements EventHandler {
 
     }
 
-    public Stage getPrimaryStage () {
-        return primaryStage;
-    }
+
 
     @Override
     public void start (Stage stage) throws Exception {
