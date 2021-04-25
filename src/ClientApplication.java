@@ -9,10 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -26,7 +23,7 @@ import javafx.stage.WindowEvent;
 import javax.swing.*;
 import java.io.IOException;
 
-public class ChientApplication extends Application implements EventHandler {
+public class ClientApplication extends Application implements EventHandler {
     private String userName = new String();
     private TextArea messages = new TextArea();
     private Button button = new Button("Login!");
@@ -39,6 +36,7 @@ public class ChientApplication extends Application implements EventHandler {
     private Button sendButton = new Button("Send!");
     private Label errorLabel = new Label();
     private Stage primaryStage = new Stage();
+
 
     public String getUserName () {
         return userName;
@@ -104,6 +102,8 @@ public class ChientApplication extends Application implements EventHandler {
         rootPane.add(messageField, 1, 1);
         rootPane.add(sendButton, 2, 1);
 
+
+
         usersOnlineLabel.setFont(Font.font("Vordana", 18));
         yourNameLabel.setFont(Font.font("Vordana", 18));
         errorLabel.setFont(Font.font("Vordana", 18));
@@ -112,12 +112,13 @@ public class ChientApplication extends Application implements EventHandler {
         yourNameLabel.setTextFill(Color.WHITE);
         errorLabel.setTextFill(Color.WHITE);
 
+
         messageField.setDisable(true);
-        messages.setDisable(true);
+        messages.setEditable(false);
         users.setDisable(true);
 
-        messages.setStyle("-fx-opacity: 0.9;");
-        users.setStyle("-fx-opacity: 0.9;");
+        messages.setStyle("-fx-opacity: 0.5;");
+        users.setStyle("-fx-opacity: 0.5;");
 
         messages.setFont(Font.font("Vordana", 15));
         users.setFont(Font.font("Vordana", 18));
