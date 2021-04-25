@@ -5,25 +5,30 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.util.ArrayList;
+
 
 public class Main extends Application {
     private ArrayList<Thread> threads;
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
-    public void stop() throws Exception {
-        // TODO Auto-generated method stub
+    public void stop() throws Exception{
         super.stop();
-        for (Thread thread: threads){
+        for(Thread thread: threads){
             thread.interrupt();
         }
     }
@@ -31,99 +36,96 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        // Text-Feld für Status-Nachrichten
-        final Text msg = new Text();
-
         threads = new ArrayList<Thread>();
+        //primaryStage erstellen mit loginScene
+        primaryStage.setTitle("Love Letter");
+        primaryStage.setScene(loginScene(primaryStage));
+        primaryStage.show();
+    }
 
+    private Scene loginScene(Stage primaryStage){
+        //Creating the root Pane and set Properties
+        GridPane rootPane = new GridPane();
+        rootPane.setPadding(new Insets(20));
+        rootPane.setVgap(5);
+        rootPane.setHgap(5);
+        rootPane.setAlignment(Pos.CENTER);
 
-        try {
-            primaryStage.setTitle("LoveLetter Chat");
+        //Textfelder und Properties setzen
+        TextField userName = new TextField();
+        TextField portField = new TextField();
 
-            //Alle Elemente in einem GridPane (zentral)
-            GridPane rootPane = new GridPane();
-            rootPane.setPadding(new Insets(20));
-            rootPane.setVgap(10);
-            rootPane.setHgap(10);
-            rootPane.setAlignment(Pos.CENTER);
+        //Text und Properties setzen
+        Text text = new Text("Nickname");
+        text.setStyle("-fx-font: normal Bold 15px 'Edwardian Script ITC' ");
+        text.setFill(Color.BLANCHEDALMOND);
 
-            //Szene für Login
-            Scene sceneLogin = new Scene(rootPane);
+        Text text1 = new Text("Welcome to LoveLatter Chat");
+        text1.setFont(Font.font( "" , FontPosture.ITALIC, 20));
+        text1.setFill(Color.BLANCHEDALMOND);
 
-            //Szene für die Bühne holen
-            primaryStage.setScene(sceneLogin);
+        Text portText = new Text("Port Number");
+        portText.setStyle("-fx-font: normal Bold 15px 'Edwardian Script ITC' ");
+        portText.setFill(Color.BLANCHEDALMOND);
 
-            //TextField erstellt
-            TextField nameField = new TextField();
+        Text errorText = new Text();
 
-            //Label erstellt
-            Label nameLabel = new Label("Nickname: ");
-            Label errorLabel = new Label();
+        //Button mit Handler
+        Button submitClientInfoButton = new Button("Done");
+        submitClientInfoButton.setOnAction(new EventHandler<ActionEvent>(){
 
-            //Style
-            nameLabel.setStyle("-fx-font-size: 20px");
-
-            //Button mit Handler
-            Button submitClientInfoButton = new Button("Login");
-            submitClientInfoButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent Event) {
-                    // TODO Auto-generated method stub
-                    /* Instantiate the client class and start it's thread */
-                    MyChatClient client;
-                    try {
-                        client = new MyChatClient("127.0.0.1", 47329);
-                        Thread clientThread = new Thread((Runnable) client);
-                        clientThread.setDaemon(true);
-                        clientThread.start();
-                        threads.add(clientThread);
-
-                        //primaryStage: Szene ändern
-                        primaryStage.close();
-                        primaryStage.setScene(new Scene(new ChatScreen()));
-                        primaryStage.setTitle("LoveLetters Chat");
-                        primaryStage.show();
-                    }
-                    catch(ConnectException e){
-                        errorLabel.setTextFill(Color.RED);
-                        errorLabel.setText("Invalid host name, try again");
-                    }
-                    catch ( IOException e) {
-                        // TODO Auto-generated catch block
-                        errorLabel.setTextFill(Color.RED);
-                        errorLabel.setText("Invalid port number, try again");
-                    }
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                MyChatClient client;
+                try{
+                    client = new MyChatClient(Integer.parseInt(userName.getText()));
+                    Thread UserThread = new Thread(String.valueOf(client));
+                    UserThread.setDaemon(true);
+                    UserThread.start();
+                    threads.add(UserThread);
+                    //Changing the scene of the PrimaryStage
+                    primaryStage.close();
+                    primaryStage.setScene(chatScreen(client));
+                    primaryStage.show();
+                } catch (NumberFormatException | IOException e) {
+                    errorText.setText("Try again, Invalid Port Number");
+                    errorText.setFill(Color.WHITESMOKE);
                 }
-            });
+            }
+        });
+        //Alles in Komponenten einfügen
+        rootPane.add(text, 0, 20);
+        rootPane.add(userName, 1,20);
+        rootPane.add(submitClientInfoButton, 1,24);
+        rootPane.add(portText,0,22);
+        rootPane.add(portField,1,22);
+        rootPane.add(text1, 1, 0);
+        rootPane.setStyle("-fx-background-color: rgb(178,34,34); ");
+        rootPane.add(errorText,1,26);
 
-            //Alle Elemente ins Grid
-            rootPane.add(nameField, 0, 0);
-            rootPane.add(nameLabel, 1, 0);
-            rootPane.add(submitClientInfoButton, 0, 3, 2, 1);
-            rootPane.add(errorLabel, 0, 4);
+        return new Scene(rootPane, 400,400 );
 
-            // Button zum Grid hinzufügen
-            rootPane.add(submitClientInfoButton, 1, 3);
-
-
-            // Die Größe der Bühne auf die Größe der Szene mappen
-            primaryStage.sizeToScene();
-
-            // primaryStage erstellen
-            primaryStage.show();
-
-            /* Szene erstellen und zurückgeben
-            return new Scene(rootPane, 400, 400); */
-
-
-    } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    // Main-Methode für die Ausführbarkeit ohne JavaFX Launcher
-    public static void main(String[] args) {
-        launch(args);
+    public Scene chatScreen(MyChatClient client){
+        //root Pane kreieren
+        GridPane rootPane = new GridPane();
+        rootPane.setPadding(new Insets(20));
+        rootPane.setAlignment(Pos.CENTER);
+        rootPane.setHgap(5);
+        rootPane.setVgap(5);
+
+        //Creating the chat's listview and set it#s source to the Client's chatLog ArrayList
+        ListView<String> chatListView = new ListView<String>();
+        chatListView.setItems(MyChatClient.chatLog);
+        //chatListView.getChildren().usern_text,
+
+
+
+        return new Scene(rootPane, 400, 400);
     }
+
+
+
 }
 

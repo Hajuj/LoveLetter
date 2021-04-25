@@ -24,6 +24,11 @@ public class MyChatClient extends Observable {
     //name of the client
     private String userName;
 
+
+    public void writeToServer(String input) {
+        writer.println(userName + " : " + input);
+    }
+
     public MyChatClient(String hostname, int port) throws IOException {
         this.hostname = hostname;
         this.port = port;
@@ -43,8 +48,10 @@ public class MyChatClient extends Observable {
 
             System.out.println("You are now connected to the server!");
 
+            /*
             new ReadThread(socket).start();
             new WriteThread(socket).start();
+             */
 
 
             this.userName = getClientNameFromNetwork();

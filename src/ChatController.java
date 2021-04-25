@@ -13,6 +13,6 @@ public class ChatController {
         this.cModel = cModel;
     }
 
-    @FXML private
+    //@FXML private
 
 }
