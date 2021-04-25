@@ -1,14 +1,10 @@
-import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.stage.WindowEvent;
-
 import java.io.IOException;
 
 public class ClientGuiController extends Client {
     private ClientGuiModel model = new ClientGuiModel();
-    private ChientApplication application;
+    private ClientApplication application;
 
-    public ClientGuiController (ChientApplication application) throws IOException {
+    public ClientGuiController (ClientApplication application) throws IOException {
         super();
         this.application = application;
     }

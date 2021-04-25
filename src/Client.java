@@ -126,7 +126,7 @@ public class Client {
                 wait();
             }
         } catch (InterruptedException e) {
-            ConsoleHelper.writeMessage("Произошла ошибка во время работы клиента.");
+            ConsoleHelper.writeMessage("Fehler ");
             return;
         }
 
@@ -135,7 +135,6 @@ public class Client {
         else
             ConsoleHelper.writeMessage("Fehler");
 
-        // Пока не будет введена команда exit, считываем сообщения с консоли и отправляем их на сервер
         while (clientConnected) {
             String text = ConsoleHelper.readString();
 

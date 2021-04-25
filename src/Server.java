@@ -9,8 +9,9 @@ public class Server {
     private static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
-        ConsoleHelper.writeMessage("Portnummer:");
-        int port = ConsoleHelper.readInt();
+        int port = 500;
+        ConsoleHelper.writeMessage("Portnummer: " + port);
+        //int port = ConsoleHelper.readInt();
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleHelper.writeMessage("Server läuft!");
