@@ -104,9 +104,17 @@ public class ChientApplication extends Application implements EventHandler {
         rootPane.add(messageField, 1, 1);
         rootPane.add(sendButton, 2, 1);
 
-        usersOnlineLabel.setFont(Font.font("Vordana", 18));
-        yourNameLabel.setFont(Font.font("Vordana", 18));
-        errorLabel.setFont(Font.font("Vordana", 18));
+        Font fontButton = Font.font("Verdana", 13);
+        Font textArea = Font.font("Verdana", 13);
+
+        messageField.setFont(textArea);
+        messages.setFont(textArea);
+        sendButton.setFont(fontButton);
+        button.setFont(fontButton);
+
+        usersOnlineLabel.setFont(Font.font("Verdana", 16));
+        yourNameLabel.setFont(Font.font("Verdana", 16));
+        errorLabel.setFont(Font.font("Verdana", 13));
 
         usersOnlineLabel.setTextFill(Color.WHITE);
         yourNameLabel.setTextFill(Color.WHITE);
@@ -119,8 +127,8 @@ public class ChientApplication extends Application implements EventHandler {
         messages.setStyle("-fx-opacity: 0.9;");
         users.setStyle("-fx-opacity: 0.9;");
 
-        messages.setFont(Font.font("Vordana", 15));
-        users.setFont(Font.font("Vordana", 18));
+        messages.setFont(Font.font("Verdana", 15));
+        users.setFont(Font.font("Verdana", 18));
         Scene scene = new Scene(rootPane, 1000, 500);
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
