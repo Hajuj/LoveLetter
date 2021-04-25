@@ -13,55 +13,53 @@ public class MyChatClient extends Observable {
     private String hostname;
     private int port;
 
-    /*
     private Socket clientSocket;
     private MyChatServer baseServer;
     private BufferedReader reader;
     private PrintWriter writer;
+    private WriteThread writeThread;
     private Socket socket;
-    public ObservableList<String> chatLog;
+    public static ObservableList<String> chatLog;
 
     //name of the client
     private String userName;
-*/
+
     public MyChatClient(String hostname, int port) throws IOException {
         this.hostname = hostname;
         this.port = port;
 
-/*
+
         clientSocket = new Socket(hostname, port);
         reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         writer = new PrintWriter(clientSocket.getOutputStream(), true);
         chatLog = FXCollections.observableArrayList();
         this.userName = getUserName();
-        writer.println(getUserName()); */
+        writer.println(getUserName());
     }
-
 
     public void execute() {
         try {
             Socket socket = new Socket(hostname, port);
 
-
             System.out.println("You are now connected to the server!");
 
             new ReadThread(socket).start();
-            new WriteThread(socket, this).start();
+            new WriteThread(socket).start();
 
 
-            /*this.userName = getClientNameFromNetwork();
+            this.userName = getClientNameFromNetwork();
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                     baseServer.clientNames.add(userName + " - "
                             + clientSocket.getRemoteSocketAddress());
 
-                    new ReadThread(socket, this).start();
+                    new ReadThread(socket).start();
                     new WriteThread(socket, this).start();
 
                 }
             });
-            //System.out.println("Du bist nun connected!"); */
+            //System.out.println("Du bist nun connected!");
 
 
         } catch (UnknownHostException ex) {
@@ -73,11 +71,11 @@ public class MyChatClient extends Observable {
     }
 
     void setUserName(String userName) {
-        /*this.userName = userName;
+        this.userName = userName;
         setChanged();
-        notifyObservers();*/
+        notifyObservers();
     }
-    /*
+
 
     String getUserName() {
         return this.userName;
@@ -92,7 +90,7 @@ public class MyChatClient extends Observable {
         setChanged();
         notifyObservers();
     }
-*/
+
     public static void main(String[] args) throws IOException {
         MyChatClient client = new MyChatClient("127.0.0.1", 47329);
         client.execute();

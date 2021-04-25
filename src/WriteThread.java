@@ -7,9 +7,9 @@ public class WriteThread extends Thread {
     private Socket socket;
     private MyChatClient client;
 
-    public WriteThread(Socket socket, MyChatClient client) {
+    public WriteThread(Socket socket, Runnable client) {
         this.socket = socket;
-        this.client = client;
+        this.client = (MyChatClient) client;
 
         try {
             OutputStream output = socket.getOutputStream();
@@ -52,7 +52,6 @@ public class WriteThread extends Thread {
         try {
             socket.close();
         } catch (IOException ex) {
-
             System.out.println("Error writing to server: " + ex.getMessage());
         }
     }

@@ -12,10 +12,13 @@ public class UserThread extends Thread {
     private BufferedReader reader;
     private String username;
 
-    //Thread for multiple clients: connection for each connected client
+
+
+    //Thread für multiple Clients: Verbindung zu allen anderen
     public UserThread(Socket userSocket, MyChatServer server) {
         this.userSocket = userSocket;
         this.server = server;
+
         try{
             InputStream input = userSocket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
@@ -57,9 +60,11 @@ public class UserThread extends Thread {
             server.broadcast(serverMessage, this);
 
         } catch (IOException e) {
-            //System.out.println("Error in UserThread: " + e.getMessage());
+            System.out.println("Error in UserThread: " + e.getMessage());
             e.printStackTrace();
         }
+
+
     }
 
 
@@ -87,16 +92,24 @@ public class UserThread extends Thread {
         }
     }
 
+ */
+
 
 
     public String getClientNameFromNetwork() throws IOException {
         return reader.readLine();
     }
-*/
+
 
     public void sendMessage(String message) {
         writer.println(message);
     }
+
+    public Socket getClientSocket() {
+        return userSocket;
+    }
+
+
 /*
     public Socket setUserSocket(Socket userSocket) {
         this.userSocket = userSocket;

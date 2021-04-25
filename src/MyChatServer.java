@@ -1,6 +1,5 @@
 
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -8,43 +7,43 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 
 public class MyChatServer {
     private static int port = 47329;
-    private Set<UserThread> userThreads = new HashSet<>();
-    private Set<String> usernames =new HashSet<>();
-/*
-    public ObservableList<String> serverLog;
+    //private Set<UserThread> userThreads = new HashSet<>();
+    //private Set<String> usernames =new HashSet<>();
+
+    public static ObservableList<String> serverLog;
     public static ObservableList<String> clientNames;
-    private ArrayList<UserThread> userThreads;
-    private ArrayList<Socket> usernames;
+    private static ArrayList<UserThread> userThreads;
+    private static ArrayList<String> usernames;
     private ServerSocket socket;
-    private Socket userSocket; */
+    private Socket userSocket;
 
 
     public MyChatServer(int port) throws IOException {
         MyChatServer.port = port;
-        /*serverLog = FXCollections.observableArrayList();
+
+        serverLog = FXCollections.observableArrayList();
         clientNames = FXCollections.observableArrayList();
-        usernames = new ArrayList<Socket>();
+        usernames = new ArrayList<String>();
         userThreads = new ArrayList<UserThread>();
-        socket = new ServerSocket(port);*/
+        socket = new ServerSocket(port);
     }
 
-    public Set<String> getUsernames(){
-        return usernames;
+    public Set<String> getUsernames() {
+        return (Set<String>) clientNames;
     }
 
     /*public ArrayList<Socket> getUsernames() {
         return usernames;
     }*/
-
     public void execute() {
-        try {ServerSocket serverSocket = new ServerSocket(port);
-            //serverLog = FXCollections.observableArrayList();
+        try {
+            ServerSocket serverSocket = new ServerSocket(port);
+            serverLog = FXCollections.observableArrayList();
             while (true) {
                 Socket socket = serverSocket.accept();
                 System.out.println("New user connected");
@@ -52,16 +51,15 @@ public class MyChatServer {
                 UserThread newUserThread = new UserThread(socket, this);
                 userThreads.add(newUserThread);
                 newUserThread.start();
-
             }
         } catch (IOException e) {
             //System.out.println("Error in the Server: " + e.getMessage());
             e.printStackTrace();
         }
     }
-/*
-    public void run(){
-        try{
+
+    public void run() {
+        try {
             while (true) {
                 //Adding to Log that the Server's listening
                 Platform.runLater(new Runnable() {
@@ -74,13 +72,12 @@ public class MyChatServer {
                 final Socket clientSocket = socket.accept();
 
                 //System.out.println("New user connected");
-                usernames.add(clientSocket);
+                usernames.add(String.valueOf(clientSocket));
 
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
                         serverLog.add("User " + clientSocket.getRemoteSocketAddress() + "connected");
-
                     }
                 });
 
@@ -90,21 +87,15 @@ public class MyChatServer {
                 userThreads.add(newUserThread);
                 newUserThread.setDaemon(true);
                 newUserThread.start();
-                MyChatServerApp.threads.add(newUserThread);
-
-
+                //MyChatServerApp.threads.add(newUserThread);
             }
         } catch (Exception e) {
             //System.out.println("Error in the server: " + e.getMessage());
             e.printStackTrace();
         }
-    }  */
-    public static void main(String[] args) throws IOException {
-        MyChatServer server = new MyChatServer(port);
-        server.execute();
     }
-/*
-    public static void clientDisconnect(UserThread user){
+
+    public void clientDisconnect(UserThread user) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -112,19 +103,15 @@ public class MyChatServer {
                 usernames.remove(userThreads.indexOf(user));
                 clientNames.remove(userThreads.indexOf(user));
                 userThreads.remove((userThreads.indexOf(user)));
-                setChanged();
-                notifyObservers(this);
             }
-
         });
     }
-    public static void writeToAllSockets(String input){
-        for (UserThread userThread : userThreads){
+
+    public static void writeToAllSockets(String input) {
+        for (UserThread userThread : userThreads) {
             userThread.sendMessage(input);
-            setChanged();
         }
-        notifyObservers();
-    } */
+    }
 
     public String addUserNames(String userName) {
         usernames.add(userName);
@@ -149,12 +136,17 @@ public class MyChatServer {
     }
 
 
-
     public void removeUser(String username, UserThread user) {
         boolean removed = usernames.remove(username);
         if (removed) {
             userThreads.remove(user);
             System.out.println("The user " + username + " left the room");
         }
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        MyChatServer server = new MyChatServer(port);
+        server.execute();
     }
 }
