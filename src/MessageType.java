@@ -1,4 +1,3 @@
-
 public enum MessageType {
     NAME_REQUEST,
     USER_NAME,
@@ -7,3 +6,4 @@ public enum MessageType {
     USER_ADDED,
     USER_REMOVED
 }
+/*Library der unterschiedlichen Arten von Informationsweitergabe über den Server*/

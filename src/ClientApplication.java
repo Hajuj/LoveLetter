@@ -1,33 +1,30 @@
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import javax.swing.*;
 import java.io.IOException;
 
+/*
+Bevor die ClientApplication gestartet werden kann, muss der Server sich verbinden (Server Klasse)
+*/
 public class ClientApplication extends Application implements EventHandler {
     private String userName = new String();
     private TextArea messages = new TextArea();
-    private Button button = new Button("Login!");
-    private TextField textField = new TextField();
+    private Button loginButton = new Button("Login!");
+    private TextField nameField = new TextField();
     private ClientGuiController controller;
     private TextArea users = new TextArea();
     private Label yourNameLabel = new Label("Your name:");
@@ -37,21 +34,17 @@ public class ClientApplication extends Application implements EventHandler {
     private Label errorLabel = new Label();
     private Stage primaryStage = new Stage();
 
-
-    public String getUserName () {
-        return userName;
-    }
-
-
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         launch(args);
     }
 
-    public synchronized void refreshMessages () {
+    /*Funktion um den Chat Verlauf kontinuierlich zu aktualisieren*/
+    public synchronized void refreshMessages() {
         Platform.runLater(() -> messages.appendText(controller.getModel().getNewMessage() + "\n"));
     }
 
-    public synchronized void refreshUsers () {
+    /*Funktion um die Benutzer kontinuierlich zu aktualisieren*/
+    public synchronized void refreshUsers() {
         StringBuilder sb = new StringBuilder();
         for (String userName : controller.getModel().getAllUserNames()) {
             sb.append(userName).append("\n");
@@ -59,27 +52,28 @@ public class ClientApplication extends Application implements EventHandler {
         Platform.runLater(() -> users.setText(sb.toString()));
     }
 
-    public synchronized void notifyConnectionStatusChanged (boolean clientConnected) {
+    /*Funktion um zu überprüfen ob die Verbindung weiterhin besteht*/
+    public synchronized void notifyConnectionStatusChanged(boolean clientConnected) {
         if (clientConnected) {
-            messageField.setDisable(!clientConnected);
-            Platform.runLater(()->  errorLabel.setText("You are connected!"));
-            Platform.runLater(() -> textField.setDisable(true));
+            // TODO check the notify method again to fix the name and welcome problem.
+            messageField.setDisable(false);
+            Platform.runLater(() -> errorLabel.setText("You are connected!"));
+            Platform.runLater(() -> nameField.setDisable(true));
         } else {
-            Platform.runLater(()-> errorLabel.setText("Please use another name"));
+            Platform.runLater(() -> errorLabel.setText("Please use another name"));
         }
-
     }
 
 
-
+    /*Design der Stage inklusive der Platzierung aller Elemente*/
     @Override
-    public void start (Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception {
         primaryStage = stage;
         primaryStage.setTitle("LoveLetter Chat");
 
-        controller  = new ClientGuiController(this);
+        controller = new ClientGuiController(this);
 
-        button.setOnAction(this);
+        loginButton.setOnAction(this);
         sendButton.setOnAction(this);
 
         GridPane rootPane = new GridPane();
@@ -88,43 +82,45 @@ public class ClientApplication extends Application implements EventHandler {
         rootPane.setHgap(10);
         rootPane.setVgap(10);
 
-        rootPane.setStyle("-fx-background-color: darkred");
-
-        rootPane.add(button,2, 3);
-        rootPane.add(users, 1, 4);
-        rootPane.add(errorLabel,1, 2);
-        rootPane.add(textField, 1, 3);
-        rootPane.add(messages, 1, 0);
-        rootPane.add(yourNameLabel, 0, 3);
-        rootPane.add(usersOnlineLabel, 0, 4);
-        rootPane.add(messageField, 1, 1);
-        rootPane.add(sendButton, 2, 1);
-
-
+        rootPane.setStyle("-fx-background-color: #244687");
 
         usersOnlineLabel.setFont(Font.font("Vordana", 18));
         yourNameLabel.setFont(Font.font("Vordana", 18));
         errorLabel.setFont(Font.font("Vordana", 18));
+        messages.setFont(Font.font("Vordana", 15));
+        users.setFont(Font.font("Vordana", 18));
+
+        messages.setStyle("-fx-opacity: 1.0;");
+        users.setStyle("-fx-opacity: 1.0;");
 
         usersOnlineLabel.setTextFill(Color.WHITE);
         yourNameLabel.setTextFill(Color.WHITE);
         errorLabel.setTextFill(Color.WHITE);
 
-
         messageField.setDisable(true);
         messages.setEditable(false);
         users.setDisable(true);
 
-        messages.setStyle("-fx-opacity: 1.0;");
-        users.setStyle("-fx-opacity: 1.0;");
 
-        messages.setFont(Font.font("Vordana", 15));
-        users.setFont(Font.font("Vordana", 18));
+        rootPane.add(yourNameLabel, 0, 3);
+        rootPane.add(nameField, 1, 3);
+        rootPane.add(loginButton, 2, 3);
+
+        rootPane.add(errorLabel, 1, 2);
+
+
+        rootPane.add(usersOnlineLabel, 0, 4);
+        rootPane.add(users, 1, 4);
+
+        rootPane.add(messages, 1, 0);
+        rootPane.add(messageField, 1, 1);
+        rootPane.add(sendButton, 2, 1);
+
         Scene scene = new Scene(rootPane, 1000, 500);
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
-            public void handle (WindowEvent windowEvent) {
+            public void handle(WindowEvent windowEvent) {
                 Platform.exit();
                 System.exit(0);
             }
@@ -132,23 +128,24 @@ public class ClientApplication extends Application implements EventHandler {
         primaryStage.show();
     }
 
+    /*Event Handler für die unterschiedlichen Action Events (bisher 2 Buttons)*/
     @Override
-    public void handle (Event event) {
-        if (event.getSource() == button) {
+    public void handle(Event event) {
+        if (event.getSource() == loginButton) {
             controller.run();
-            userName = textField.getText();
+            userName = nameField.getText();
             try {
-                controller.connection.send(new Message(MessageType.USER_NAME, textField.getText()));
+                controller.connection.send(new Message(MessageType.USER_NAME, nameField.getText()));
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
         }
 
-        if (event.getSource() == sendButton){
+        if (event.getSource() == sendButton) {
 
             try {
                 controller.connection.send(new Message(MessageType.TEXT, messageField.getText()));
-                if (messageField.getText().equals("bye")){
+                if (messageField.getText().equals("bye")) {
                     Platform.exit();
                     System.exit(0);
                 }
@@ -157,5 +154,20 @@ public class ClientApplication extends Application implements EventHandler {
             }
             Platform.runLater(() -> messageField.clear());
         }
+    }
+
+    /*Getter für Username*/
+    public String getUserName() {
+        return userName;
+    }
+
+
+    /*Getter und Setter für die PrimaryStage --> nötig für Scene Wechsel*/
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 }

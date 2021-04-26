@@ -1,4 +1,3 @@
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,33 +10,38 @@ public class Connection implements Closeable {
     private final ObjectInputStream in;
     private final ObjectOutputStream out;
 
+    /*Verbindung der Sockets*/
     public Connection(Socket socket) throws IOException {
         this.socket = socket;
         this.out = new ObjectOutputStream(socket.getOutputStream());
         this.in = new ObjectInputStream(socket.getInputStream());
     }
 
+    /*Senden der Nachricht*/
     public void send(Message message) throws IOException {
         synchronized (out) {
             out.writeObject(message);
         }
     }
 
+    /*Empfangen der Nachricht*/
     public Message receive() throws IOException, ClassNotFoundException {
         synchronized (in) {
             return (Message) in.readObject();
         }
     }
 
-    public SocketAddress getRemoteSocketAddress() {
-        return socket.getRemoteSocketAddress();
-    }
 
+    /*Trennen der Verbindung*/
     @Override
     public void close() throws IOException {
         in.close();
         out.close();
         socket.close();
     }
-}
 
+    /*Getter der Socket Adresse*/
+    public SocketAddress getRemoteSocketAddress() {
+        return socket.getRemoteSocketAddress();
+    }
+}

@@ -5,10 +5,12 @@ import java.io.InputStreamReader;
 public class ConsoleHelper {
     private static BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));
 
+    /*Hilfsfunktion um Nachrichten auf der Konsole auszugeben --> später evtl. implementierung in FX*/
     public static void writeMessage(String message) {
         System.out.println(message);
     }
 
+    /*Hilfsfunktion um Strings einzulesen*/
     public static String readString() {
         while (true) {
             try {
@@ -21,6 +23,7 @@ public class ConsoleHelper {
         }
     }
 
+    /*Hilfsfunktion um Integers einzulesen*/
     public static int readInt() {
         while (true) {
             try {
@@ -31,4 +34,3 @@ public class ConsoleHelper {
         }
     }
 }
-
