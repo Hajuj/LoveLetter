@@ -1,0 +1,155 @@
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Server {
+    private static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
+
+    /*Main Methode mit vorerst festen Werten (Hostname, Portnummer)*/
+    public static void main(String[] args) {
+        int port = 500;
+        ConsoleHelper.writeMessage("Portnummer: " + port);
+
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            ConsoleHelper.writeMessage("Server läuft!");
+
+            while (true) {
+                // warten auf Client Socket
+                Socket socket = serverSocket.accept();
+                new Handler(socket).start();
+            }
+        } catch (Exception e) {
+            ConsoleHelper.writeMessage("Es gab leider einen Fehler beim Server.");
+        }
+    }
+
+    /*Senden der Nachricht an alle User*/
+    public static void sendBroadcastMessage(Message message) {
+        for (Connection connection : connectionMap.values()) {
+            try {
+                connection.send(message);
+            } catch (IOException e) {
+                ConsoleHelper.writeMessage("Fehler beim Schicken zu Client " + connection.getRemoteSocketAddress());
+            }
+        }
+    }
+
+    /*Senden der Nachricht an alle User außer sich selbst*/
+    public static void sendBroadcastMessageExceptUser(Message message, Connection userconnection) {
+
+        for (Connection connection : connectionMap.values()) {
+            if (!connection.equals(userconnection)) {
+                try {
+                    connection.send(message);
+                } catch (IOException e) {
+                    ConsoleHelper.writeMessage("Error with " + connection.getRemoteSocketAddress());
+                }
+            }
+        }
+    }
+
+    /*Senden der Nachricht an einen spezifischen User*/
+    public static void sendDirectMessage(Message message, Connection userConnection) {
+        try {
+            userConnection.send(message);
+        } catch (IOException e) {
+            ConsoleHelper.writeMessage("Error with " + userConnection.getRemoteSocketAddress());
+        }
+    }
+
+    /*Thread Handler mit run Methode - Herstellen der Verbindung und Willkommensnachricht*/
+    private static class Handler extends Thread {
+        private Socket socket;
+
+        public Handler(Socket socket) {
+            this.socket = socket;
+        }
+
+        @Override
+        public void run() {
+            ConsoleHelper.writeMessage("Client Socket " + socket.getRemoteSocketAddress() + " connected.");
+
+            String userName = null;
+
+            try (Connection connection = new Connection(socket)) {
+                userName = serverHandshake(connection);
+
+                // Mitteilung im Chat, dass ein neuer User da ist
+                sendBroadcastMessage(new Message(MessageType.USER_ADDED, userName));
+
+                //  Information, dass ein neuer User da ist (Im Fenster der User, die Online sind)
+                notifyUsers(connection, userName);
+
+                // Starte MainLoop für Nachrichten senden und empfangen
+                serverMainLoop(connection, userName);
+
+            } catch (IOException | ClassNotFoundException e) {
+                ConsoleHelper.writeMessage("Error in communication with  " + socket.getRemoteSocketAddress());
+            }
+
+            if (userName != null) {
+                connectionMap.remove(userName);
+                sendBroadcastMessage(new Message(MessageType.USER_REMOVED, userName));
+            }
+
+            ConsoleHelper.writeMessage("Socket " + socket.getRemoteSocketAddress() + " closed.");
+        }
+
+        /*Handshake Serverseitig: Überprüfen der Informationen und stetiges aktualisieren mit busy waiting*/
+        private String serverHandshake(Connection connection) throws IOException, ClassNotFoundException {
+            while (true) {
+                connection.send(new Message(MessageType.NAME_REQUEST));
+
+                Message message = connection.receive();
+
+                String userName = message.getData();
+
+                if (userName.isBlank()) {
+                    ConsoleHelper.writeMessage("User " + socket.getRemoteSocketAddress() + "hat keinen Namen eingegeben");
+                    continue;
+                }
+
+                if (connectionMap.containsKey(userName)) {
+                    ConsoleHelper.writeMessage("User mit Nickname " + userName + " ist schon im Chat");
+                    continue;
+                }
+                connectionMap.put(userName, connection);
+                System.out.println("user " + userName + " ist da");
+                connection.send(new Message(MessageType.NAME_ACCEPTED));
+                sendBroadcastMessageExceptUser(new Message(MessageType.TEXT, userName + " joined the room!"), connection);
+                sendDirectMessage(new Message(MessageType.TEXT, "Welcome " + userName + "!"), connection);
+                return userName;
+            }
+        }
+
+        /*Informieren der User über eine neue Person im Chat */
+        private void notifyUsers(Connection connection, String userName) throws IOException {
+            for (String name : connectionMap.keySet()) {
+                if (name.equals(userName))
+                    continue;
+                connection.send(new Message(MessageType.USER_ADDED, name));
+            }
+        }
+
+        /*Busy Waiting Loop für das Schließen der Verbindung*/
+        private void serverMainLoop(Connection connection, String userName) throws IOException, ClassNotFoundException {
+            while (true) {
+                Message message = connection.receive();
+
+                if (message.getType() == MessageType.TEXT) {
+                    String data = message.getData();
+
+                    if (message.getData().equals("bye")) {
+                        connection.close();
+                        connectionMap.remove(userName);
+                        sendBroadcastMessage(new Message(MessageType.TEXT, userName + " left the room"));
+                    } else {
+                        sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
+                    }
+                }
+            }
+        }
+    }
+}
