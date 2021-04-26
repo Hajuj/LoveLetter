@@ -4,9 +4,17 @@ import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * The type Server.
+ */
 public class Server {
     private static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     /*Main Methode mit vorerst festen Werten (Hostname, Portnummer)*/
     public static void main(String[] args) {
         int port = 500;
@@ -25,6 +33,11 @@ public class Server {
         }
     }
 
+    /**
+     * Send broadcast message.
+     *
+     * @param message the message
+     */
     /*Senden der Nachricht an alle User*/
     public static void sendBroadcastMessage(Message message) {
         for (Connection connection : connectionMap.values()) {
@@ -36,6 +49,12 @@ public class Server {
         }
     }
 
+    /**
+     * Send broadcast message except user.
+     *
+     * @param message        the message
+     * @param userconnection the userconnection
+     */
     /*Senden der Nachricht an alle User außer sich selbst*/
     public static void sendBroadcastMessageExceptUser(Message message, Connection userconnection) {
 
@@ -50,6 +69,12 @@ public class Server {
         }
     }
 
+    /**
+     * Send direct message.
+     *
+     * @param message        the message
+     * @param userConnection the user connection
+     */
     /*Senden der Nachricht an einen spezifischen User*/
     public static void sendDirectMessage(Message message, Connection userConnection) {
         try {
@@ -63,6 +88,11 @@ public class Server {
     private static class Handler extends Thread {
         private Socket socket;
 
+        /**
+         * Instantiates a new Handler.
+         *
+         * @param socket the socket
+         */
         public Handler(Socket socket) {
             this.socket = socket;
         }

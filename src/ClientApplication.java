@@ -17,6 +17,9 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
+/**
+ * The type Client application.
+ */
 /*
 Bevor die ClientApplication gestartet werden kann, muss der Server sich verbinden (Server Klasse)
 */
@@ -34,15 +37,26 @@ public class ClientApplication extends Application implements EventHandler {
     private Label errorLabel = new Label();
     private Stage primaryStage = new Stage();
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Refresh messages.
+     */
     /*Funktion um den Chat Verlauf kontinuierlich zu aktualisieren*/
     public synchronized void refreshMessages() {
         Platform.runLater(() -> messages.appendText(controller.getModel().getNewMessage() + "\n"));
     }
 
+    /**
+     * Refresh users.
+     */
     /*Funktion um die Benutzer kontinuierlich zu aktualisieren*/
     public synchronized void refreshUsers() {
         StringBuilder sb = new StringBuilder();
@@ -52,6 +66,11 @@ public class ClientApplication extends Application implements EventHandler {
         Platform.runLater(() -> users.setText(sb.toString()));
     }
 
+    /**
+     * Notify connection status changed.
+     *
+     * @param clientConnected the client connected
+     */
     /*Funktion um zu überprüfen ob die Verbindung weiterhin besteht*/
     public synchronized void notifyConnectionStatusChanged(boolean clientConnected) {
         if (clientConnected) {
@@ -156,17 +175,32 @@ public class ClientApplication extends Application implements EventHandler {
         }
     }
 
+    /**
+     * Gets user name.
+     *
+     * @return the user name
+     */
     /*Getter für Username*/
     public String getUserName() {
         return userName;
     }
 
 
+    /**
+     * Gets primary stage.
+     *
+     * @return the primary stage
+     */
     /*Getter und Setter für die PrimaryStage --> nötig für Scene Wechsel*/
     public Stage getPrimaryStage() {
         return primaryStage;
     }
 
+    /**
+     * Sets primary stage.
+     *
+     * @param primaryStage the primary stage
+     */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }

@@ -1,9 +1,18 @@
 import java.io.IOException;
 
+/**
+ * The type Client gui controller.
+ */
 public class ClientGuiController extends Client {
     private ClientGuiModel model = new ClientGuiModel();
     private ClientApplication application;
 
+    /**
+     * Instantiates a new Client gui controller.
+     *
+     * @param application the application
+     * @throws IOException the io exception
+     */
     /*Konstruktor für GUI Controller*/
     public ClientGuiController(ClientApplication application) throws IOException {
         super();
@@ -23,6 +32,11 @@ public class ClientGuiController extends Client {
         return new GuiSocketThread();
     }
 
+    /**
+     * Gets model.
+     *
+     * @return the model
+     */
     /*Getter Methode für Model*/
     public ClientGuiModel getModel() {
         return model;
@@ -52,6 +66,9 @@ public class ClientGuiController extends Client {
         super.sendTextMessage(text);
     }
 
+    /**
+     * The type Gui socket thread.
+     */
     public class GuiSocketThread extends SocketThread {
 
         /*Verarbeiten der eingehenden Nachricht*/
