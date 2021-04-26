@@ -8,6 +8,7 @@ public class ConsoleHelper {
     /*Hilfsfunktion um Nachrichten auf der Konsole auszugeben --> später evtl. implementierung in FX*/
     public static void writeMessage(String message) {
         System.out.println(message);
+        // TODO Konsolenausgabe ersetzen
     }
 
     /*Hilfsfunktion um Strings einzulesen*/
