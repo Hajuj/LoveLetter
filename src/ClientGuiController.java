@@ -4,17 +4,15 @@ public class ClientGuiController extends Client {
     private ClientGuiModel model = new ClientGuiModel();
     private ClientApplication application;
 
-    public ClientGuiController (ClientApplication application) throws IOException {
+    public ClientGuiController(ClientApplication application) throws IOException {
         super();
         this.application = application;
     }
 
     @Override
-    public void run () {
+    public void run() {
         SocketThread socketThread = new GuiSocketThread();
-
         socketThread.start();
-
     }
 
     @Override
@@ -40,7 +38,6 @@ public class ClientGuiController extends Client {
     protected String getUserName() {
         return application.getUserName();
     }
-
 
     @Override
     protected void sendTextMessage(String text) {

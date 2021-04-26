@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,7 +10,6 @@ public class Server {
     public static void main(String[] args) {
         int port = 500;
         ConsoleHelper.writeMessage("Portnummer: " + port);
-        //int port = ConsoleHelper.readInt();
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleHelper.writeMessage("Server läuft!");
@@ -25,6 +23,7 @@ public class Server {
             ConsoleHelper.writeMessage("Es gab leider einen Fehler beim Server.");
         }
     }
+
 
     private static class Handler extends Thread {
         private Socket socket;
@@ -71,17 +70,17 @@ public class Server {
 
                 String userName = message.getData();
 
-                if (userName.isEmpty()) {
+                if (userName.isBlank()) {
                     ConsoleHelper.writeMessage("User " + socket.getRemoteSocketAddress() + "hat keinen Namen eingegeben");
                     continue;
                 }
 
                 if (connectionMap.containsKey(userName)) {
-                    ConsoleHelper.writeMessage("User mit Nickname " + userName + " ist schon im Chat" );
+                    ConsoleHelper.writeMessage("User mit Nickname " + userName + " ist schon im Chat");
                     continue;
                 }
                 connectionMap.put(userName, connection);
-                System.out.println("user " + userName + " ist da" );
+                System.out.println("user " + userName + " ist da");
                 connection.send(new Message(MessageType.NAME_ACCEPTED));
                 sendBroadcastMessageExceptUser(new Message(MessageType.TEXT, userName + " joined the room!"), connection);
                 sendDirectMessage(new Message(MessageType.TEXT, "Welcome " + userName + "!"), connection);
@@ -104,7 +103,7 @@ public class Server {
                 if (message.getType() == MessageType.TEXT) {
                     String data = message.getData();
 
-                    if (message.getData().equals("bye")){
+                    if (message.getData().equals("bye")) {
                         connection.close();
                         connectionMap.remove(userName);
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " left the room"));

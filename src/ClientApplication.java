@@ -1,26 +1,17 @@
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import javax.swing.*;
 import java.io.IOException;
 
 public class ClientApplication extends Application implements EventHandler {
@@ -37,21 +28,19 @@ public class ClientApplication extends Application implements EventHandler {
     private Label errorLabel = new Label();
     private Stage primaryStage = new Stage();
 
-
-    public String getUserName () {
+    public String getUserName() {
         return userName;
     }
 
-
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         launch(args);
     }
 
-    public synchronized void refreshMessages () {
+    public synchronized void refreshMessages() {
         Platform.runLater(() -> messages.appendText(controller.getModel().getNewMessage() + "\n"));
     }
 
-    public synchronized void refreshUsers () {
+    public synchronized void refreshUsers() {
         StringBuilder sb = new StringBuilder();
         for (String userName : controller.getModel().getAllUserNames()) {
             sb.append(userName).append("\n");
@@ -59,27 +48,27 @@ public class ClientApplication extends Application implements EventHandler {
         Platform.runLater(() -> users.setText(sb.toString()));
     }
 
-    public synchronized void notifyConnectionStatusChanged (boolean clientConnected) {
+    public synchronized void notifyConnectionStatusChanged(boolean clientConnected) {
         if (clientConnected) {
+            // TODO check the notify method again to fix the name and welcome problem.
             messageField.setDisable(!clientConnected);
-            Platform.runLater(()->  errorLabel.setText("You are connected!"));
+            Platform.runLater(() -> errorLabel.setText("You are connected!"));
             Platform.runLater(() -> textField.setDisable(true));
         } else {
-            Platform.runLater(()-> errorLabel.setText("Please use another name"));
+            Platform.runLater(() -> errorLabel.setText("Please use another name"));
         }
-
     }
 
-    public Stage getPrimaryStage () {
+    public Stage getPrimaryStage() {
         return primaryStage;
     }
 
     @Override
-    public void start (Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception {
         primaryStage = stage;
         primaryStage.setTitle("LoveLetter Chat");
 
-        controller  = new ClientGuiController(this);
+        controller = new ClientGuiController(this);
 
         button.setOnAction(this);
         sendButton.setOnAction(this);
@@ -90,19 +79,17 @@ public class ClientApplication extends Application implements EventHandler {
         rootPane.setHgap(10);
         rootPane.setVgap(10);
 
-        rootPane.setStyle("-fx-background-color: darkred");
+        rootPane.setStyle("-fx-background-color: #244687");
 
-        rootPane.add(button,2, 3);
+        rootPane.add(button, 2, 3);
         rootPane.add(users, 1, 4);
-        rootPane.add(errorLabel,1, 2);
+        rootPane.add(errorLabel, 1, 2);
         rootPane.add(textField, 1, 3);
         rootPane.add(messages, 1, 0);
         rootPane.add(yourNameLabel, 0, 3);
         rootPane.add(usersOnlineLabel, 0, 4);
         rootPane.add(messageField, 1, 1);
         rootPane.add(sendButton, 2, 1);
-
-
 
         usersOnlineLabel.setFont(Font.font("Vordana", 18));
         yourNameLabel.setFont(Font.font("Vordana", 18));
@@ -111,7 +98,6 @@ public class ClientApplication extends Application implements EventHandler {
         usersOnlineLabel.setTextFill(Color.WHITE);
         yourNameLabel.setTextFill(Color.WHITE);
         errorLabel.setTextFill(Color.WHITE);
-
 
         messageField.setDisable(true);
         messages.setEditable(false);
@@ -126,7 +112,7 @@ public class ClientApplication extends Application implements EventHandler {
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
-            public void handle (WindowEvent windowEvent) {
+            public void handle(WindowEvent windowEvent) {
                 Platform.exit();
                 System.exit(0);
             }
@@ -135,7 +121,7 @@ public class ClientApplication extends Application implements EventHandler {
     }
 
     @Override
-    public void handle (Event event) {
+    public void handle(Event event) {
         if (event.getSource() == button) {
             controller.run();
             userName = textField.getText();
@@ -146,11 +132,11 @@ public class ClientApplication extends Application implements EventHandler {
             }
         }
 
-        if (event.getSource() == sendButton){
+        if (event.getSource() == sendButton) {
 
             try {
                 controller.connection.send(new Message(MessageType.TEXT, messageField.getText()));
-                if (messageField.getText().equals("bye")){
+                if (messageField.getText().equals("bye")) {
                     Platform.exit();
                     System.exit(0);
                 }

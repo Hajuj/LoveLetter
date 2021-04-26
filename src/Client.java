@@ -2,10 +2,10 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class Client {
-    protected Connection connection = new Connection(new Socket(getServerAddress(), getServerPort()));;
+    protected Connection connection = new Connection(new Socket(getServerAddress(), getServerPort()));
     private volatile boolean clientConnected;
 
-    public Client () throws IOException {
+    public Client() throws IOException {
     }
 
     protected String getServerAddress() {
@@ -24,9 +24,7 @@ public class Client {
     }
 
 
-
     public class SocketThread extends Thread {
-
         @Override
         public void run() {
             try {
@@ -39,14 +37,21 @@ public class Client {
         }
 
         protected void clientHandshake() throws IOException, ClassNotFoundException {
+            // TODO maybe make it smarter? eliminate busy waiting -> synchronize block rather than while.
+            String name = null;
             while (true) {
                 Message message = connection.receive();
 
                 if (message.getType() == MessageType.NAME_REQUEST) { // ask the name
+                    if (name == null || !name.equals(getUserName())) {
+                        name = getUserName();
+                        connection.send(new Message(MessageType.USER_NAME, name));
+                        this.notifyConnectionStatusChanged(false);
+                    }
 
-                    String name = getUserName();
-                    connection.send(new Message(MessageType.USER_NAME, name));
-                    this.notifyConnectionStatusChanged(false);
+//                    String name = getUserName();
+//                    connection.send(new Message(MessageType.USER_NAME, name));
+//                    this.notifyConnectionStatusChanged(false);
 
                 } else if (message.getType() == MessageType.NAME_ACCEPTED) { // server accepted the name
                     notifyConnectionStatusChanged(true);
@@ -80,7 +85,7 @@ public class Client {
             ConsoleHelper.writeMessage(message);
         }
 
-        protected void informAboutAddingNewUser(String userName){
+        protected void informAboutAddingNewUser(String userName) {
             ConsoleHelper.writeMessage("Welcome " + userName + "!");
         }
 
@@ -102,8 +107,6 @@ public class Client {
 
     protected void sendTextMessage(String text) {
         try {
-
-
             connection.send(new Message(MessageType.TEXT, text));
         } catch (IOException e) {
             ConsoleHelper.writeMessage("Error beim Schicken");
@@ -142,7 +145,4 @@ public class Client {
                 sendTextMessage(text);
         }
     }
-
-
-
 }

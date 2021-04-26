@@ -1,4 +1,3 @@
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -40,4 +39,3 @@ public class Connection implements Closeable {
         socket.close();
     }
 }
-

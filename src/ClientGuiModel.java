@@ -6,24 +6,23 @@ public class ClientGuiModel {
     private final Set<String> allUserNames = new TreeSet<>();
     private String newMessage;
 
-    public Set<String> getAllUserNames () {
+    public Set<String> getAllUserNames() {
         return Collections.unmodifiableSet(allUserNames);
     }
 
-    public String getNewMessage () {
+    public String getNewMessage() {
         return newMessage;
     }
 
-    public void setNewMessage (String newMessage) {
+    public void setNewMessage(String newMessage) {
         this.newMessage = newMessage;
     }
 
-    public void addUser (String newUserName) {
+    public void addUser(String newUserName) {
         allUserNames.add(newUserName);
     }
 
-    public void deleteUser (String userName) {
+    public void deleteUser(String userName) {
         allUserNames.remove(userName);
     }
-
 }
