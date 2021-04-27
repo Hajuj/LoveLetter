@@ -3,16 +3,12 @@ package chat;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -53,25 +49,8 @@ public class ClientGuiController extends Client {
         primaryStage.setTitle("LoveLetter Chat");
 
         GridPane rootPane = new GridPane();
-        rootPane.setPadding(new Insets(30));
-        rootPane.setAlignment(Pos.CENTER);
-        rootPane.setHgap(10);
-        rootPane.setVgap(10);
 
-        rootPane.setStyle("-fx-background-color: #244687");
-
-        usersOnlineLabel.setFont(Font.font("Vordana", 18));
-        yourNameLabel.setFont(Font.font("Vordana", 18));
-        errorLabel.setFont(Font.font("Vordana", 18));
-        messages.setFont(Font.font("Vordana", 15));
-        users.setFont(Font.font("Vordana", 18));
-
-        messages.setStyle("-fx-opacity: 1.0;");
         users.setStyle("-fx-opacity: 1.0;");
-
-        usersOnlineLabel.setTextFill(Color.WHITE);
-        yourNameLabel.setTextFill(Color.WHITE);
-        errorLabel.setTextFill(Color.WHITE);
 
         messageField.setDisable(true);
         messages.setEditable(false);
@@ -84,14 +63,12 @@ public class ClientGuiController extends Client {
 
         rootPane.add(errorLabel, 1, 2);
 
-
         rootPane.add(usersOnlineLabel, 0, 4);
         rootPane.add(users, 1, 4);
 
         rootPane.add(messages, 1, 0);
         rootPane.add(messageField, 1, 1);
         rootPane.add(sendButton, 2, 1);
-
 
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -122,7 +99,7 @@ public class ClientGuiController extends Client {
         });
 
 
-        Scene scene = new Scene(rootPane, 1000, 500);
+        Scene scene = new Scene(rootPane, 650, 400);
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
