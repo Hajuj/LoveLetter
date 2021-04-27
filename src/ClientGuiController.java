@@ -22,6 +22,7 @@ import java.io.IOException;
 public class ClientGuiController extends Client {
     private ClientGuiModel model = new ClientGuiModel();
     private ClientApplication application;
+
     private String userName;
     private TextArea messages = new TextArea();
     private Button loginButton = new Button("Login!");
@@ -32,7 +33,6 @@ public class ClientGuiController extends Client {
     private TextField messageField = new TextField();
     private Button sendButton = new Button("Send!");
     private Label errorLabel = new Label();
-    private Stage primaryStage = new Stage();
 
 
     /**
@@ -251,7 +251,7 @@ public class ClientGuiController extends Client {
         /*Mitteilung falls eine Verbindung zum Server sich geändert hat*/
         @Override
         protected void notifyConnectionStatusChanged(boolean clientConnected) {
-            notifyConnectionStatusChanged(clientConnected);
+            ClientGuiController.this.notifyConnectionStatusChanged(clientConnected);
 
         }
     }
