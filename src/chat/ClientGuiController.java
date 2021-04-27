@@ -3,15 +3,10 @@ package chat;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -74,6 +69,11 @@ public class ClientGuiController extends Client {
         Platform.runLater(() -> messages.appendText(getModel().getNewMessage() + "\n"));
     }
 
+    /**
+     * Send message button.
+     *
+     * @param event the event
+     */
     @FXML
     public void sendMessageButton(ActionEvent event) {
         try {
@@ -89,6 +89,11 @@ public class ClientGuiController extends Client {
     }
 
 
+    /**
+     * Login button.
+     *
+     * @param event the event
+     */
     @FXML
     public void loginButton(ActionEvent event) {
         run();
@@ -99,14 +104,6 @@ public class ClientGuiController extends Client {
             ioException.printStackTrace();
         }
     }
-
-
-    @FXML
-    public void closeWindow(WindowEvent windowEvent) {
-        Platform.exit();
-        System.exit(0);
-    }
-
 
 
     /**
