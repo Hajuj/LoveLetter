@@ -42,6 +42,8 @@ public class ClientGuiController extends Client {
     private Button sendButton;
     @FXML
     private Label errorLabel;
+    @FXML
+    private Label chatLabel;
 
 
     /**
