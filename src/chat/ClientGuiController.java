@@ -53,8 +53,9 @@ public class ClientGuiController extends Client {
         users.setStyle("-fx-opacity: 1.0;");
 
         messageField.setDisable(true);
+
         messages.setEditable(false);
-        users.setDisable(true);
+        users.setEditable(false);
 
 
         rootPane.add(yourNameLabel, 0, 3);
