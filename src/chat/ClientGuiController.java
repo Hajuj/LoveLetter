@@ -2,13 +2,14 @@ package chat;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -22,15 +23,25 @@ public class ClientGuiController extends Client {
     private ClientApplication application;
 
     private String userName;
-    private TextArea messages = new TextArea();
-    private Button loginButton = new Button("Login!");
-    private TextField nameField = new TextField();
-    private TextArea users = new TextArea();
-    private Label yourNameLabel = new Label("Your name:");
-    private Label usersOnlineLabel = new Label("Users online:");
-    private TextField messageField = new TextField();
-    private Button sendButton = new Button("Send!");
-    private Label errorLabel = new Label();
+
+    @FXML
+    private TextArea messages;
+    @FXML
+    private Button loginButton;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextArea users;
+    @FXML
+    private Label yourNameLabel;
+    @FXML
+    private Label usersOnlineLabel;
+    @FXML
+    private TextField messageField;
+    @FXML
+    private Button sendButton;
+    @FXML
+    private Label errorLabel;
 
 
     /**
@@ -41,77 +52,19 @@ public class ClientGuiController extends Client {
      */
     /*Konstruktor für GUI Controller*/
     public ClientGuiController(ClientApplication application) throws IOException {
-        super();
         this.application = application;
 
-        Stage primaryStage = new Stage();
-        primaryStage.setTitle("LoveLetter Chat");
+        Stage stage = new Stage();
+
+        Parent root = FXMLLoader.load(getClass().getResource("chat.fxml"));
+        stage.setTitle("LoveLetter Chat Login");
+        stage.setScene(new Scene(root, 600, 275));
+        stage.show();
+
         messageField.setDisable(true);
 
         messages.setEditable(false);
         users.setEditable(false);
-
-
-        GridPane rootPane = new GridPane();
-
-        rootPane.add(yourNameLabel, 0, 3);
-        rootPane.add(nameField, 1, 3);
-        rootPane.add(loginButton, 2, 3);
-
-        rootPane.add(errorLabel, 1, 2);
-
-        rootPane.add(usersOnlineLabel, 0, 4);
-        rootPane.add(users, 1, 4);
-
-        rootPane.add(messages, 1, 0);
-        rootPane.add(messageField, 1, 1);
-        rootPane.add(sendButton, 2, 1);
-
-        Scene scene = new Scene(rootPane, 650, 400);
-        primaryStage.setScene(scene);
-
-        primaryStage.show();
-
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                Platform.exit();
-                System.exit(0);
-            }
-        });
-
-
-        loginButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                run();
-                userName = nameField.getText();
-                try {
-                    connection.send(new Message(MessageType.USER_NAME, nameField.getText()));
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-            }
-        });
-
-
-        sendButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    connection.send(new Message(MessageType.TEXT, messageField.getText()));
-                    if (messageField.getText().equals("bye")) {
-                        Platform.exit();
-                        System.exit(0);
-                    }
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                Platform.runLater(() -> messageField.clear());
-            }
-        });
-
-
 
     }
 
@@ -121,6 +74,41 @@ public class ClientGuiController extends Client {
     public synchronized void refreshMessages() {
         Platform.runLater(() -> messages.appendText(getModel().getNewMessage() + "\n"));
     }
+
+    @FXML
+    public void sendMessageButton(ActionEvent event) {
+        try {
+            connection.send(new Message(MessageType.TEXT, messageField.getText()));
+            if (messageField.getText().equals("bye")) {
+                Platform.exit();
+                System.exit(0);
+            }
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        Platform.runLater(() -> messageField.clear());
+    }
+
+
+    @FXML
+    public void loginButton(ActionEvent event) {
+        run();
+        userName = nameField.getText();
+        try {
+            connection.send(new Message(MessageType.USER_NAME, nameField.getText()));
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    public void closeWindow(WindowEvent windowEvent) {
+        Platform.exit();
+        System.exit(0);
+    }
+
+
 
     /**
      * Refresh users.
