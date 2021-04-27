@@ -28,7 +28,10 @@ public class ClientApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        new ClientGuiController(this);
+        Parent root = FXMLLoader.load(getClass().getResource("chat.fxml"));
+        stage.setTitle("LoveLetter Chat Login");
+        stage.setScene(new Scene(root, 600, 275));
+        stage.show();
 
     }
 

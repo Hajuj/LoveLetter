@@ -20,7 +20,6 @@ import java.io.IOException;
  */
 public class ClientGuiController extends Client {
     private ClientGuiModel model = new ClientGuiModel();
-    private ClientApplication application;
 
     private String userName;
 
@@ -45,26 +44,24 @@ public class ClientGuiController extends Client {
     @FXML
     private Label chatLabel;
 
+    /**
+     * Instantiates a new chat.Client.
+     *
+     * @throws IOException the io exception
+     */
+    public ClientGuiController() throws IOException {
+    }
+
 
     /**
      * Instantiates a new chat.Client gui controller.
      *
-     * @param application the application
      * @throws IOException the io exception
      */
     /*Konstruktor für GUI Controller*/
-    public ClientGuiController(ClientApplication application) throws IOException {
-        this.application = application;
-
-        Stage stage = new Stage();
-
-        Parent root = FXMLLoader.load(getClass().getResource("chat.fxml"));
-        stage.setTitle("LoveLetter Chat Login");
-        stage.setScene(new Scene(root, 600, 275));
-        stage.show();
+    public void initialize() {
 
         messageField.setDisable(true);
-
         messages.setEditable(false);
         users.setEditable(false);
 
