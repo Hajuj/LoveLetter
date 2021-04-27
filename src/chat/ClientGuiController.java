@@ -44,19 +44,15 @@ public class ClientGuiController extends Client {
         super();
         this.application = application;
 
-
         Stage primaryStage = new Stage();
         primaryStage.setTitle("LoveLetter Chat");
-
-        GridPane rootPane = new GridPane();
-
-        users.setStyle("-fx-opacity: 1.0;");
-
         messageField.setDisable(true);
 
         messages.setEditable(false);
         users.setEditable(false);
 
+
+        GridPane rootPane = new GridPane();
 
         rootPane.add(yourNameLabel, 0, 3);
         rootPane.add(nameField, 1, 3);
@@ -71,6 +67,20 @@ public class ClientGuiController extends Client {
         rootPane.add(messageField, 1, 1);
         rootPane.add(sendButton, 2, 1);
 
+        Scene scene = new Scene(rootPane, 650, 400);
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+
+
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -83,6 +93,8 @@ public class ClientGuiController extends Client {
                 }
             }
         });
+
+
         sendButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -100,16 +112,7 @@ public class ClientGuiController extends Client {
         });
 
 
-        Scene scene = new Scene(rootPane, 650, 400);
-        primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                Platform.exit();
-                System.exit(0);
-            }
-        });
-        primaryStage.show();
+
     }
 
     /**
