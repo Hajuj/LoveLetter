@@ -1,5 +1,7 @@
+package chat;
+
 /**
- * The enum Message type.
+ * The enum chat.Message type.
  */
 public enum MessageType {
     /**
@@ -27,4 +29,4 @@ public enum MessageType {
      */
     USER_REMOVED
 }
-/*Library der unterschiedlichen Arten von Informationsweitergabe über den Server*/
+/*Library der unterschiedlichen Arten von Informationsweitergabe über den chat.Server*/

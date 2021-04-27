@@ -1,3 +1,5 @@
+package chat;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -6,7 +8,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 
 /**
- * The type Connection.
+ * The type chat.Connection.
  */
 public class Connection implements Closeable {
     private final Socket socket;
@@ -14,7 +16,7 @@ public class Connection implements Closeable {
     private final ObjectOutputStream out;
 
     /**
-     * Instantiates a new Connection.
+     * Instantiates a new chat.Connection.
      *
      * @param socket the socket
      * @throws IOException the io exception

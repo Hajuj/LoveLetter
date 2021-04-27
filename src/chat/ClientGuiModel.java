@@ -1,9 +1,11 @@
+package chat;
+
 import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * The type Client gui model.
+ * The type chat.Client gui model.
  */
 public class ClientGuiModel {
     private final Set<String> allUserNames = new TreeSet<>();

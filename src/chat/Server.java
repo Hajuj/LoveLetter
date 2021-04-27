@@ -1,3 +1,5 @@
+package chat;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -5,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * The type Server.
+ * The type chat.Server.
  */
 public class Server {
     private static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
@@ -21,15 +23,15 @@ public class Server {
         ConsoleHelper.writeMessage("Portnummer: " + port);
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            ConsoleHelper.writeMessage("Server läuft!");
+            ConsoleHelper.writeMessage("chat.Server läuft!");
 
             while (true) {
-                // warten auf Client Socket
+                // warten auf chat.Client Socket
                 Socket socket = serverSocket.accept();
                 new Handler(socket).start();
             }
         } catch (Exception e) {
-            ConsoleHelper.writeMessage("Es gab leider einen Fehler beim Server.");
+            ConsoleHelper.writeMessage("Es gab leider einen Fehler beim chat.Server.");
         }
     }
 
@@ -44,7 +46,7 @@ public class Server {
             try {
                 connection.send(message);
             } catch (IOException e) {
-                ConsoleHelper.writeMessage("Fehler beim Schicken zu Client " + connection.getRemoteSocketAddress());
+                ConsoleHelper.writeMessage("Fehler beim Schicken zu chat.Client " + connection.getRemoteSocketAddress());
             }
         }
     }
@@ -99,7 +101,7 @@ public class Server {
 
         @Override
         public void run() {
-            ConsoleHelper.writeMessage("Client Socket " + socket.getRemoteSocketAddress() + " connected.");
+            ConsoleHelper.writeMessage("chat.Client Socket " + socket.getRemoteSocketAddress() + " connected.");
 
             String userName = null;
 

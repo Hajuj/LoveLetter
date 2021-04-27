@@ -1,14 +1,16 @@
+package chat;
+
 import java.io.Serializable;
 
 /**
- * The type Message.
+ * The type chat.Message.
  */
 public class Message implements Serializable {
     private final MessageType type;
     private final String data;
 
     /**
-     * Instantiates a new Message.
+     * Instantiates a new chat.Message.
      *
      * @param type the type
      */
@@ -19,7 +21,7 @@ public class Message implements Serializable {
     }
 
     /**
-     * Instantiates a new Message.
+     * Instantiates a new chat.Message.
      *
      * @param type the type
      * @param data the data

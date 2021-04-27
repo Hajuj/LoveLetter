@@ -1,3 +1,5 @@
+package chat;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,7 +19,7 @@ import javafx.stage.WindowEvent;
 import java.io.IOException;
 
 /**
- * The type Client gui controller.
+ * The type chat.Client gui controller.
  */
 public class ClientGuiController extends Client {
     private ClientGuiModel model = new ClientGuiModel();
@@ -36,7 +38,7 @@ public class ClientGuiController extends Client {
 
 
     /**
-     * Instantiates a new Client gui controller.
+     * Instantiates a new chat.Client gui controller.
      *
      * @param application the application
      * @throws IOException the io exception
@@ -120,7 +122,6 @@ public class ClientGuiController extends Client {
         });
 
 
-
         Scene scene = new Scene(rootPane, 1000, 500);
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -133,6 +134,9 @@ public class ClientGuiController extends Client {
         primaryStage.show();
     }
 
+    /**
+     * Refresh messages.
+     */
     public synchronized void refreshMessages() {
         Platform.runLater(() -> messages.appendText(getModel().getNewMessage() + "\n"));
     }
@@ -167,7 +171,6 @@ public class ClientGuiController extends Client {
     }
 
 
-
     /**
      * Gets user name.
      *
@@ -177,7 +180,6 @@ public class ClientGuiController extends Client {
     public String getUserName() {
         return userName;
     }
-
 
 
     /*run Methode für Thread*/
@@ -215,8 +217,7 @@ public class ClientGuiController extends Client {
     }
 
 
-
-    /*Aufruf der Client Methode zum Versenden der Nachricht*/
+    /*Aufruf der chat.Client Methode zum Versenden der Nachricht*/
     @Override
     protected void sendTextMessage(String text) {
         super.sendTextMessage(text);
@@ -248,7 +249,7 @@ public class ClientGuiController extends Client {
             refreshUsers();
         }
 
-        /*Mitteilung falls eine Verbindung zum Server sich geändert hat*/
+        /*Mitteilung falls eine Verbindung zum chat.Server sich geändert hat*/
         @Override
         protected void notifyConnectionStatusChanged(boolean clientConnected) {
             ClientGuiController.this.notifyConnectionStatusChanged(clientConnected);
