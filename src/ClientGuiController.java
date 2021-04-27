@@ -95,6 +95,7 @@ public class ClientGuiController extends Client {
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                run();
                 userName = nameField.getText();
                 try {
                     connection.send(new Message(MessageType.USER_NAME, nameField.getText()));
