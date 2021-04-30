@@ -1,5 +1,9 @@
 {
     "java.project.sourcePaths": [
         "Viki"
+    ],
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/Users/altugutas/Downloads/javafx-sdk-11.0.2/**/*.jar"
     ]
 }

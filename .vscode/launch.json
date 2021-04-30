@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch ClientApplication",
+            "request": "launch",
+            "mainClass": "ClientApplication",
+            "vmArgs": "--module-path /Users/altugutas/Downloads/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
+            "projectName": "brave-barsche_689aef5a"
+        }
+    ]
+}
