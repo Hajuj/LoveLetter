@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="64b1c19a-a765-41bb-ab90-a227a2f29db4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/brave-barsche.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/brave-barsche.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat/src/Chat1904/MyChatClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat/src/Chat1904/MyChatServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat/src/Chat1904/ReadThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat/src/Chat1904/UserThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chat/src/Chat1904/WriteThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatrush.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chat/Chat1904/MyChatClient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chat/Chat1904/MyChatServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chat/Chat1904/ReadThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chat/Chat1904/UserThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chat/Chat1904/WriteThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/ChientApplication$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/ChientApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/Client$SocketThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/Client.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/ClientGuiController$GuiSocketThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/ClientGuiController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/ClientGuiModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/Connection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/ConsoleHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/Message.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/MessageType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/Server$Handler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/Server.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/chat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/chatrush/login.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientGuiController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientGuiModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Connection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ConsoleHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Message.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MessageType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/login.png" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Jonas" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1rsxdrzq90jVDRKGasL9eyrzAPB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/FIX/javafx-sdk-16/lib" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunManager" selected="Application.ClientApplication">
+    <configuration name="ClientApplication" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="14" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="chat.ClientApplication" />
+      <module name="brave-barsche" />
+      <option name="VM_PARAMETERS" value="--module-path C:\Users\Viktoria\FIX\javafx-sdk-16\lib --add-modules javafx.controls,javafx.fxml " />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ClientApplication" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="chat.ClientApplication" />
+      <module name="brave-barsche" />
+      <option name="VM_PARAMETERS" value="--module-path C:\Users\Viktoria\FIX\javafx-sdk-16\lib --add-modules javafx.controls,javafx.fxml " />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ClientGuiController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ClientGuiController" />
+      <module name="chatrush" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Server (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="chat.Server" />
+      <module name="brave-barsche" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Server" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.ClientApplication" />
+      <item itemvalue="Application.ClientGuiController" />
+      <item itemvalue="Application.Server" />
+      <item itemvalue="Application.Server (2)" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ClientApplication" />
+        <item itemvalue="Application.Server (2)" />
+        <item itemvalue="Application.ClientApplication" />
+        <item itemvalue="Application.Server" />
+        <item itemvalue="Application.ClientGuiController" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="64b1c19a-a765-41bb-ab90-a227a2f29db4" name="Default Changelist" comment="" />
+      <created>1619778692647</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619778692647</updated>
+      <workItem from="1619778695459" duration="3492000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/chat/Server.java</url>
+          <line>153</line>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/chat/Server.java</url>
+          <line>152</line>
+          <option name="timeStamp" value="93" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/chat/Server.java</url>
+          <line>151</line>
+          <option name="timeStamp" value="94" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/chat/Server.java</url>
+          <line>149</line>
+          <option name="timeStamp" value="95" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/chat/Server.java</url>
+          <line>150</line>
+          <option name="timeStamp" value="96" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/chat/Server.java</url>
+          <line>111</line>
+          <option name="timeStamp" value="97" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
