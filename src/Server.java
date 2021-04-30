@@ -1,11 +1,12 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Server {
-    private static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
+    private static final Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
 
     /*Main Methode mit vorerst festen Werten (Hostname, Portnummer)*/
     public static void main(String[] args) {
@@ -52,10 +53,27 @@ public class Server {
 
     /*Senden der Nachricht an einen spezifischen User*/
     public static void sendDirectMessage(Message message, Connection userConnection) {
-        try {
+                     try {
             userConnection.send(message);
-        } catch (IOException e) {
+            }
+                 catch (IOException e) {
             ConsoleHelper.writeMessage("Error with " + userConnection.getRemoteSocketAddress());
+        }
+    }
+
+    public static void sendDirectMessageP2P(Message message, Connection userconnection) {
+        LinkedList<String> splittedMessage = message.split(" ");
+        
+        splittedMessage.removeFirst();
+        String username = splittedMessage.getFirst();
+        splittedMessage.removeFirst();
+        
+        if(connection.equals(userconnection)){
+
+        try {
+            userConnection.send(splittedMessage);
+                
+            }
         }
     }
 
@@ -140,11 +158,16 @@ public class Server {
 
                 if (message.getType() == MessageType.TEXT) {
                     String data = message.getData();
+                    String first = data.charAt(0);
 
                     if (message.getData().equals("bye")) {
                         connection.close();
                         connectionMap.remove(userName);
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " left the room"));
+                        
+                        else if (first.getData().equals("@")){
+                            sendDirectMessageP2P(new Message(MessageType.TEXT, userName + " : " + data));
+                        }
                     } else {
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
                     }
