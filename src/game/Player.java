@@ -5,18 +5,47 @@ import cards.Deck;
 
 import java.util.ArrayList;
 
+/**
+ * The type Player.
+ */
 public class Player {
+    /**
+     * The Players id.
+     */
     public int playersID = 0;
+    /**
+     * The Player card list.
+     */
     public ArrayList<Card> playerCardList = new ArrayList<>();
+    /**
+     * The Is eliminated.
+     */
     public boolean isEliminated = false;
+    /**
+     * The Is handmaid online.
+     */
     public boolean isHandmaidOnline = false;
+    /**
+     * The Countess condition.
+     */
     public boolean countessCondition = false;
 
+    /**
+     * Draw a card.
+     *
+     * @param theDrawingPlayer the the drawing player
+     * @param thisRoundsDeck   the this rounds deck
+     */
     public void drawACard(Player theDrawingPlayer, Deck thisRoundsDeck) {
         theDrawingPlayer.playerCardList.add(thisRoundsDeck.shuffledDeckList.get(0));
         thisRoundsDeck.shuffledDeckList.remove(0);
     }
 
+    /**
+     * Check the countess condition.
+     *
+     * @param currentPlayer the current player
+     */
     public void checkTheCountessCondition(Player currentPlayer) {
         if (currentPlayer.playerCardList.get(0).cardNumber == 7 || currentPlayer.playerCardList.get(1).cardNumber == 7) {
             if (currentPlayer.playerCardList.get(0).cardNumber == 6 || currentPlayer.playerCardList.get(1).cardNumber == 6) {
@@ -41,6 +70,11 @@ public class Player {
         }
     }
 
+    /**
+     * Print the players hand.
+     *
+     * @param targetPlayer the target player
+     */
     public void printThePlayersHand(Player targetPlayer) {
         for (int i = 0; i < targetPlayer.playerCardList.size(); i++) {
             System.out.println("(This player has " + targetPlayer.playerCardList.get(i).cardName + " card in hand.)");

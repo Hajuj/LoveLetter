@@ -5,17 +5,21 @@ import cards.Deck;
 import java.util.ArrayList;
 
 /*      Integration mit Chatsystem
-        Zuteilung der Connection zu Player 1-4 mit busy waiting (while)
+        Zuteilung der Connection zu Player 1-4 mit Namen mit busy waiting (while)
         Überarbeiten der Konsolenausgabe in 3 Teile:
         - Infos für den Spieler (Welche Karten zur auswahl etc) sendDirectMessage,
         - Infos für Alle (Punkte, wer ist am zug etc) sendBroadcastMessage
-        - Infos für
-
-
+        - Infos für einen Gegner (Karte entwendet etc)
  */
 
+/**
+ * The type Game.
+ */
 public class Game {
-    public void setUpTheGame () {
+    /**
+     * Sets up the game.
+     */
+    public void setUpTheGame() {
         PlayRound playRound = new PlayRound();
         Deck currentDeck = new Deck();
         currentDeck.shuffleTheDeck();

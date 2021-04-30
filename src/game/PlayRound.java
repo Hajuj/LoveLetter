@@ -5,10 +5,18 @@ import cards.Deck;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The type Play round.
+ */
 public class PlayRound {
 
     private int numberOfPlayers;
 
+    /**
+     * Select number of players array list.
+     *
+     * @return the array list
+     */
     public ArrayList<Player> selectNumberOfPlayers() {
         ArrayList<Player> listOfPlayers = new ArrayList();
         Scanner scanner = new Scanner(System.in);
@@ -22,16 +30,32 @@ public class PlayRound {
         return listOfPlayers;
     }
 
+    /**
+     * End this round.
+     */
     public void endThisRound() {
         System.out.println("This round has ended. Time to check each player's card score: ");
     }
 
+    /**
+     * Draw cards at the beginning.
+     *
+     * @param currentRoundsListOfPlayers the current rounds list of players
+     * @param currentDeck                the current deck
+     */
     public void drawCardsAtTheBeginning(ArrayList<Player> currentRoundsListOfPlayers, Deck currentDeck) {
         for (int i = 0; i < currentRoundsListOfPlayers.size(); i++) {
             currentRoundsListOfPlayers.get(i).drawACard(currentRoundsListOfPlayers.get(i), currentDeck);
         }
     }
 
+    /**
+     * Execute players phase.
+     *
+     * @param currentRoundsListOfPlayers the current rounds list of players
+     * @param currentPlayer              the current player
+     * @param currentDeck                the current deck
+     */
     public void executePlayersPhase(ArrayList<Player> currentRoundsListOfPlayers, Player currentPlayer, Deck currentDeck) {
         currentPlayer.drawACard(currentPlayer, currentDeck);
         currentPlayer.checkTheCountessCondition(currentPlayer);
@@ -50,7 +74,6 @@ public class PlayRound {
             currentPlayer.countessCondition = false;
         }
     }
-
 
 
 }

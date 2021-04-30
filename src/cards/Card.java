@@ -5,12 +5,35 @@ import game.Player;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The type Card.
+ */
 public class Card {
+    /**
+     * The Card number.
+     */
     public int cardNumber;
+    /**
+     * The Number of cards in deck.
+     */
     public int numberOfCardsInDeck;
+    /**
+     * The Card text.
+     */
     public String cardText;
+    /**
+     * The Card name.
+     */
     public String cardName;
 
+    /**
+     * Instantiates a new Card.
+     *
+     * @param cardNumber          the card number
+     * @param numberOfCardsInDeck the number of cards in deck
+     * @param cardText            the card text
+     * @param cardName            the card name
+     */
     public Card(int cardNumber, int numberOfCardsInDeck, String cardText, String cardName) {
         this.cardNumber = cardNumber;
         this.numberOfCardsInDeck = numberOfCardsInDeck;
@@ -18,6 +41,13 @@ public class Card {
         this.cardName = cardName;
     }
 
+    /**
+     * Choose a player int.
+     *
+     * @param numberOfPlayers the number of players
+     * @param listOfPlayers   the list of players
+     * @return the int
+     */
     public int chooseAPlayer(int numberOfPlayers, ArrayList<Player> listOfPlayers) {
         Scanner scanner = new Scanner(System.in);
         boolean loop = true;
@@ -41,10 +71,23 @@ public class Card {
         return -1;
     }
 
+    /**
+     * Perform card instruction.
+     *
+     * @param currentPlayer              the current player
+     * @param currentRoundsListOfPlayers the current rounds list of players
+     * @param thisRoundsDeck             the this rounds deck
+     */
     public void performCardInstruction(Player currentPlayer, ArrayList<Player> currentRoundsListOfPlayers, Deck thisRoundsDeck) {
         System.out.println("Sth Went Wrong, this operation should call to specific card's interaction.");
     }
 
+    /**
+     * Discard card after using.
+     *
+     * @param currentPlayer       the current player
+     * @param idOfTheCardToRemove the id of the card to remove
+     */
     public void discardCardAfterUsing(Player currentPlayer, int idOfTheCardToRemove) {
         for (int i = 0; i < currentPlayer.playerCardList.size(); i++) {
             if (currentPlayer.playerCardList.get(i).cardNumber == idOfTheCardToRemove) {

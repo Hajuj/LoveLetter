@@ -5,17 +5,45 @@ import game.Player;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The type Guard.
+ */
 public class Guard extends Card {
 
+    /**
+     * The constant cardNumber.
+     */
     public static int cardNumber = 1;
+    /**
+     * The constant numberOfCardsInDeck.
+     */
     public static int numberOfCardsInDeck = 5;
+    /**
+     * The constant cardText.
+     */
     public static String cardText = "Name a non-guard card and choose a player. If that player has that card, he or she is out of the round.";
+    /**
+     * The constant cardName.
+     */
     public static String cardName = "Guard";
 
+    /**
+     * Instantiates a new Guard.
+     *
+     * @param cardNumber          the card number
+     * @param numberOfCardsInDeck the number of cards in deck
+     * @param cardText            the card text
+     * @param cardName            the card name
+     */
     public Guard(int cardNumber, int numberOfCardsInDeck, String cardText, String cardName) {
         super(cardNumber, numberOfCardsInDeck, cardText, cardName);
     }
 
+    /**
+     * Prompt guard card name selection int.
+     *
+     * @return the int
+     */
     public int promptGuardCardNameSelection() {
         boolean choiceIsOk = false;
         int choice = 0;
