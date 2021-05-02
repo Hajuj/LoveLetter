@@ -26,7 +26,7 @@ public class Game {
 
     public void setUpTheGame(ArrayList<Player> listOfPlayers, BotClient botClient) {
         this.botClient = botClient;
-        PlayRound playRound = new PlayRound();
+        PlayRound playRound = new PlayRound(botClient);
         Deck currentDeck = new Deck();
         currentDeck.shuffleTheDeck();
         this.listOfPlayers = listOfPlayers;
@@ -36,10 +36,11 @@ public class Game {
                 int j = i + 1;
                 if (listOfPlayers.get(i).isEliminated) {
                     botClient.sendTextMessage("@" + listOfPlayers.get(i).getPlayerName() + " you have already been eliminated.");
-     //               System.out.println("Player " + listOfPlayers.get(i).getPlayerName() + " have already been eliminated. Proceeding to next player.");
+     //             System.out.println("Player " + listOfPlayers.get(i).getPlayerName() + " have already been eliminated. Proceeding to next player.");
                 } else {
                    // System.out.println("=====NEXT PLAYER=====");
-                    System.out.println("Current Player: " + listOfPlayers.get(i).getPlayerName());
+                   // System.out.println("Current Player: " + listOfPlayers.get(i).getPlayerName());
+                    botClient.sendTextMessage(("@" + listOfPlayers.get(i).getPlayerName() + "your turn!"));
                     playRound.executePlayersPhase(listOfPlayers, listOfPlayers.get(i), currentDeck);
                     listOfPlayers.get(i).printThePlayersHand(listOfPlayers.get(i));
                 }

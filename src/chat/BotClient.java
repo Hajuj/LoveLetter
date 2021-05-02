@@ -101,9 +101,7 @@ public class BotClient extends Client {
                     break;
 
             }
-            if (format != null) {
-                BotClient.this.sendTextMessage("@" + split[0] + " you startes a game!");
-            }
+
         }
     }
 }

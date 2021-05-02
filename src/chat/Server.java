@@ -190,7 +190,7 @@ public class Server {
                                     sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + data), connection);
                                     sendDirectMessage(new Message(MessageType.TEXT, userName + " to you : " + directData), connectionMap.get(usernameDirect));
                                 }
-                            }catch (StringIndexOutOfBoundsException e){
+                            } catch (StringIndexOutOfBoundsException e){
                                 sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
                             }
                         }
