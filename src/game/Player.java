@@ -9,6 +9,16 @@ import java.util.ArrayList;
  * The type Player.
  */
 public class Player {
+    public String getPlayerName () {
+        return playerName;
+    }
+
+    public void setPlayerName (String playerName) {
+        this.playerName = playerName;
+    }
+
+    private String playerName;
+
     /**
      * The Players id.
      */
