@@ -23,7 +23,7 @@ public class Server {
         ConsoleHelper.writeMessage("Portnummer: " + port);
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            ConsoleHelper.writeMessage("chat.Server läuft!");
+            ConsoleHelper.writeMessage("Server läuft!");
 
             while (true) {
                 // warten auf chat.Client Socket
@@ -31,7 +31,7 @@ public class Server {
                 new Handler(socket).start();
             }
         } catch (Exception e) {
-            ConsoleHelper.writeMessage("Es gab leider einen Fehler beim chat.Server.");
+            ConsoleHelper.writeMessage("Es gab leider einen Fehler beim Server.");
         }
     }
 
@@ -46,7 +46,7 @@ public class Server {
             try {
                 connection.send(message);
             } catch (IOException e) {
-                ConsoleHelper.writeMessage("Fehler beim Schicken zu chat.Client " + connection.getRemoteSocketAddress());
+                ConsoleHelper.writeMessage("Fehler beim Schicken zu Client " + connection.getRemoteSocketAddress());
             }
         }
     }
@@ -145,6 +145,11 @@ public class Server {
 
                 if (connectionMap.containsKey(userName)) {
                     ConsoleHelper.writeMessage("User mit Nickname " + userName + " ist schon im Chat");
+                    continue;
+                }
+
+                if (userName.contains("@") || userName.contains(" ")){
+                    ConsoleHelper.writeMessage("UserName darf keine @ or Leerzeichen enthalten");
                     continue;
                 }
                 connectionMap.put(userName, connection);
