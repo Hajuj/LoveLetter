@@ -28,7 +28,7 @@ public class Client {
      * @param text the text
      */
     /*Nachricht senden an alle*/
-    protected void sendTextMessage(String text) {
+    public void sendTextMessage(String text) {
         try {
             connection.send(new Message(MessageType.TEXT, text));
         } catch (IOException e) {

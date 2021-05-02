@@ -14,7 +14,7 @@ public class BotClient extends Client {
     private Game currentGame;
     private static ArrayList<String> currentPlayerList = new ArrayList<>();
     private boolean gameOn = false;
-    private final int numberOfPlayers = 4;
+    private final int numberOfPlayers = 2;
 
     /**
      * Instantiates a new chat.Client.
@@ -27,20 +27,25 @@ public class BotClient extends Client {
 
 
     //hier ANZAHL DER PLAYERS
-    protected boolean startTheGame(String newPlayer){
-        currentPlayerList.add(newPlayer);
-        if (currentPlayerList.size() < numberOfPlayers || gameOn){
-            currentPlayerList.add(newPlayer);
-            BotClient.this.sendTextMessage("@" + newPlayer + " you are in the waitlist");
+    protected boolean startTheGame(String newPlayer, BotClient botClient){
+        if (currentPlayerList.contains(newPlayer)){
+            botClient.sendTextMessage("@" + newPlayer + " you are already in the waitlist");
         } else {
-            ArrayList<Player> listOfPlayers = new ArrayList<>();
-            for (int i = 0; i < numberOfPlayers; i++) {
-                Player player = new Player();
-                player.playersID = i;
-                player.setPlayerName(newPlayer);
-                listOfPlayers.add(player);
+            currentPlayerList.add(newPlayer);
+            if (currentPlayerList.size() < numberOfPlayers || gameOn) {
+                currentPlayerList.add(newPlayer);
+                botClient.sendTextMessage("@" + newPlayer + " you are in the waitlist");
+            } else {
+                ArrayList<Player> listOfPlayers = new ArrayList<>();
+                for (int i = 0; i < numberOfPlayers; i++) {
+                    Player player = new Player();
+                    player.playersID = i;
+                    player.setPlayerName(newPlayer);
+                    listOfPlayers.add(player);
+                }
+                currentGame.setUpTheGame(listOfPlayers, botClient);
+                gameOn = true;
             }
-            currentGame.setUpTheGame();
         }
         return false;
     }
@@ -79,11 +84,11 @@ public class BotClient extends Client {
 
         @Override
         protected void processIncomingMessage(String message) {
-            // Выводим текст сообщения в консоль
+            // alles in die console
             ConsoleHelper.writeMessage(message);
 
-            // Отделяем отправителя от текста сообщения
-            String userNameDelimiter = ": ";
+            // split name from message
+            String userNameDelimiter = "to you : ";
             String[] split = message.split(userNameDelimiter);
             if (split.length != 2) return;
 
@@ -92,7 +97,7 @@ public class BotClient extends Client {
             String format = null;
             switch (messageWithoutUserName) {
                 case "play":
-                    startTheGame(split[0]);
+                    startTheGame(split[0], BotClient.this);
                     break;
 
             }

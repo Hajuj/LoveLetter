@@ -188,7 +188,7 @@ public class Server {
                                 if (connectionMap.containsKey(usernameDirect) && !usernameDirect.equals(userName)) {
                                     String directData = data.substring(data.indexOf(" ") + 1);
                                     sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + data), connection);
-                                    sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + directData), connectionMap.get(usernameDirect));
+                                    sendDirectMessage(new Message(MessageType.TEXT, userName + " to you : " + directData), connectionMap.get(usernameDirect));
                                 }
                             }catch (StringIndexOutOfBoundsException e){
                                 sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
