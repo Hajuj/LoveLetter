@@ -173,12 +173,23 @@ public class Server {
                 if (message.getType() == MessageType.TEXT) {
                     String data = message.getData();
 
-                    if (message.getData().equals("bye")) {
+                    if (data.equals("bye")) {
                         connection.close();
                         connectionMap.remove(userName);
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " left the room"));
-                    } else {
-                        sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
+                    } else if (data.charAt(0) == '@'){
+                            try {
+                                String usernameDirect = data.substring(1, data.indexOf(" "));
+                                if (connectionMap.containsKey(usernameDirect) && !usernameDirect.equals(userName)) {
+                                    String directData = data.substring(data.indexOf(" ") + 1);
+                                    sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + directData), connection);
+                                    sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + directData), connectionMap.get(usernameDirect));
+                                }
+                            }catch (StringIndexOutOfBoundsException e){
+                                sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
+                            }
+                        }
+                   else {sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
                     }
                 }
             }
