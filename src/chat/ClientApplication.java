@@ -16,17 +16,13 @@ Bevor die Chat.ClientApplication gestartet werden kann, muss der Server.Server s
 */
 public class ClientApplication extends Application {
 
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
+    @Override
+    public void init(){
+        System.out.println("init!");
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         System.out.println("Stage is closing");
         System.exit(0);
     }
@@ -41,6 +37,16 @@ public class ClientApplication extends Application {
         //stage.setScene(new Scene(root, 600, 275));
         stage.setScene(scene);
         stage.show();
+        System.out.println("Stage show!");
+    }
+
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
     }
 
 

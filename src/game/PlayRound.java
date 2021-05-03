@@ -17,7 +17,7 @@ public class PlayRound {
      *
      * @return the array list
      */
-    //TODO: Number of Players: get from BotClient
+    //TODO: Number of Players: get from BotClient?
     public ArrayList<Player> selectNumberOfPlayers() {
         ArrayList<Player> listOfPlayers = new ArrayList();
         //Scanner scanner = new Scanner(System.in);

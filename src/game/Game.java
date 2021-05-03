@@ -25,6 +25,7 @@ public class Game {
         PlayRound playRound = new PlayRound();
         Deck currentDeck = new Deck();
         currentDeck.shuffleTheDeck();
+        //TODO 3: listOfPlayers from Bot!!!
         ArrayList<Player> listOfPlayers = playRound.selectNumberOfPlayers();
         playRound.drawCardsAtTheBeginning(listOfPlayers, currentDeck);
         while (currentDeck.shuffledDeckList.size() > 0) {
