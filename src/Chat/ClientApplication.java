@@ -25,14 +25,23 @@ public class ClientApplication extends Application {
         launch(args);
     }
 
+    public void init() {
+        System.out.println("init!");
+    }
+
+    @Override
+    public void stop() {
+        System.out.println("Stage is closing");
+        System.exit(0);
+    }
 
     /*Design der Stage inklusive der Platzierung aller Elemente*/
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("chat.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("chat.fxml")));
         stage.setTitle("LoveLetter Chat Login");
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("Chat.css").toString());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Chat.css")).toString());
         //stage.setScene(new Scene(root, 600, 275));
         stage.setScene(scene);
         stage.show();
