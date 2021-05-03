@@ -22,6 +22,6 @@ Once you are connected you can start chatting with other clients in the server, 
 
 #### Requirements 
 In order to run the project without problems, you'll need to install the following first:
-    - Java 16
-    - JavaFX 16
+    * Java 16
+    * JavaFX 16
 
