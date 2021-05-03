@@ -4,12 +4,7 @@ This is our University project for the card game Love Letter, it is a game of ri
 ## Game Rules
 The game can be played with 2-4 players, your goal is to get your love letter into Princess Annette's hands while deflecting the letters from competing suitors.
 
-From a deck with only sixteen cards, each player starts with only one card in hand; one card is removed from play.
-
-On a turn, you draw one card, and play one card, trying to expose others and knock them from the game. Powerful cards lead to early gains, but make you a target.
-
-Rely on weaker cards for too long, however, and your letter may be tossed in the fire!
-
+From a deck with only sixteen cards, each player starts with only one card in hand; one card is removed from play. On a turn, you draw one card, and play one card, trying to expose others and knock them from the game. Powerful cards lead to early gains, but make you a target. Rely on weaker cards for too long, however, and your letter may be tossed in the fire!
 
 To get more familiar with the game rules, just visit the offical website here: http://alderac.com/wp-content/uploads/2017/11/Love-Letter-Premium_Rulebook.pdf
 
