@@ -59,8 +59,6 @@ public class ClientGuiController extends Client {
 
     /**
      * Instantiates a new Chat.Client GUI Controller.
-     *
-     * @throws IOException the IO exception
      */
     /*Konstruktor für GUI Controller*/
     public void initialize() {
