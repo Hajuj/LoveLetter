@@ -1,33 +1,27 @@
-# Informationen
-Hallo Brave Barsche,
+# Welcome!
+This is our University project for the card game Love Letter, it is a game of risk, deduction, and luck.
 
-dies hier ist euer Git-Repository, welches ihr im Rahmen des Softwareentwicklungspraktikums nutzen könnt und sollt. Im derzeitigen Zustand befindet sich in diesem dieses Readme, welches ihr grade lest, und ein [.gitignore](https://git-scm.com/docs/gitignore)-File.
+## Game Rules
+The game can be played with 2-4 players, your goal is to get your love letter into Princess Annette's hands while deflecting the letters from competing suitors.
 
-## Handhabung
+From a deck with only sixteen cards, each player starts with only one card in hand; one card is removed from play.
 
-Eine sehr einfach und verständliche Anleitung zum Thema "git" findet ihr unter folgender Adresse:  https://rogerdudler.github.io/git-guide/index.de.html (Bitte schaut euch diese mindestens einmal an!)
+On a turn, you draw one card, and play one card, trying to expose others and knock them from the game. Powerful cards lead to early gains, but make you a target.
 
-### Download
-* Git für eure Kommandozeile könnt ihr euch hier herunterladen: https://git-scm.com/downloads
-* Als Plugin für Eclipse: https://www.eclipse.org/egit/
-* Einbindung in IntelliJ: https://www.jetbrains.com/help/idea/using-git-integration.html
+Rely on weaker cards for too long, however, and your letter may be tossed in the fire!
 
 
-### Einstellungen
+To get more familiar with the game rules, just visit the offical website here: http://alderac.com/wp-content/uploads/2017/11/Love-Letter-Premium_Rulebook.pdf
 
-    git config --global user.name "Vorname Nachname"
-    git config --global user.email "name@cip.ifi.lmu.de"
+### Start the game
+First, please clone or download the project to your local machine. Then, in order to start the game, just run first the Server (Server.Server class) and then run the Client Application (Chat.ClientApplication class).
+* Note that you have to run ClientApplication class more than once in order to connect more clients to the server.
 
-### Klonen des Repositorys
-Die Adresse eures Repositorys findet ihr oben rechts auf dieser Seite, wenn ihr auf den blauen `Clone` Knopf klickt. 
-Auf euren Computer bekommt ihr dieses dann, indem ihr im gewünschten Verzeichnis folgenden Befehl aufruft:
+Once you are connected you can start chatting with other clients in the server, or you can use the Bot commands to start a game and play with others.
+* (You can always call the Bot commands by writing @Bot Help).
 
-    
-    git clone git@gitlab2.cip.ifi.lmu.de:dbs_sep/dbs_sep2021/brave-barsche.git
+#### Requirements 
+In order to run the project without problems, you'll need to install the following first:
+    - Java 16
+    - JavaFX 16
 
-Dies setzt einen von euch erstellten SSH Schlüssel voraus. Informiert euch bitte, wie ihr dies mit eurem Betriebssystem am Besten macht. Alternativ ist es auch möglich mit https zu arbeiten. 
-
-## Keine Angst!
-Git und GitLab bieten eine Menge an Funktionen. Wir möchten euch ermutigen diese zu erkunden und zu experimentieren. Solltet ihr Hemmungen haben an diesem Repository zu werkeln, könnt ihr euch auch gerne eigene Repositorys hier im GitLab erstellen und dort euer Wissen erweitern.
-
-Solltet ihr im Laufe des Praktikums dazu entscheiden mit Branches zu arbeiten, würden wir euch bitten diese nicht mutwillig zu löschen. Um die schlimmsten Unfälle zu verhindern, ist in diesem Repository das Löschen des `master` Branches sowie `git push --force` auf diesem Branch nicht möglich. Falls ihr zusätzliche Branches geschützt haben möchtet, wendet euch bitte an euren Tutor.
