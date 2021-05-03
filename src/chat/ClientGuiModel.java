@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * The type chat.Client gui model.
+ * The type Chat.Client GUI Model.
  */
 public class ClientGuiModel {
     private final Set<String> allUserNames = new TreeSet<>();
@@ -14,7 +14,7 @@ public class ClientGuiModel {
     /**
      * Gets all user names.
      *
-     * @return the all user names
+     * @return all user names
      */
     /*Getter für Usernames*/
     public Set<String> getAllUserNames() {

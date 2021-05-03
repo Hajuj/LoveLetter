@@ -19,6 +19,8 @@ public class Game {
     /**
      * Sets up the game.
      */
+    //TODO 1: Score für Token and Winner!!!
+    //TODO 2: Game-Modus for 2, 3, 4 Players ->
     public void setUpTheGame() {
         PlayRound playRound = new PlayRound();
         Deck currentDeck = new Deck();

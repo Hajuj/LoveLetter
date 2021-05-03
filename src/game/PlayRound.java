@@ -17,11 +17,12 @@ public class PlayRound {
      *
      * @return the array list
      */
+    //TODO: Number of Players: get from BotClient
     public ArrayList<Player> selectNumberOfPlayers() {
         ArrayList<Player> listOfPlayers = new ArrayList();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please select the number of players:");
-        numberOfPlayers = scanner.nextInt();
+        //Scanner scanner = new Scanner(System.in);
+        //System.out.println("Please select the number of players:");
+        //numberOfPlayers = scanner.nextInt();
         for (int i = 0; i < numberOfPlayers; i++) {
             Player player = new Player();
             listOfPlayers.add(player);
@@ -60,6 +61,7 @@ public class PlayRound {
         currentPlayer.drawACard(currentPlayer, currentDeck);
         currentPlayer.checkTheCountessCondition(currentPlayer);
         currentPlayer.isHandmaidOnline = false;
+        //System.out.println( + currentPlayer.get(isHandmaidOnline) + "
         if (!currentPlayer.countessCondition) {
             System.out.println("Please select the card you'd like to play: ");
             for (int i = 0; i < currentPlayer.playerCardList.size(); i++) {

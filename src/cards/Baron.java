@@ -19,7 +19,7 @@ public class Baron extends Card {
     /**
      * The constant cardText.
      */
-    public static String cardText = "You and another player secretly compare hands. The player with the lower value is out of the round.";
+    public static String cardText = "You and that player secretly compare your hands. The player with the lower number is knocked out of the round. In case of a tie, nothing happens..";
     /**
      * The constant cardName.
      */

@@ -1,23 +1,31 @@
 package chat;
 
+import server.*;
+import server.Connection;
+import server.ConsoleHelper;
+import server.Message;
+import server.MessageType;
+
 import java.io.IOException;
 import java.net.Socket;
 
+
+
 /**
- * The type chat.Client.
+ * The type Chat.Client.
  */
-/*chat.Client Class für Socket Verbindungen der Threads*/
+/*Chat.Client Class für Socket Verbindungen der Threads*/
 public class Client {
     /**
-     * The chat.Connection.
+     * The Server.Connection.
      */
     protected Connection connection = new Connection(new Socket(getServerAddress(), getServerPort()));
     private volatile boolean clientConnected;
 
     /**
-     * Instantiates a new chat.Client.
+     * Instantiates a new Chat.Client.
      *
-     * @throws IOException the io exception
+     * @throws IOException the IO exception
      */
     public Client() throws IOException {
     }
@@ -38,21 +46,21 @@ public class Client {
     }
 
     /**
-     * Run.
+     * Run methode.
      */
-    /*Run Methode für die chat.Client Verbindung per Sockets*/
+    /*Run Methode für die Chat.Client Verbindung per Sockets*/
     public void run() {
         SocketThread socketThread = getSocketThread();
         // thread ist daemon
         socketThread.setDaemon(true);
-        socketThread.run();
+        socketThread.start();
 
         try {
             synchronized (this) {
                 wait();
             }
         } catch (InterruptedException e) {
-            ConsoleHelper.writeMessage("Fehler ");
+            ConsoleHelper.writeMessage("Fehler");
             return;
         }
 
@@ -76,7 +84,7 @@ public class Client {
      */
     /*Getter Methoden für IP, Port und Name - Vorerst aber fest definiert bei "127.0.0.1" und 500*/
     protected String getServerAddress() {
-        ConsoleHelper.writeMessage("chat.Server IP:");
+        ConsoleHelper.writeMessage("Server.Server IP:");
         return ConsoleHelper.readString();
     }
 
@@ -86,7 +94,7 @@ public class Client {
      * @return the server port
      */
     protected int getServerPort() {
-        ConsoleHelper.writeMessage("chat.Server Port:");
+        ConsoleHelper.writeMessage("Server.Server Port:");
         return ConsoleHelper.readInt();
     }
 
@@ -135,14 +143,13 @@ public class Client {
         }
 
         /**
-         * chat.Client handshake.
+         * Chat.Client Handshake.
          *
-         * @throws IOException            the io exception
+         * @throws IOException            the IO exception
          * @throws ClassNotFoundException the class not found exception
          */
         /*client Handshake um die Nachrichten zu synchronisieren*/
         protected void clientHandshake() throws IOException, ClassNotFoundException {
-            // TODO maybe make it smarter? eliminate busy waiting -> synchronize block rather than while.
             String name = null;
             while (true) {
                 Message message = connection.receive();
@@ -150,34 +157,25 @@ public class Client {
                 if (message.getType() == MessageType.NAME_REQUEST) { // ask the name
                     if (name == null || !name.equals(getUserName())) {
                         name = getUserName();
-                        connection.send(new Message(MessageType.USER_NAME, name));
                         this.notifyConnectionStatusChanged(false);
                     }
-                    /*TBD neue Funktion um direkte Nachrichten zu senden*/
-//                    name = getUserName();
-//                    connection.send(new chat.Message(chat.MessageType.USER_NAME, name));
-//                    this.notifyConnectionStatusChanged(false);
-
                 } else if (message.getType() == MessageType.NAME_ACCEPTED) { // server accepted the name
-                    notifyConnectionStatusChanged(true);
                     this.notifyConnectionStatusChanged(true);
                     return;
-
                 } else {
-                    throw new IOException("Unexpected chat.MessageType");
+                    throw new IOException("Unexpected MessageType");
                 }
             }
         }
 
         /**
-         * chat.Client main loop.
+         * Chat.Client main loop.
          *
-         * @throws IOException            the io exception
+         * @throws IOException            the IO exception
          * @throws ClassNotFoundException the class not found exception
          */
-        /*Verwaltung der Art von Informationen die über den chat.Server laufen*/
+        /*Verwaltung der Art von Informationen die über den Server.Server laufen*/
         protected void clientMainLoop() throws IOException, ClassNotFoundException {
-
             while (true) {
                 Message message = connection.receive();
                 if (message.getType() == MessageType.TEXT) {
@@ -187,7 +185,7 @@ public class Client {
                 } else if (MessageType.USER_REMOVED == message.getType()) {
                     informAboutDeletingNewUser(message.getData());
                 } else {
-                    throw new IOException("Unexpected chat.MessageType");
+                    throw new IOException("Unexpected Server.MessageType");
                 }
             }
         }

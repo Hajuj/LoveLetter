@@ -48,6 +48,7 @@ public class Card {
      * @param listOfPlayers   the list of players
      * @return the int
      */
+    //TODO: choose A Player, you can't choose yourselve
     public int chooseAPlayer(int numberOfPlayers, ArrayList<Player> listOfPlayers) {
         Scanner scanner = new Scanner(System.in);
         boolean loop = true;

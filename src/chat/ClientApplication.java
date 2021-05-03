@@ -9,10 +9,10 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 /**
- * The type chat.Client application.
+ * The type Chat.Client Application.
  */
 /*
-Bevor die chat.ClientApplication gestartet werden kann, muss der chat.Server sich verbinden (chat.Server Klasse)
+Bevor die Chat.ClientApplication gestartet werden kann, muss der Server.Server sich verbinden (Server.Server Klasse)
 */
 public class ClientApplication extends Application {
 
@@ -25,19 +25,25 @@ public class ClientApplication extends Application {
         launch(args);
     }
 
+    @Override
+    public void stop(){
+        System.out.println("Stage is closing");
+        System.exit(0);
+    }
 
     /*Design der Stage inklusive der Platzierung aller Elemente*/
     @Override
     public void start(Stage stage) throws Exception {
-
         Parent root = FXMLLoader.load(getClass().getResource("chat.fxml"));
         stage.setTitle("LoveLetter Chat Login");
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("chat.css").toString());
+        scene.getStylesheets().add(getClass().getResource("Chat.css").toString());
         //stage.setScene(new Scene(root, 600, 275));
         stage.setScene(scene);
         stage.show();
-
     }
+
+
+
 
 }

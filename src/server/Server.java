@@ -1,4 +1,4 @@
-package chat;
+package server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * The type chat.Server.
+ * The type Server.Server.
  */
 public class Server {
     private static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
@@ -23,15 +23,15 @@ public class Server {
         ConsoleHelper.writeMessage("Portnummer: " + port);
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            ConsoleHelper.writeMessage("chat.Server läuft!");
+            ConsoleHelper.writeMessage("Server läuft!");
 
             while (true) {
-                // warten auf chat.Client Socket
+                // warten auf Chat.Client Socket
                 Socket socket = serverSocket.accept();
                 new Handler(socket).start();
             }
         } catch (Exception e) {
-            ConsoleHelper.writeMessage("Es gab leider einen Fehler beim chat.Server.");
+            ConsoleHelper.writeMessage("Es gab leider einen Fehler beim Server.");
         }
     }
 
@@ -46,7 +46,7 @@ public class Server {
             try {
                 connection.send(message);
             } catch (IOException e) {
-                ConsoleHelper.writeMessage("Fehler beim Schicken zu chat.Client " + connection.getRemoteSocketAddress());
+                ConsoleHelper.writeMessage("Fehler beim Schicken zu Client " + connection.getRemoteSocketAddress());
             }
         }
     }
@@ -59,7 +59,6 @@ public class Server {
      */
     /*Senden der Nachricht an alle User außer sich selbst*/
     public static void sendBroadcastMessageExceptUser(Message message, Connection userconnection) {
-
         for (Connection connection : connectionMap.values()) {
             if (!connection.equals(userconnection)) {
                 try {
@@ -101,7 +100,7 @@ public class Server {
 
         @Override
         public void run() {
-            ConsoleHelper.writeMessage("chat.Client Socket " + socket.getRemoteSocketAddress() + " connected.");
+            ConsoleHelper.writeMessage("Chat.Client Socket " + socket.getRemoteSocketAddress() + " connected.");
 
             String userName = null;
 
@@ -125,7 +124,6 @@ public class Server {
                 connectionMap.remove(userName);
                 sendBroadcastMessage(new Message(MessageType.USER_REMOVED, userName));
             }
-
             ConsoleHelper.writeMessage("Socket " + socket.getRemoteSocketAddress() + " closed.");
         }
 
@@ -147,8 +145,13 @@ public class Server {
                     ConsoleHelper.writeMessage("User mit Nickname " + userName + " ist schon im Chat");
                     continue;
                 }
+
+                if (userName.contains("@") || userName.contains(" ")) {
+                    ConsoleHelper.writeMessage("Username darf keine @ oder Leerzeichen enthalten");
+                    continue;
+                }
                 connectionMap.put(userName, connection);
-                System.out.println("user " + userName + " ist da");
+                System.out.println("User " + "[" + userName + "]" + " ist da.");
                 connection.send(new Message(MessageType.NAME_ACCEPTED));
                 sendBroadcastMessageExceptUser(new Message(MessageType.TEXT, userName + " joined the room!"), connection);
                 sendDirectMessage(new Message(MessageType.TEXT, "Welcome " + userName + "!"), connection);
@@ -173,10 +176,21 @@ public class Server {
                 if (message.getType() == MessageType.TEXT) {
                     String data = message.getData();
 
-                    if (message.getData().equals("bye")) {
+                    if (data.equals("bye")) {
                         connection.close();
                         connectionMap.remove(userName);
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " left the room"));
+                    } else if (data.charAt(0) == '@') {
+                        try {
+                            String usernameDirect = data.substring(1, data.indexOf(" "));
+                            if (connectionMap.containsKey(usernameDirect) && !usernameDirect.equals(userName)) {
+                                String directData = data.substring(data.indexOf(" ") + 1);
+                                sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + data), connection);
+                                sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + directData), connectionMap.get(usernameDirect));
+                            }
+                        } catch (StringIndexOutOfBoundsException e) {
+                            sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
+                        }
                     } else {
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
                     }
