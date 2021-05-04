@@ -10,11 +10,11 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Chat.ClientGuiController">
+            fx:controller="chat.ClientGuiController">
     <left>
         <AnchorPane prefHeight="270.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <Label fx:id="errorLabel" layoutX="15.0" layoutY="239.0" prefHeight="18.0" prefWidth="165.0"/>
-            <Label fx:id="chatLabel" layoutX="18.0" layoutY="16.0" text="Chat:"/>
+            <Label fx:id="chatLabel" layoutX="18.0" layoutY="16.0" text="chat:"/>
         </AnchorPane>
     </left>
     <center>

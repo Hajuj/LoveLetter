@@ -1,4 +1,4 @@
-package Chat;
+package chat;
 
 import java.util.Collections;
 import java.util.Set;
