@@ -1,20 +1,17 @@
 
 package chat;
-import game.Game;
-import game.Player;
+import game.*;
+import server.*;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class BotClient extends Client {
     private Game currentGame;
-    private static ArrayList<String> currentPlayerList = new ArrayList<>();
+    private static ArrayList<String> waitingList = new ArrayList<>();
     private boolean gameOn = false;
     private final int numberOfPlayers = 2;
+    private PlayerList listOfPlayers = new PlayerList(this);
 
     /**
      * Instantiates a new chat.Client.
@@ -27,27 +24,30 @@ public class BotClient extends Client {
 
 
     //hier ANZAHL DER PLAYERS
-    protected boolean startTheGame(String newPlayer, BotClient botClient){
-        if (currentPlayerList.contains(newPlayer)){
-            botClient.sendTextMessage("@" + newPlayer + " you are already in the waitlist");
+    protected boolean startTheGame(String newPlayer) {
+        if (waitingList.contains(newPlayer)) {
+            this.sendTextMessage("@" + newPlayer + " you are already in the wait list");
         } else {
-            currentPlayerList.add(newPlayer);
-            if (currentPlayerList.size() < numberOfPlayers || gameOn) {
-                currentPlayerList.add(newPlayer);
-                botClient.sendTextMessage("@" + newPlayer + " you are in the waitlist");
+            waitingList.add(newPlayer);
+            if (waitingList.size() < numberOfPlayers || gameOn) {
+                this.sendTextMessage("@" + newPlayer + " you are in the wait list");
             } else {
-                ArrayList<Player> listOfPlayers = new ArrayList<>();
                 for (int i = 0; i < numberOfPlayers; i++) {
-                    Player player = new Player();
-                    player.playersID = i;
-                    player.setPlayerName(newPlayer);
-                    listOfPlayers.add(player);
+                    listOfPlayers.addPlayer(waitingList.get(i));
                 }
-                currentGame.setUpTheGame(listOfPlayers, botClient);
-                gameOn = true;
+                currentGame.setPlayers(listOfPlayers);
+                currentGame.start(this);
+                gameOn = true; // TODO remove all players from the waiting list.
             }
         }
-        return false;
+        return true;
+    }
+
+    public void sendToAllPlayers(String message) {
+        for (Player player : listOfPlayers.getPlayers()) {
+            this.sendTextMessage("@" + player.getName() + " " + message);
+
+        }
     }
 
     @Override
@@ -81,7 +81,7 @@ public class BotClient extends Client {
         }
 
 
-
+        // TODO
         @Override
         protected void processIncomingMessage(String message) {
             // alles in die console
@@ -97,9 +97,8 @@ public class BotClient extends Client {
             String format = null;
             switch (messageWithoutUserName) {
                 case "play":
-                    startTheGame(split[0], BotClient.this);
+                    startTheGame(split[0]);
                     break;
-
             }
 
         }

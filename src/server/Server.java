@@ -1,4 +1,4 @@
-package chat;
+package server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -183,18 +183,18 @@ public class Server {
                         connectionMap.remove(userName);
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " left the room"));
                     } else if (data.charAt(0) == '@'){
-                            try {
-                                String usernameDirect = data.substring(1, data.indexOf(" "));
-                                if (connectionMap.containsKey(usernameDirect) && !usernameDirect.equals(userName)) {
-                                    String directData = data.substring(data.indexOf(" ") + 1);
-                                    sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + data), connection);
-                                    sendDirectMessage(new Message(MessageType.TEXT, userName + " to you : " + directData), connectionMap.get(usernameDirect));
-                                }
-                            } catch (StringIndexOutOfBoundsException e){
-                                sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
+                        try {
+                            String usernameDirect = data.substring(1, data.indexOf(" "));
+                            if (connectionMap.containsKey(usernameDirect) && !usernameDirect.equals(userName)) {
+                                String directData = data.substring(data.indexOf(" ") + 1);
+                                sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + data), connection);
+                                sendDirectMessage(new Message(MessageType.TEXT, userName + " to you : " + directData), connectionMap.get(usernameDirect));
                             }
+                        } catch (StringIndexOutOfBoundsException e){
+                            sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
                         }
-                   else {sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
+                    }
+                    else {sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
                     }
                 }
             }
