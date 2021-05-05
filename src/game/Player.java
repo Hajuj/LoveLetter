@@ -9,26 +9,24 @@ import java.util.ArrayList;
  * The type Player.
  */
 public class Player {
+    public String getPlayerName () {
+        return playerName;
+    }
+
+    public void setPlayerName (String playerName) {
+        this.playerName = playerName;
+    }
+
+    private String playerName;
+
     /**
      * The Players id.
      */
     public int playersID = 0;
-//TODO: tokenScore & winnerScore
-    /**
-     *  The Players Token
-     */
-    public ArrayList<Integer> tokenScore = new ArrayList<Integer>();
-
-    /**
-     * The Player Winner'Score
-     */
-    public ArrayList<Integer> winnerScore = new ArrayList<Integer>();
-
     /**
      * The Player card list.
      */
     public ArrayList<Card> playerCardList = new ArrayList<>();
-
     /**
      * The Is eliminated.
      */

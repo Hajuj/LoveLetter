@@ -15,7 +15,7 @@ public class App {
 
         // Aufruf aus ClientApplication -- Klasse wird gelöscht
         Game game = new Game();
-        game.setUpTheGame();
+        //game.setUpTheGame();
     }
 
 

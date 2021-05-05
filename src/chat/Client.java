@@ -1,6 +1,5 @@
 package chat;
 
-import server.*;
 import server.Connection;
 import server.ConsoleHelper;
 import server.Message;
@@ -9,23 +8,21 @@ import server.MessageType;
 import java.io.IOException;
 import java.net.Socket;
 
-
-
 /**
- * The type Chat.Client.
+ * The type chat.Client.
  */
-/*Chat.Client Class für Socket Verbindungen der Threads*/
+/*chat.Client Class für Socket Verbindungen der Threads*/
 public class Client {
     /**
-     * The Server.Connection.
+     * The chat.Connection.
      */
     protected Connection connection = new Connection(new Socket(getServerAddress(), getServerPort()));
     private volatile boolean clientConnected;
 
     /**
-     * Instantiates a new Chat.Client.
+     * Instantiates a new chat.Client.
      *
-     * @throws IOException the IO exception
+     * @throws IOException the io exception
      */
     public Client() throws IOException {
     }
@@ -36,7 +33,7 @@ public class Client {
      * @param text the text
      */
     /*Nachricht senden an alle*/
-    protected void sendTextMessage(String text) {
+    public void sendTextMessage(String text) {
         try {
             connection.send(new Message(MessageType.TEXT, text));
         } catch (IOException e) {
@@ -46,21 +43,21 @@ public class Client {
     }
 
     /**
-     * Run methode.
+     * Run.
      */
-    /*Run Methode für die Chat.Client Verbindung per Sockets*/
+    /*Run Methode für die chat.Client Verbindung per Sockets*/
     public void run() {
         SocketThread socketThread = getSocketThread();
         // thread ist daemon
         socketThread.setDaemon(true);
-        socketThread.start();
+        socketThread.run();
 
         try {
             synchronized (this) {
                 wait();
             }
         } catch (InterruptedException e) {
-            ConsoleHelper.writeMessage("Fehler");
+            ConsoleHelper.writeMessage("Fehler ");
             return;
         }
 
@@ -84,7 +81,7 @@ public class Client {
      */
     /*Getter Methoden für IP, Port und Name - Vorerst aber fest definiert bei "127.0.0.1" und 500*/
     protected String getServerAddress() {
-        ConsoleHelper.writeMessage("Server.Server IP:");
+        ConsoleHelper.writeMessage("chat.Server IP:");
         return ConsoleHelper.readString();
     }
 
@@ -94,7 +91,7 @@ public class Client {
      * @return the server port
      */
     protected int getServerPort() {
-        ConsoleHelper.writeMessage("Server.Server Port:");
+        ConsoleHelper.writeMessage("chat.Server Port:");
         return ConsoleHelper.readInt();
     }
 
@@ -143,39 +140,46 @@ public class Client {
         }
 
         /**
-         * Chat.Client Handshake.
+         * chat.Client handshake.
          *
-         * @throws IOException            the IO exception
+         * @throws IOException            the io exception
          * @throws ClassNotFoundException the class not found exception
          */
         /*client Handshake um die Nachrichten zu synchronisieren*/
         protected void clientHandshake() throws IOException, ClassNotFoundException {
+            // TODO maybe make it smarter? eliminate busy waiting -> synchronize block rather than while.
             String name = null;
             while (true) {
                 Message message = connection.receive();
 
                 if (message.getType() == MessageType.NAME_REQUEST) { // ask the name
-                    if (name == null || !name.equals(getUserName())) {
-                        name = getUserName();
-                        this.notifyConnectionStatusChanged(false);
-                    }
+                    name = getUserName();
+                    connection.send(new Message(MessageType.USER_NAME, name));
+                    this.notifyConnectionStatusChanged(false);
+                    /*TBD neue Funktion um direkte Nachrichten zu senden*/
+//                    name = getUserName();
+//                    connection.send(new chat.Message(chat.MessageType.USER_NAME, name));
+//                    this.notifyConnectionStatusChanged(false);
+
                 } else if (message.getType() == MessageType.NAME_ACCEPTED) { // server accepted the name
                     this.notifyConnectionStatusChanged(true);
                     return;
+
                 } else {
-                    throw new IOException("Unexpected MessageType");
+                    throw new IOException("Unexpected chat.MessageType");
                 }
             }
         }
 
         /**
-         * Chat.Client main loop.
+         * chat.Client main loop.
          *
-         * @throws IOException            the IO exception
+         * @throws IOException            the io exception
          * @throws ClassNotFoundException the class not found exception
          */
-        /*Verwaltung der Art von Informationen die über den Server.Server laufen*/
+        /*Verwaltung der Art von Informationen die über den chat.Server laufen*/
         protected void clientMainLoop() throws IOException, ClassNotFoundException {
+
             while (true) {
                 Message message = connection.receive();
                 if (message.getType() == MessageType.TEXT) {
@@ -185,7 +189,7 @@ public class Client {
                 } else if (MessageType.USER_REMOVED == message.getType()) {
                     informAboutDeletingNewUser(message.getData());
                 } else {
-                    throw new IOException("Unexpected Server.MessageType");
+                    throw new IOException("Unexpected chat.MessageType");
                 }
             }
         }

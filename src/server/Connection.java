@@ -1,5 +1,7 @@
 package server;
 
+import server.Message;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -8,7 +10,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 
 /**
- * The type Server.Connection.
+ * The type chat.Connection.
  */
 public class Connection implements Closeable {
     private final Socket socket;
@@ -16,10 +18,10 @@ public class Connection implements Closeable {
     private final ObjectOutputStream out;
 
     /**
-     * Instantiates a new Server.Connection.
+     * Instantiates a new chat.Connection.
      *
      * @param socket the socket
-     * @throws IOException the IO exception
+     * @throws IOException the io exception
      */
     /*Verbindung der Sockets*/
     public Connection(Socket socket) throws IOException {
@@ -32,7 +34,7 @@ public class Connection implements Closeable {
      * Send.
      *
      * @param message the message
-     * @throws IOException the IO exception
+     * @throws IOException the io exception
      */
     /*Senden der Nachricht*/
     public void send(Message message) throws IOException {
@@ -45,7 +47,7 @@ public class Connection implements Closeable {
      * Receive message.
      *
      * @return the message
-     * @throws IOException            the IO exception
+     * @throws IOException            the io exception
      * @throws ClassNotFoundException the class not found exception
      */
     /*Empfangen der Nachricht*/
@@ -54,6 +56,7 @@ public class Connection implements Closeable {
             return (Message) in.readObject();
         }
     }
+
 
     /*Trennen der Verbindung*/
     @Override

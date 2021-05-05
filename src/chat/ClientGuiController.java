@@ -198,7 +198,7 @@ public class ClientGuiController extends Client {
 
     /*Aufruf der Chat.Client Methode zum Versenden der Nachricht*/
     @Override
-    protected void sendTextMessage(String text) {
+    public void sendTextMessage(String text) {
         super.sendTextMessage(text);
     }
 
