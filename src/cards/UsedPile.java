@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class UsedPile {
 
-    private ArrayList<Card> used;
+    private final ArrayList<Card> used;
 
     public UsedPile() {
         this.used = new ArrayList<>();
@@ -41,11 +41,11 @@ public class UsedPile {
      * Prints the used pile of the current player.
      */
     public String printUsedPiles() {
-        String cards = "";
+        StringBuilder cards = new StringBuilder();
         for (Card c : this.used) {
-            cards += c.toString();
+            cards.append(c.toString());
         }
-        return cards;
+        return cards.toString();
     }
 
 

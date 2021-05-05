@@ -16,7 +16,7 @@ import java.io.IOException;
  * The type chat.Client gui controller.
  */
 public class ClientGuiController extends Client {
-    private ClientGuiModel model = new ClientGuiModel();
+    private final ClientGuiModel model = new ClientGuiModel();
 
     private String userName;
 
@@ -52,8 +52,6 @@ public class ClientGuiController extends Client {
 
     /**
      * Instantiates a new chat.Client gui controller.
-     *
-     * @throws IOException the io exception
      */
     /*Konstruktor für GUI Controller*/
     public void initialize() {
@@ -150,7 +148,7 @@ public class ClientGuiController extends Client {
         socketThread.start();
     }
 
-    /*Getter Methode für Socketthread*/
+    /*Getter Methode für SocketThread*/
     @Override
     protected SocketThread getSocketThread() {
         return new GuiSocketThread();

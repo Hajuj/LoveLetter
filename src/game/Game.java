@@ -22,7 +22,7 @@ public class Game extends GameActions {
     /**
      * The deck of cards.
      */
-    private Deck deck;
+    private final Deck deck;
     /**
      * The input stream.
      */
@@ -34,7 +34,7 @@ public class Game extends GameActions {
      * Public constructor for a Game object.
      */
     public Game() {
-        this.players = new PlayerList(botClient);
+        this.players = new PlayerList(null);
         this.deck = new Deck();
         this.commandList = null;
     }
@@ -82,14 +82,14 @@ public class Game extends GameActions {
                 if (currentPlayer.hand().hasCards()) {
                     players.printUsedPiles();
                     botClient.sendToAllPlayers(currentPlayer.getName() + "'s turn:");
-                    // wenn ein spieler geschutzt war aber jetzt er ist dran -> nicht mehr geschutzt
+                    // wenn ein spieler geschützt war aber jetzt er ist dran -> nicht mehr geschützt
                     if (currentPlayer.isProtected()) {
                         currentPlayer.switchProtection();
                     }
                     // spieler zieht eine karte
                     currentPlayer.hand().add(deck.dealCard());
 
-                    // royaltePos is card 5 oder 6
+                    // royaltyPos is card 5 oder 6
                     int royaltyPos = currentPlayer.hand().royaltyPos();
                     // wenn ein spieler karte 5 oder 6 hat dann countess werfen
                     if (royaltyPos != -1) {

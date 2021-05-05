@@ -9,11 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class BotClient extends Client {
-    private final int numberOfPlayers = 2;
-    private Game currentGame;
-    private ArrayList<String> waitingList = new ArrayList<>();
+    private final Game currentGame;
+    private final ArrayList<String> waitingList = new ArrayList<>();
     private boolean gameOn = false;
-    private PlayerList listOfPlayers = new PlayerList(this);
+    private final PlayerList listOfPlayers = new PlayerList(this);
 
     /**
      * Instantiates a new chat.Client.
@@ -30,11 +29,12 @@ public class BotClient extends Client {
     }
 
     //hier ANZAHL DER PLAYERS
-    protected boolean startTheGame(String newPlayer) {
+    protected void startTheGame(String newPlayer) {
         if (waitingList.contains(newPlayer)) {
             this.sendTextMessage("@" + newPlayer + " you are already in the wait list");
         } else {
             waitingList.add(newPlayer);
+            int numberOfPlayers = 2;
             if (waitingList.size() < numberOfPlayers || gameOn) {
                 this.sendTextMessage("@" + newPlayer + " you are in the wait list");
             } else {
@@ -46,7 +46,6 @@ public class BotClient extends Client {
                 gameOn = true; // TODO remove all players from the waiting list.
             }
         }
-        return true;
     }
 
     public void sendToAllPlayers(String message) {
@@ -114,10 +113,8 @@ public class BotClient extends Client {
 
                 String messageWithoutUserName = split[1];
 
-                switch (messageWithoutUserName) {
-                    case "play":
+                if (messageWithoutUserName.equals("play")) {
                         startTheGame(split[0]);
-                        break;
                 }
 
             }

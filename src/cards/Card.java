@@ -29,11 +29,11 @@ public enum Card {
     /**
      * The name of the card.
      */
-    private String name;
+    private final String name;
     /**
      * The value of the card.
      */
-    private int value;
+    private final int value;
 
     /**
      * Constructor for a card object.

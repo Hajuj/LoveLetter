@@ -12,15 +12,15 @@ public class Player {
      * The name of the player.z
      */
     // TODO add player ID
-    private String name;
+    private final String name;
     /**
      * Hand of cards the player possesses.
      */
-    private Hand hand;
+    private final Hand hand;
     /**
      * UsedPile of cards the player has used.
      */
-    private UsedPile used;
+    private final UsedPile used;
     /**
      * True if the player is protected by a handmaiden, false if not.
      */

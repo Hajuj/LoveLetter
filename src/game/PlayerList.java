@@ -13,9 +13,9 @@ public class PlayerList {
     /**
      * The list of players.
      */
-    private LinkedList<Player> players;
+    private final LinkedList<Player> players;
 
-    private BotClient botClient;
+    private final BotClient botClient;
 
     /**
      * Public constructor for a PlayerList object.

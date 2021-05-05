@@ -12,7 +12,7 @@ public class Deck {
     /**
      * Stack of Card objects.
      */
-    private Stack<Card> deck;
+    private final Stack<Card> deck;
 
     /**
      * Public constructor for a Deck object.
