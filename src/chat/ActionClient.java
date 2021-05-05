@@ -60,9 +60,8 @@ public class ActionClient extends Client {
                 String commandDelimiter = "to you : ";
                 String[] split = message.split(commandDelimiter);
                 if (split.length != 2) return;
-                String newCommand = split[1];
-                AtomicInteger seed = new AtomicInteger(Integer.parseInt(newCommand));
-                currentGame.setCommandList(seed);
+                AtomicInteger newCommand = new AtomicInteger(Integer.parseInt(split[1]));
+                currentGame.setCommandList(newCommand);
 
 
             }

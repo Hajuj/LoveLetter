@@ -85,25 +85,6 @@ public class BotClient extends Client {
         @Override
         protected void processIncomingMessage(String message) {
 
-            /*  Add If Loop: use second escape Character - e.g. "Action" in  << @bot Action 1 >>
-                to see whether it is a Command from the Players. Check first to see whether a
-                game is already being played. If so append the "1" to commandList.
-                Then replace scanner in with commandList (+busy waiting while commandList is empty)
-            */
-            if (message.contains("Action")) {
-
-                ConsoleHelper.writeMessage(message);
-
-                // split name from message
-                String commandDelimiter = "to you : Action ";
-                String[] split = message.split(commandDelimiter);
-                if (split.length != 2) return;
-                String newCommand = split[1];
-                AtomicInteger seed = new AtomicInteger(Integer.parseInt(newCommand));
-                currentGame.setCommandList(seed);
-            } else {
-
-
                 // alles in die console
                 ConsoleHelper.writeMessage(message);
 
@@ -118,7 +99,7 @@ public class BotClient extends Client {
                     startTheGame(split[0]);
                 }
 
-            }
+
         }
 
     }

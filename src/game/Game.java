@@ -5,7 +5,6 @@ import cards.Deck;
 import chat.BotClient;
 
 import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -13,10 +12,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Game extends GameActions {
 
-    public final CountDownLatch latch = new CountDownLatch(1);
 
-
-    public AtomicInteger commandList;
+    public static AtomicInteger commandList = new AtomicInteger(0);
 
 
     /**
@@ -34,9 +31,6 @@ public class Game extends GameActions {
 
     public BotClient botClient;
 
-    public BotClient getBotClient() {
-        return botClient;
-    }
 
     /**
      * Public constructor for a Game object.
@@ -44,19 +38,19 @@ public class Game extends GameActions {
     public Game() {
         this.players = new PlayerList(null);
         this.deck = new Deck();
-        this.commandList = new AtomicInteger(0);
+
     }
 
-    public synchronized void setCommandList(AtomicInteger commandList) {
-        this.commandList = commandList;
-        this.commandList.notify();
+    public void setCommandList(AtomicInteger newCommand) {
+        synchronized (commandList) {
+            this.commandList = newCommand;
+            commandList.notify();
+        }
+
     }
 
 
 
-    public synchronized AtomicInteger getCommandList() {
-        return commandList;
-    }
 
 
     public void setPlayers(PlayerList players) {
@@ -189,20 +183,21 @@ public class Game extends GameActions {
      * @param user the current player
      * @return the chosen card
      */
-    private Card getCard(Player user) {
+    public Card getCard(Player user) {
         user.hand().print();
         System.out.println();
         // TODO change the 0 or 1 to 1 and 2
         System.out.print("Which card would you like to play (1 for first, 2 for second): ");
-        synchronized (commandList){
-            try{
-                commandList.wait();
+        synchronized (commandList) {
+
+        try{
+            commandList.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
-        int s = getCommandList().get();
+        int s = commandList.get();
         if (!(s == 1) && !(s ==2)) {
             System.out.println("Please enter a valid card position");
             System.out.print("Which card would you like to play (1 for first, 2 for second): ");
