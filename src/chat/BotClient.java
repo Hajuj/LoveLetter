@@ -15,7 +15,7 @@ public class BotClient extends Client {
     private final int numberOfPlayers = 2;
     private PlayerList listOfPlayers = new PlayerList(this);
     private Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
-    private Map<Player, String> currentOpponent =  new ConcurrentHashMap<>();
+    private String currentOpponent ;
 
     /**
      * Instantiates a new chat.Client.
@@ -42,6 +42,7 @@ public class BotClient extends Client {
                 for (Player p : listOfPlayers.getPlayers()){
                     currentCards.put(p, 10);
                 }
+                currentOpponent = ("");
                // currentOpponent = "";
                 currentGame.setPlayers(listOfPlayers);
                 currentGame.setBotClient(this);
@@ -82,8 +83,12 @@ public class BotClient extends Client {
         return currentCards;
     }
 
-    public Map<Player, String> getCurrentOpponent() {
+    public String getCurrentOpponent() {
         return currentOpponent;
+    }
+
+    public void setCurrentOpponent(String currentOpponent) {
+        this.currentOpponent = currentOpponent;
     }
 
     public static void main(String[] args) throws IOException {
@@ -132,8 +137,9 @@ public class BotClient extends Client {
                 }
                 default:
                     if (listOfPlayers.checkForUser(split[0]) /*&& listOfPlayers.checkForUser(messageWithoutUserName)*/) {
-                        currentOpponent.replace(listOfPlayers.getPlayer(split[0]), (messageWithoutUserName));
+                        setCurrentOpponent(messageWithoutUserName) ;
                             synchronized (currentOpponent) {
+                                System.out.println("Bis hier her");
                                 currentOpponent.notify();
                             }
                         }

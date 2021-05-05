@@ -231,7 +231,7 @@ public class Game extends GameActions implements Runnable {
                     e.printStackTrace();
                 }
             }
-            opponent = playerList.getPlayer(botClient.getCurrentOpponent().get(user));
+            opponent = playerList.getPlayer(botClient.getCurrentOpponent());
             if (opponent == null) {
                 botClient.sendTextMessage("@" + user.getName() + " This player is not in the game.");
 
