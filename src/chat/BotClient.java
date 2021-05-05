@@ -14,8 +14,8 @@ public class BotClient extends Client {
     private boolean gameOn = false;
     private final int numberOfPlayers = 2;
     private PlayerList listOfPlayers = new PlayerList(this);
-    private Map<Player, Integer> currentcards = new ConcurrentHashMap<>();
-    private String currentOpponent;
+    private Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
+    private Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
 
     /**
      * Instantiates a new chat.Client.
@@ -40,9 +40,12 @@ public class BotClient extends Client {
                     listOfPlayers.addPlayer(waitingList.get(i));
                 }
                 for (Player p : listOfPlayers.getPlayers()){
-                    currentcards.put(p, 10);
+                    currentCards.put(p, 10);
                 }
-                currentOpponent = "";
+                for (Player p : listOfPlayers.getPlayers()){
+                    currentOpponent.put(p, p.getName());
+                }
+                // currentOpponent = "";
                 currentGame.setPlayers(listOfPlayers);
                 currentGame.setBotClient(this);
                 gameOn = true; // TODO remove all players from the waiting list.
@@ -75,15 +78,19 @@ public class BotClient extends Client {
     @Override
     protected String getUserName() {
         // because we love you Thomas <3
-        return "thomas";
+        return "BREZEL";
     }
 
-    public Map<Player, Integer> getCurrentcards() {
-        return currentcards;
+    public Map<Player, Integer> getCurrentCards() {
+        return currentCards;
     }
 
-    public String getCurrentOpponent() {
+    public Map<Player, String> getCurrentOpponent() {
         return currentOpponent;
+    }
+
+    public void setCurrentOpponent(Map<Player, String> currentOpponent) {
+        this.currentOpponent = currentOpponent;
     }
 
     public static void main(String[] args) throws IOException {
@@ -96,7 +103,7 @@ public class BotClient extends Client {
     public class BotSocketThread extends SocketThread {
         @Override
         protected void clientMainLoop() throws IOException, ClassNotFoundException {
-            String hello = "Hi everyone! To start the game send @bot play";
+            String hello = "Hi everyone! To start the game send @BREZEL play";
             BotClient.this.sendTextMessage(hello);
             super.clientMainLoop();
         }
@@ -110,7 +117,7 @@ public class BotClient extends Client {
             ConsoleHelper.writeMessage(message);
 
             // split name from message
-            String userNameDelimiter = "to you : ";
+            String userNameDelimiter = " to you : ";
             String[] split = message.split(userNameDelimiter);
             if (split.length != 2) return;
 
@@ -121,25 +128,26 @@ public class BotClient extends Client {
                 case "play":
                     startTheGame(split[0]);
                     break;
-                case "1", "2" : {
+                case "1", "2", "3", "4", "5", "6", "7", "8" : {
                     if (listOfPlayers.checkForUser(split[0])) {
-                            currentcards.replace(listOfPlayers.getPlayer(split[0]), Integer.parseInt(messageWithoutUserName));
-                            synchronized (currentcards) {
-                                currentcards.notify();
-                            }
+                        currentCards.replace(listOfPlayers.getPlayer(split[0]), Integer.parseInt(messageWithoutUserName));
+                        synchronized (currentCards) {
+                            currentCards.notify();
+                        }
                     }
                     break;
                 }
                 default:
-                    if (listOfPlayers.checkForUser(split[0]) && listOfPlayers.checkForUser(messageWithoutUserName)) {
-                        currentOpponent = messageWithoutUserName;
-                            synchronized (currentOpponent) {
-                                currentOpponent.notify();
-                            }
+                    if (listOfPlayers.checkForUser(split[0]) /*&& listOfPlayers.checkForUser(messageWithoutUserName)*/) {
+                        currentOpponent.replace(listOfPlayers.getPlayer(split[0]), messageWithoutUserName);
+                        synchronized (currentOpponent) {
+                            System.out.println("Bis hier her");
+                            currentOpponent.notify();
                         }
                     }
             }
-
         }
+
+    }
 
 }

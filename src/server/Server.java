@@ -17,10 +17,10 @@ public class Server {
      *
      * @param args the input arguments
      */
-    /*Main Methode mit vorerst festen Werten (Hostname, Portnummer)*/
+    /*Main Methode mit vorerst festen Werten (Hostname, Port Nummer)*/
     public static void main(String[] args) {
         int port = 500;
-        ConsoleHelper.writeMessage("Portnummer: " + port);
+        ConsoleHelper.writeMessage("Port Nummer: " + port);
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleHelper.writeMessage("Server läuft!");
@@ -173,6 +173,8 @@ public class Server {
         /*Busy Waiting Loop für das Schließen der Verbindung*/
         private void serverMainLoop(Connection connection, String userName) throws IOException, ClassNotFoundException {
             while (true) {
+
+                // TODO Semaphore implementieren um sicher zugehen, dass während dem Versenden der Nachricht, deren Inhalt nicht überschrieben wird
                 Message message = connection.receive();
 
                 if (message.getType() == MessageType.TEXT && !message.getData().isBlank()) {

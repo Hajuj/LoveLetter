@@ -12,7 +12,7 @@ public class Deck {
     /**
      * Stack of Card objects.
      */
-    private Stack<Card> deck;
+    private final Stack<Card> deck;
 
     /**
      * Public constructor for a Deck object.
@@ -23,14 +23,14 @@ public class Deck {
 
     /**
      * Builds a deck with:
-     *  5 Guards
-     *  2 Priests
-     *  2 Barons
-     *  2 Handmaidens
-     *  2 Princes
-     *  1 King
-     *  1 Countess
-     *  1 Princess
+     * 5 Guards
+     * 2 Priests
+     * 2 Barons
+     * 2 Handmaidens
+     * 2 Princes
+     * 1 King
+     * 1 Countess
+     * 1 Princess
      */
     public void buildDeck() {
         for (int i = 0; i < 5; i++) {

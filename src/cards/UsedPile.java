@@ -1,12 +1,11 @@
 package cards;
 
 
-
 import java.util.ArrayList;
 
 public class UsedPile {
 
-    private ArrayList<Card> used;
+    private final ArrayList<Card> used;
 
     public UsedPile() {
         this.used = new ArrayList<>();
@@ -15,8 +14,7 @@ public class UsedPile {
     /**
      * Adds a card to the player's used pile.
      *
-     * @param used
-     *          the card to add to the used pile
+     * @param used the card to add to the used pile
      */
     public void add(Card used) {
         this.used.add(used);
@@ -43,11 +41,11 @@ public class UsedPile {
      * Prints the used pile of the current player.
      */
     public String printUsedPiles() {
-        String cards = "";
+        StringBuilder cards = new StringBuilder();
         for (Card c : this.used) {
-            cards += c.toString();
+            cards.append(c.toString());
         }
-        return cards;
+        return cards.toString();
     }
 
 

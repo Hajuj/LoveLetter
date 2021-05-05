@@ -1,6 +1,7 @@
 package game;
 
-import cards.*;
+import cards.Hand;
+import cards.UsedPile;
 
 /**
  * Class representing a Player of Love Letter.
@@ -11,15 +12,15 @@ public class Player {
      * The name of the player.z
      */
     // TODO add player ID
-    private String name;
+    private final String name;
     /**
      * Hand of cards the player possesses.
      */
-    private Hand hand;
+    private final Hand hand;
     /**
      * UsedPile of cards the player has used.
      */
-    private UsedPile used;
+    private final UsedPile used;
     /**
      * True if the player is protected by a handmaiden, false if not.
      */
@@ -33,8 +34,7 @@ public class Player {
     /**
      * Public constructor for Player object.
      *
-     * @param name
-     *          the player name
+     * @param name the player name
      */
     public Player(String name) {
         this.name = name;

@@ -150,7 +150,7 @@ public class ClientGuiController extends Client {
         socketThread.start();
     }
 
-    /*Getter Methode für Socketthread*/
+    /*Getter Methode für SocketThread*/
     @Override
     protected SocketThread getSocketThread() {
         return new GuiSocketThread();
