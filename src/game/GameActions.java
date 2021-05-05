@@ -17,32 +17,59 @@ abstract class GameActions {
      * If the user is correct, the opponent loses the round and must lay down their card.
      * If the user is incorrect, the opponent is not affected.
      *
-     * @param in       the input stream
      * @param opponent the targeted player
      */
 
     // TODO beschreibung der Funktionen von jeder Karte
 
-    void useGuard(Scanner in, Player opponent) {
+    void useGuard(BotClient botClient, Player user, Player opponent) {
         ArrayList<String> cardNames = new ArrayList<>(Arrays.asList(Card.CARD_NAMES));
+        botClient.sendTextMessage("@" + user.getName() + " Which card would you like to guess (other than Guard): ");
+        int index=0;
+        for(String s : cardNames){
+            botClient.sendTextMessage("@" + user.getName() + " " + String.valueOf(index++)+": "+s);
+        }
+        // TODO nicht den Guard ausgeben
 
-        System.out.print("Which card would you like to guess (other than Guard): ");
-        // TODO alle die Namen der Karten ausser Guard ausgeben. mit Zahlen
-        String cardName = in.nextLine();
+
+        synchronized (botClient.getCurrentcards()){
+            try{
+                botClient.getCurrentcards().wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int card = botClient.getCurrentcards().get(user);
+
+        String cardName = cardNames.get(card);
+
 
         // TODO change from cardName to cardNumber
         while (!cardNames.contains(cardName.toLowerCase()) || cardName.equalsIgnoreCase("guard")) {
-            System.out.println("Invalid card name");
-            System.out.print("Which card would you like to guess (other than Guard): ");
-            cardName = in.nextLine();
+            botClient.sendTextMessage("@" + user.getName() + " Invalid card name \n Which card would you like to guess (other than Guard): ");
+
+            synchronized (botClient.getCurrentcards()){
+                try{
+                    botClient.getCurrentcards().wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            int newCard = botClient.getCurrentcards().get(user);
+
+            String newCardName = cardNames.get(card);
         }
 
         Card opponentCard = opponent.hand().peek(0);
         if (opponentCard.getName().equalsIgnoreCase(cardName)) {
-            System.out.println("You have guessed correctly!");
+            botClient.sendTextMessage("@" + user.getName() + " You have guessed correctly!");
+
             opponent.lose();
         } else {
-            System.out.println("You have guessed incorrectly");
+            botClient.sendTextMessage("@" + user.getName() + " You have guessed incorrectly.");
+
         }
     }
 
@@ -51,9 +78,10 @@ abstract class GameActions {
      *
      * @param opponent the targeted player
      */
-    void usePriest(Player opponent) {
+    void usePriest(BotClient botClient, Player user, Player opponent) {
         Card opponentCard = opponent.hand().peek(0);
-        System.out.println(opponent.getName() + " shows you a " + opponentCard);
+        botClient.sendTextMessage("@" + user.getName() + " " + opponent.getName() + " shows you a " + opponentCard);
+
     }
 
     /**
@@ -65,20 +93,26 @@ abstract class GameActions {
      * @param user     the initiator of the comparison
      * @param opponent the targeted player
      */
-    void useBaron(Player user, Player opponent) {
+    void useBaron(BotClient botClient, Player user, Player opponent) {
         Card userCard = user.hand().peek(0);
         Card opponentCard = opponent.hand().peek(0);
 
         int cardComparison = Integer.compare(userCard.value(), opponentCard.value());
         if (cardComparison > 0) {
-            System.out.println("You have won the comparison!");
+            botClient.sendTextMessage("@" + user.getName() + " You have won the comparison!");
+
             opponent.lose();
-            System.out.println(opponent + " is eliminated!");
+            botClient.sendTextMessage( opponent + " is eliminated!");
+
+
+
+
         } else if (cardComparison < 0) {
-            System.out.println("You have lost the comparison");
+            botClient.sendTextMessage("@" + user.getName() + " You have lost the comparison.");
+
             user.lose();
         } else {
-            System.out.println("You have the same card!");
+            botClient.sendTextMessage("@" + user.getName() + " You have the same card!");
 
             // it is not in the rules
 //            if (opponent.used().value() > user.used().value()) {
@@ -96,8 +130,9 @@ abstract class GameActions {
      *
      * @param user the current player
      */
-    void useHandmaiden(Player user) {
-        System.out.println("You are now protected until your next turn");
+    void useHandmaiden(BotClient botClient, Player user) {
+        botClient.sendTextMessage("@" + user.getName() + " You are now protected until your next turn.");
+
         user.switchProtection();
     }
 
@@ -162,13 +197,17 @@ abstract class GameActions {
                 }
                 opponent = playerList.getPlayer(botClient.getCurrentOpponent());
                 if (opponent == null) {
-                    System.out.println("This player is not in the game");
+                    botClient.sendTextMessage("@" + user.getName() + " This player is not in the game.");
+
                 } else if (opponent.isProtected()) {
-                    System.out.println("This player is protected by a handmaiden");
+                    botClient.sendTextMessage("@" + user.getName() + " This player is protected by a handmaiden.");
+
                 } else if (opponent.getName().equals(user.getName()) && !isPrince) {
-                    System.out.println("You cannot target yourself");
+                    botClient.sendTextMessage("@" + user.getName() + " You cannot target yourself.");
+
                 } else if (!opponent.hand().hasCards()) {
-                    System.out.println("This player is eliminated");
+                    botClient.sendTextMessage("@" + user.getName() + " This player is eliminated.");
+
                 } else {
                     validTarget = true;
                 }

@@ -121,7 +121,7 @@ public class BotClient extends Client {
                 case "play":
                     startTheGame(split[0]);
                     break;
-                case "1", "2" : {
+                case "1", "2", "3", "4", "5", "6", "7", "8" : {
                     if (listOfPlayers.checkForUser(split[0])) {
                             currentcards.replace(listOfPlayers.getPlayer(split[0]), Integer.parseInt(messageWithoutUserName));
                             synchronized (currentcards) {

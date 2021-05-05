@@ -144,11 +144,11 @@ public class Game extends GameActions implements Runnable {
         if (value < 4 || value == 5 || value == 6) {
             Player opponent = value == 5 ? getOpponent(botClient, players, user, true):getOpponent(botClient, players, user, false);
             if (value == 1) {
-                useGuard(in, opponent);
+                useGuard(botClient, user, opponent);
             } else if (value == 2) {
-                usePriest(opponent);
+                usePriest(botClient, user, opponent);
             } else if (value == 3) {
-                useBaron(user, opponent);
+                useBaron(botClient, user, opponent);
             } else if (value == 5) {
                 usePrince(opponent, deck);
             } else if (value == 6) {
@@ -156,7 +156,7 @@ public class Game extends GameActions implements Runnable {
             }
         } else {
             if (value == 4) {
-                useHandmaiden(user);
+                useHandmaiden(botClient, user);
             } else if (value == 8) {
                 usePrincess(user);
             }
@@ -191,6 +191,10 @@ public class Game extends GameActions implements Runnable {
                 e.printStackTrace();
             }
         }
+
+
+
+
 //        botClient.getCurrentcards().wait();
 
                 int idx = botClient.getCurrentcards().get(user);
