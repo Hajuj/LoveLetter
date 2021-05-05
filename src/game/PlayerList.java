@@ -29,6 +29,15 @@ public class PlayerList{
         return players;
     }
 
+    public boolean checkForUser(String name) {
+        for (Player p : this.getPlayers()) {
+            if (p.getName().equals(name)) {
+                return true;
+            }
+        }
+            return false;
+    }
+
     /**
      * Adds a new Player object with the given name to the PlayerList.
      *

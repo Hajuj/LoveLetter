@@ -1,8 +1,11 @@
 package game;
 
 import cards.*;
+import chat.BotClient;
 
 import java.util.*;
+
+// TODO eingaben mit Guard
 
 /**
  * The possible player actions to be taken during the game.
@@ -137,23 +140,27 @@ abstract class GameActions {
 
         /**
          * Useful method for obtaining a chosen target from the player list.
-         * @param in
-         *          the input stream
          * @param playerList
          *          the list of players
          * @param user
          *          the player choosing an opponent
          * @return the chosen target player
          */
-        Player getOpponent (Scanner in, PlayerList playerList, Player user, boolean isPrince){
+        Player getOpponent (BotClient botClient, PlayerList playerList, Player user, boolean isPrince){
             Player opponent = null;
             boolean validTarget = false;
             while (!validTarget) {
                 // TODO printUsedPiles all users, then choose a user depending on his number not name.
                 // TODO fix the not ending while loop,  when playing with only two players
-                System.out.print("Who would you like to target: ");
-                String opponentName = in.nextLine();
-                opponent = playerList.getPlayer(opponentName);
+                botClient.sendTextMessage("@" + user.getName() + " Who would you like to target: ");
+                synchronized (botClient.getCurrentOpponent()){
+                    try{
+                        botClient.getCurrentOpponent().wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                opponent = playerList.getPlayer(botClient.getCurrentOpponent());
                 if (opponent == null) {
                     System.out.println("This player is not in the game");
                 } else if (opponent.isProtected()) {

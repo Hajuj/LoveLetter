@@ -151,7 +151,7 @@ public class Client {
          */
         /*client Handshake um die Nachrichten zu synchronisieren*/
         protected void clientHandshake() throws IOException, ClassNotFoundException {
-            // TODO maybe make it smarter? eliminate busy waiting -> synchronize block rather than while.
+            // TODO fix the while loop issue when giving the same name (check master branch)
             String name = null;
             while (true) {
                 Message message = connection.receive();
@@ -160,10 +160,6 @@ public class Client {
                     name = getUserName();
                     connection.send(new Message(MessageType.USER_NAME, name));
                     this.notifyConnectionStatusChanged(false);
-                    /*TBD neue Funktion um direkte Nachrichten zu senden*/
-//                    name = getUserName();
-//                    connection.send(new chat.Message(chat.MessageType.USER_NAME, name));
-//                    this.notifyConnectionStatusChanged(false);
 
                 } else if (message.getType() == MessageType.NAME_ACCEPTED) { // server accepted the name
                     this.notifyConnectionStatusChanged(true);

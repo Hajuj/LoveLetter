@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  * The main game class. Contains methods for running the game.
  */
-public class Game extends GameActions {
+public class Game extends GameActions implements Runnable {
 
     /**
      * The list of players in the game.
@@ -37,6 +37,10 @@ public class Game extends GameActions {
         this.players = players;
     }
 
+    public void setBotClient(BotClient botClient) {
+        this.botClient = botClient;
+    }
+
     /**
      * Sets up the players that make up the player list.
      */
@@ -57,8 +61,8 @@ public class Game extends GameActions {
     /**
      * The main game loop.
      */
-    public void start(BotClient botClient) {
-        this.botClient = botClient;
+    public void start() throws InterruptedException {
+//        this.botClient = botClient;
         botClient.sendToAllPlayers("The game has started!");
         // ganz neues Spiel starten.
         while (players.getGameWinner() == null) {
@@ -138,7 +142,7 @@ public class Game extends GameActions {
         user.used().add(card);
         // TODO make it as switch case
         if (value < 4 || value == 5 || value == 6) {
-            Player opponent = value == 5 ? getOpponent(in, players, user, true):getOpponent(in, players, user, false);
+            Player opponent = value == 5 ? getOpponent(botClient, players, user, true):getOpponent(botClient, players, user, false);
             if (value == 1) {
                 useGuard(in, opponent);
             } else if (value == 2) {
@@ -167,20 +171,42 @@ public class Game extends GameActions {
      *
      * @return the chosen card
      */
-    private Card getCard(Player user) {
-        user.hand().print();
-        System.out.println();
+    private Card getCard(Player user) throws InterruptedException {
+        botClient.sendTextMessage("@" + user.getName() + " " + user.hand().print());
+//        System.out.println();
         // TODO change the 0 or 1 to 1 and 2
-        System.out.print("Which card would you like to play (1 for first, 2 for second): ");
-        String cardPosition = in.nextLine();
-        while (!cardPosition.equals("1") && !cardPosition.equals("2")) {
-            System.out.println("Please enter a valid card position");
-            System.out.print("Which card would you like to play (1 for first, 2 for second): ");
-            cardPosition = in.nextLine();
-        }
+        botClient.sendTextMessage("@" + user.getName() + " Which card would you like to play (1 for first, 2 for second): ");
+//        String cardPosition = in.nextLine();
+//        while (!cardPosition.equals("1") && !cardPosition.equals("2")) {
+//            botClient.sendTextMessage("@" + " Please enter a valid card position");
+//            botClient.sendTextMessage("@" + " Which card would you like to play (1 for first, 2 for second): ");
+//            cardPosition = in.nextLine();
+//        }
         // remove the chosen card
-        int idx = Integer.parseInt(cardPosition) - 1;
-        return user.hand().remove(idx);
+//        int idx = Integer.parseInt(cardPosition) - 1;
+        synchronized (botClient.getCurrentcards()){
+            try{
+                botClient.getCurrentcards().wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+//        botClient.getCurrentcards().wait();
+
+                int idx = botClient.getCurrentcards().get(user);
+                botClient.getCurrentcards().replace(user, 10);
+                return user.hand().remove(idx - 1);
+
+
+    }
+
+    @Override
+    public void run() {
+        try {
+            this.start();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 

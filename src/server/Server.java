@@ -175,7 +175,7 @@ public class Server {
             while (true) {
                 Message message = connection.receive();
 
-                if (message.getType() == MessageType.TEXT) {
+                if (message.getType() == MessageType.TEXT && !message.getData().isBlank()) {
                     String data = message.getData();
 
                     if (data.equals("bye")) {

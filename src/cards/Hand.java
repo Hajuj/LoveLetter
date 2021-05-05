@@ -77,10 +77,12 @@ public class Hand {
      * Prints the cards making up the current player's hand.
      */
     // TODO make name more clear
-    public void print() {
+    public String print() {
+        String carten = "";
         for (Card c : this.hand) {
-            System.out.println(c);
+            carten = carten + c.toString();
         }
+        return carten;
     }
 
 

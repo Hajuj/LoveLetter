@@ -5,6 +5,8 @@ import server.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BotClient extends Client {
     private Game currentGame;
@@ -12,6 +14,8 @@ public class BotClient extends Client {
     private boolean gameOn = false;
     private final int numberOfPlayers = 2;
     private PlayerList listOfPlayers = new PlayerList(this);
+    private Map<Player, Integer> currentcards = new ConcurrentHashMap<>();
+    private String currentOpponent;
 
     /**
      * Instantiates a new chat.Client.
@@ -35,9 +39,17 @@ public class BotClient extends Client {
                 for (int i = 0; i < numberOfPlayers; i++) {
                     listOfPlayers.addPlayer(waitingList.get(i));
                 }
+                for (Player p : listOfPlayers.getPlayers()){
+                    currentcards.put(p, 10);
+                }
+                currentOpponent = "";
                 currentGame.setPlayers(listOfPlayers);
-                currentGame.start(this);
+                currentGame.setBotClient(this);
                 gameOn = true; // TODO remove all players from the waiting list.
+//                currentGame.start();
+                // sadThread because it toke us a long time to make him happy :(
+                Thread sadThread = new Thread(currentGame);
+                sadThread.start();
             }
         }
         return true;
@@ -62,7 +74,16 @@ public class BotClient extends Client {
 
     @Override
     protected String getUserName() {
-        return "bot";
+        // because we love you Thomas <3
+        return "thomas";
+    }
+
+    public Map<Player, Integer> getCurrentcards() {
+        return currentcards;
+    }
+
+    public String getCurrentOpponent() {
+        return currentOpponent;
     }
 
     public static void main(String[] args) throws IOException {
@@ -100,8 +121,25 @@ public class BotClient extends Client {
                 case "play":
                     startTheGame(split[0]);
                     break;
+                case "1", "2" : {
+                    if (listOfPlayers.checkForUser(split[0])) {
+                            currentcards.replace(listOfPlayers.getPlayer(split[0]), Integer.parseInt(messageWithoutUserName));
+                            synchronized (currentcards) {
+                                currentcards.notify();
+                            }
+                    }
+                    break;
+                }
+                default:
+                    if (listOfPlayers.checkForUser(split[0]) && listOfPlayers.checkForUser(messageWithoutUserName)) {
+                        currentOpponent = messageWithoutUserName;
+                            synchronized (currentOpponent) {
+                                currentOpponent.notify();
+                            }
+                        }
+                    }
             }
 
         }
-    }
+
 }
