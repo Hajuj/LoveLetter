@@ -17,10 +17,10 @@ public class Server {
      *
      * @param args the input arguments
      */
-    /*Main Methode mit vorerst festen Werten (Hostname, Portnummer)*/
+    /*Main Methode mit vorerst festen Werten (Hostname, Port Nummer)*/
     public static void main(String[] args) {
         int port = 500;
-        ConsoleHelper.writeMessage("Portnummer: " + port);
+        ConsoleHelper.writeMessage("Port Nummer: " + port);
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleHelper.writeMessage("Server läuft!");
