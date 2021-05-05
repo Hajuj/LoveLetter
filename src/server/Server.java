@@ -10,17 +10,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * The type chat.Server.
  */
 public class Server {
-    private static final Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
+    private static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
 
     /**
      * The entry point of application.
      *
      * @param args the input arguments
      */
-    /*Main Methode mit vorerst festen Werten (Hostname, Port Nummer)*/
+    /*Main Methode mit vorerst festen Werten (Hostname, Portnummer)*/
     public static void main(String[] args) {
         int port = 500;
-        ConsoleHelper.writeMessage("Port Nummer: " + port);
+        ConsoleHelper.writeMessage("Portnummer: " + port);
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleHelper.writeMessage("Server läuft!");
@@ -55,13 +55,13 @@ public class Server {
      * Send broadcast message except user.
      *
      * @param message        the message
-     * @param userConnection the userConnection
+     * @param userconnection the userconnection
      */
     /*Senden der Nachricht an alle User außer sich selbst*/
-    public static void sendBroadcastMessageExceptUser(Message message, Connection userConnection) {
+    public static void sendBroadcastMessageExceptUser(Message message, Connection userconnection) {
 
         for (Connection connection : connectionMap.values()) {
-            if (!connection.equals(userConnection)) {
+            if (!connection.equals(userconnection)) {
                 try {
                     connection.send(message);
                 } catch (IOException e) {
@@ -88,7 +88,7 @@ public class Server {
 
     /*Thread Handler mit run Methode - Herstellen der Verbindung und Willkommensnachricht*/
     private static class Handler extends Thread {
-        private final Socket socket;
+        private Socket socket;
 
         /**
          * Instantiates a new Handler.
@@ -148,7 +148,7 @@ public class Server {
                     continue;
                 }
 
-                if (userName.contains("@") || userName.contains(" ")) {
+                if (userName.contains("@") || userName.contains(" ")){
                     ConsoleHelper.writeMessage("UserName darf keine @ or Leerzeichen enthalten");
                     continue;
                 }
@@ -182,7 +182,7 @@ public class Server {
                         connection.close();
                         connectionMap.remove(userName);
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " left the room"));
-                    } else if (data.charAt(0) == '@') {
+                    } else if (data.charAt(0) == '@'){
                         try {
                             String usernameDirect = data.substring(1, data.indexOf(" "));
                             if (connectionMap.containsKey(usernameDirect) && !usernameDirect.equals(userName)) {
@@ -190,11 +190,11 @@ public class Server {
                                 sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + data), connection);
                                 sendDirectMessage(new Message(MessageType.TEXT, userName + " to you : " + directData), connectionMap.get(usernameDirect));
                             }
-                        } catch (StringIndexOutOfBoundsException e) {
+                        } catch (StringIndexOutOfBoundsException e){
                             sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
                         }
-                    } else {
-                        sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
+                    }
+                    else {sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
                     }
                 }
             }

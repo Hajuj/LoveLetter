@@ -1,5 +1,7 @@
 package chat;
 
+import server.*;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,8 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import server.Message;
-import server.MessageType;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ import java.io.IOException;
  * The type chat.Client gui controller.
  */
 public class ClientGuiController extends Client {
-    private final ClientGuiModel model = new ClientGuiModel();
+    private ClientGuiModel model = new ClientGuiModel();
 
     private String userName;
 
@@ -52,6 +52,8 @@ public class ClientGuiController extends Client {
 
     /**
      * Instantiates a new chat.Client gui controller.
+     *
+     * @throws IOException the io exception
      */
     /*Konstruktor für GUI Controller*/
     public void initialize() {
@@ -148,7 +150,7 @@ public class ClientGuiController extends Client {
         socketThread.start();
     }
 
-    /*Getter Methode für SocketThread*/
+    /*Getter Methode für Socketthread*/
     @Override
     protected SocketThread getSocketThread() {
         return new GuiSocketThread();

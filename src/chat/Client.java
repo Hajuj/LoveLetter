@@ -1,9 +1,6 @@
 package chat;
 
-import server.Connection;
-import server.ConsoleHelper;
-import server.Message;
-import server.MessageType;
+import server.*;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -57,7 +54,7 @@ public class Client {
         SocketThread socketThread = getSocketThread();
         // thread ist daemon
         socketThread.setDaemon(true);
-        socketThread.start();
+        socketThread.run();
 
         try {
             synchronized (this) {
@@ -133,7 +130,7 @@ public class Client {
     /**
      * The type Socket thread.
      */
-    /*Run Methode für Handshake und MainLoop*/
+    /*Run Methode für Handshake und Mainloop*/
     public class SocketThread extends Thread {
         @Override
         public void run() {
@@ -155,7 +152,7 @@ public class Client {
         /*client Handshake um die Nachrichten zu synchronisieren*/
         protected void clientHandshake() throws IOException, ClassNotFoundException {
             // TODO maybe make it smarter? eliminate busy waiting -> synchronize block rather than while.
-            String name;
+            String name = null;
             while (true) {
                 Message message = connection.receive();
 
