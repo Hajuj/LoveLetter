@@ -1,12 +1,16 @@
 package chat;
 
-import server.Connection;
-import server.ConsoleHelper;
-import server.Message;
-import server.MessageType;
+import server.*;
 
 import java.io.IOException;
 import java.net.Socket;
+
+
+// TODO 1. Check the window not completely closing after clicking on the x.
+// TODO 2. Check the users connected not showing, after writing a false name more than once.
+// TODO 3. Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
+// TODO 4. Fix message / error not showing, After trying to send a direct message but the name is written false.
+// TODO 5. Change the error message, when writing only '@' in chat.
 
 /**
  * The type chat.Client.
@@ -28,7 +32,7 @@ public class Client {
     }
 
     /**
-     * Send text message.
+     * Send text message at every user in chat.
      *
      * @param text the text
      */
@@ -82,7 +86,7 @@ public class Client {
     /*Getter Methoden für IP, Port und Name - Vorerst aber fest definiert bei "127.0.0.1" und 500*/
     protected String getServerAddress() {
         ConsoleHelper.writeMessage("chat.Server IP:");
-        return ConsoleHelper.readString();
+        return "127.0.0.1";
     }
 
     /**
@@ -92,7 +96,7 @@ public class Client {
      */
     protected int getServerPort() {
         ConsoleHelper.writeMessage("chat.Server Port:");
-        return ConsoleHelper.readInt();
+        return 500;
     }
 
     /**

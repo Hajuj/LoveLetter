@@ -1,7 +1,5 @@
 package chat;
 
-import javafx.event.EventHandler;
-import javafx.stage.WindowEvent;
 import server.*;
 
 import javafx.application.Platform;
@@ -11,20 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
-import server.Message;
-import server.MessageType;
 
 import java.io.IOException;
 
-// TODO 1. Check the window not completely closing after clicking on the x.
-// TODO 2. Check the users connected not showing, after writing a false name more than once.
-// TODO 3. Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
-// TODO 4. Fix message / error not showing, After trying to send a direct message but the name is written false.
-// TODO 5. Change the error message, when writing only '@' in chat.
-
 /**
- * The type Chat.Client GUI Controller.
+ * The type chat.Client gui controller.
  */
 public class ClientGuiController extends Client {
     private ClientGuiModel model = new ClientGuiModel();
@@ -53,16 +42,18 @@ public class ClientGuiController extends Client {
     private Label chatLabel;
 
     /**
-     * Instantiates a new Chat.Client.
+     * Instantiates a new chat.Client.
      *
-     * @throws IOException the IO exception
+     * @throws IOException the io exception
      */
     public ClientGuiController() throws IOException {
     }
 
 
     /**
-     * Instantiates a new Chat.Client GUI Controller.
+     * Instantiates a new chat.Client gui controller.
+     *
+     * @throws IOException the io exception
      */
     /*Konstruktor für GUI Controller*/
     public void initialize() {
@@ -109,13 +100,7 @@ public class ClientGuiController extends Client {
     public void loginButton(ActionEvent event) {
         run();
         userName = nameField.getText();
-        try {
-            connection.send(new Message(MessageType.USER_NAME, nameField.getText()));
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
     }
-
 
 
     /**
@@ -138,15 +123,13 @@ public class ClientGuiController extends Client {
     /*Funktion um zu überprüfen ob die Verbindung weiterhin besteht*/
     public synchronized void notifyConnectionStatusChanged(boolean clientConnected) {
         if (clientConnected) {
+            // TODO check the notify method again to fix the name and welcome problem.
             messageField.setDisable(false);
             Platform.runLater(() -> errorLabel.setText("You are connected!"));
-            Platform.runLater(() -> errorLabel.setTextFill(Color.rgb(0, 139, 0)));
             Platform.runLater(() -> nameField.setDisable(true));
         } else {
-            Platform.runLater(() -> errorLabel.setText("Please use another name!"));
-            Platform.runLater(() -> errorLabel.setTextFill(Color.rgb(255, 0, 0)));
+            Platform.runLater(() -> errorLabel.setText("Please use another name"));
         }
-
     }
 
 
@@ -163,7 +146,7 @@ public class ClientGuiController extends Client {
 
     /*run Methode für Thread*/
     public void run() {
-        SocketThread socketThread = new GuiSocketThread();
+        Client.SocketThread socketThread = new GuiSocketThread();
         socketThread.start();
     }
 
@@ -196,14 +179,14 @@ public class ClientGuiController extends Client {
     }
 
 
-    /*Aufruf der Chat.Client Methode zum Versenden der Nachricht*/
+    /*Aufruf der chat.Client Methode zum Versenden der Nachricht*/
     @Override
     public void sendTextMessage(String text) {
         super.sendTextMessage(text);
     }
 
     /**
-     * The type GUI Socket Thread.
+     * The type Gui socket thread.
      */
     public class GuiSocketThread extends SocketThread {
 
@@ -228,7 +211,7 @@ public class ClientGuiController extends Client {
             refreshUsers();
         }
 
-        /*Mitteilung falls eine Verbindung zum Server.Server sich geändert hat*/
+        /*Mitteilung falls eine Verbindung zum chat.Server sich geändert hat*/
         @Override
         protected void notifyConnectionStatusChanged(boolean clientConnected) {
             super.notifyConnectionStatusChanged(clientConnected);

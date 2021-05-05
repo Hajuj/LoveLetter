@@ -1,100 +1,74 @@
 package cards;
 
-import game.Player;
-
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /**
- * The type Card.
+ * Enum with all possible cards.
  */
-public class Card {
-    /**
-     * The Card number.
-     */
-    public int cardNumber;
-    /**
-     * The Number of cards in deck.
-     */
-    public int numberOfCardsInDeck;
-    /**
-     * The Card text.
-     */
-    public String cardText;
-    /**
-     * The Card name.
-     */
-    public String cardName;
+public enum Card {
+    GUARD("Guard", 1),
+    PRIEST("Priest", 2),
+    BARON("Baron", 3),
+    HANDMAIDEN("Handmaiden", 4),
+    PRINCE("Prince", 5),
+    KING("King", 6),
+    COUNTESS("Countess", 7),
+    PRINCESS("Princess", 8);
 
     /**
-     * Instantiates a new Card.
-     *
-     * @param cardNumber          the card number
-     * @param numberOfCardsInDeck the number of cards in deck
-     * @param cardText            the card text
-     * @param cardName            the card name
+     * The name of the card.
      */
-    public Card(int cardNumber, int numberOfCardsInDeck, String cardText, String cardName) {
-        this.cardNumber = cardNumber;
-        this.numberOfCardsInDeck = numberOfCardsInDeck;
-        this.cardText = cardText;
-        this.cardName = cardName;
+    private String name;
+    /**
+     * The value of the card.
+     */
+    private int value;
+
+    /**
+     * All possible card names.
+     */
+    public static final String[] CARD_NAMES = {
+            "guard",
+            "priest",
+            "baron",
+            "handmaiden",
+            "prince",
+            "king",
+            "countess",
+            "princess"
+    };
+
+    /**
+     * Constructor for a card object.
+     *
+     * @param name
+     *          the name of the card
+     * @param value
+     *          the value of the card
+     */
+    Card(String name, int value) {
+        this.name = name;
+        this.value = value;
     }
 
     /**
-     * Choose a player int.
+     * Getter for the value of the card.
      *
-     * @param numberOfPlayers the number of players
-     * @param listOfPlayers   the list of players
-     * @return the int
+     * @return the card value
      */
-    //TODO: choose A Player, you can't choose yourselve
-    public int chooseAPlayer(int numberOfPlayers, ArrayList<Player> listOfPlayers) {
-        Scanner scanner = new Scanner(System.in);
-        boolean loop = true;
-        while (loop) {
-            System.out.println("Please select a player:");
-            for (int i = 1; i < numberOfPlayers + 1; i++) {
-                System.out.println(i + ". Player " + i);
-            }
-            int selection = scanner.nextInt();
-            selection--;
-            loop = listOfPlayers.get(selection).isHandmaidOnline;
-            if (!loop) {
-                int printSelection = selection + 1;
-                System.out.println("You've Chosen Player " + printSelection);
-                return selection;
-            } else {
-                System.out.println("You've chosen a player protected by the Handmaid. Please select another player.");
-            }
-
-        }
-        return -1;
+    public int value() {
+        return this.value;
     }
 
     /**
-     * Perform card instruction.
+     * Getter for the name of the card.
      *
-     * @param currentPlayer              the current player
-     * @param currentRoundsListOfPlayers the current rounds list of players
-     * @param thisRoundsDeck             the this rounds deck
+     * @return the card name
      */
-    public void performCardInstruction(Player currentPlayer, ArrayList<Player> currentRoundsListOfPlayers, Deck thisRoundsDeck) {
-        System.out.println("Sth Went Wrong, this operation should call to specific card's interaction.");
+    public String getName() {
+        return this.name;
     }
 
-    /**
-     * Discard card after using.
-     *
-     * @param currentPlayer       the current player
-     * @param idOfTheCardToRemove the id of the card to remove
-     */
-    public void discardCardAfterUsing(Player currentPlayer, int idOfTheCardToRemove) {
-        for (int i = 0; i < currentPlayer.playerCardList.size(); i++) {
-            if (currentPlayer.playerCardList.get(i).cardNumber == idOfTheCardToRemove) {
-                currentPlayer.playerCardList.remove(i);
-                break;
-            }
-        }
+    @Override
+    public String toString() {
+        return this.name + " (" + value + ")";
     }
 }

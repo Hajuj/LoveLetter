@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * The type Console helper.
+ * The type Server.Console Helper.
  */
 public class ConsoleHelper {
     private static BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));

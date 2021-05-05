@@ -1,94 +1,120 @@
 package game;
 
-import cards.Card;
-import cards.Deck;
-
-import java.util.ArrayList;
+import cards.*;
 
 /**
- * The type Player.
+ * Class representing a Player of Love Letter.
  */
 public class Player {
-    public String getPlayerName () {
-        return playerName;
-    }
-
-    public void setPlayerName (String playerName) {
-        this.playerName = playerName;
-    }
-
-    private String playerName;
 
     /**
-     * The Players id.
+     * The name of the player.z
      */
-    public int playersID = 0;
+    // TODO add player ID
+    private String name;
     /**
-     * The Player card list.
+     * Hand of cards the player possesses.
      */
-    public ArrayList<Card> playerCardList = new ArrayList<>();
+    private Hand hand;
     /**
-     * The Is eliminated.
+     * UsedPile of cards the player has used.
      */
-    public boolean isEliminated = false;
+    private UsedPile used;
     /**
-     * The Is handmaid online.
+     * True if the player is protected by a handmaiden, false if not.
      */
-    public boolean isHandmaidOnline = false;
+    private boolean isProtected;
     /**
-     * The Countess condition.
+     * The number of blocks the player has won.
      */
-    public boolean countessCondition = false;
+    // TODO change name letterCount
+    private int blockCount;
 
     /**
-     * Draw a card.
+     * Public constructor for Player object.
      *
-     * @param theDrawingPlayer the the drawing player
-     * @param thisRoundsDeck   the this rounds deck
+     * @param name
+     *          the player name
      */
-    public void drawACard(Player theDrawingPlayer, Deck thisRoundsDeck) {
-        theDrawingPlayer.playerCardList.add(thisRoundsDeck.shuffledDeckList.get(0));
-        thisRoundsDeck.shuffledDeckList.remove(0);
+    public Player(String name) {
+        this.name = name;
+        this.hand = new Hand();
+        this.used = new UsedPile();
+        this.isProtected = false;
+        this.blockCount = 0;
     }
 
     /**
-     * Check the countess condition.
-     *
-     * @param currentPlayer the current player
+     * Adds one block to the players block count.
      */
-    public void checkTheCountessCondition(Player currentPlayer) {
-        if (currentPlayer.playerCardList.get(0).cardNumber == 7 || currentPlayer.playerCardList.get(1).cardNumber == 7) {
-            if (currentPlayer.playerCardList.get(0).cardNumber == 6 || currentPlayer.playerCardList.get(1).cardNumber == 6) {
-                System.out.println("You have both the Countess and the King card in your hand. Press Enter to discard Countess");
-                countessCondition = true;
-            } else if (currentPlayer.playerCardList.get(0).cardNumber == 5 || currentPlayer.playerCardList.get(1).cardNumber == 5) {
-                System.out.println("You have both the Countess and the Prince card in your hand. Press Enter to discard Countess");
-                countessCondition = true;
-            }
-        }
-        if (countessCondition) {
-            try {
-                System.in.read();
-            } catch (Exception ignored) {
-            }
-            for (int i = 0; i < currentPlayer.playerCardList.size(); i++) {
-                if (currentPlayer.playerCardList.get(i).cardNumber == 7) {
-                    currentPlayer.playerCardList.remove(i);
-                }
-            }
-            System.out.println("Countess has been discarded.");
-        }
+    // TODO change to add addRoundWinner
+    public void addBlock() {
+        this.blockCount++;
     }
 
     /**
-     * Print the players hand.
-     *
-     * @param targetPlayer the target player
+     * Indicates that a player has lost the game by removing
+     * the last card from the hand and placing it in used.
      */
-    public void printThePlayersHand(Player targetPlayer) {
-        for (int i = 0; i < targetPlayer.playerCardList.size(); i++) {
-            System.out.println("(This player has " + targetPlayer.playerCardList.get(i).cardName + " card in hand.)");
-        }
+    // TODO CHANGE THE FUCKING NAME!!!!
+    public void lose() {
+        this.used.add(this.hand.remove(0));
     }
 
+    /**
+     * Switches the user's level of protection.
+     */
+    public void switchProtection() {
+        this.isProtected = !this.isProtected;
+    }
+
+    /**
+     * Gets the hand of the player.
+     *
+     * @return this.hand
+     */
+    public Hand hand() {
+        return this.hand;
+    }
+
+    /**
+     * Gets the used pile of the player.
+     *
+     * @return this.used
+     */
+    public UsedPile used() {
+        return this.used;
+    }
+
+    /**
+     * Checks to see if the user is protected by a handmaiden.
+     *
+     * @return true, if the player is protected, false if not
+     */
+    public boolean isProtected() {
+        return this.isProtected;
+    }
+
+    /**
+     * Getter for the user's block count.
+     *
+     * @return player's block count
+     */
+    public int getBlockCount() {
+        return this.blockCount;
+    }
+
+    /**
+     * Getter for the user's name.
+     *
+     * @return player's name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " (" + this.blockCount + ")";
+    }
 }
