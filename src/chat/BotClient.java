@@ -81,7 +81,8 @@ public class BotClient extends Client {
         }
 
 
-        // TODO
+        // TODO eingaben vom user durch den bot einlesen
+        // TODO ignore the spaces after @bot + letter case
         @Override
         protected void processIncomingMessage(String message) {
             // alles in die console

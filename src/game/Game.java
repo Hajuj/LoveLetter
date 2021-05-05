@@ -138,7 +138,7 @@ public class Game extends GameActions {
         user.used().add(card);
         // TODO make it as switch case
         if (value < 4 || value == 5 || value == 6) {
-            Player opponent = getOpponent(in, players, user);
+            Player opponent = value == 5 ? getOpponent(in, players, user, true):getOpponent(in, players, user, false);
             if (value == 1) {
                 useGuard(in, opponent);
             } else if (value == 2) {

@@ -104,7 +104,6 @@ abstract class GameActions {
      * @param opponent the targeted player
      * @param d        the deck of cards
      */
-    // TODO first, check if you can choose yourself, if not then implement it.
     void usePrince(Player opponent, Deck d) {
             opponent.lose();
             if (d.hasMoreCards()) {
@@ -146,7 +145,7 @@ abstract class GameActions {
          *          the player choosing an opponent
          * @return the chosen target player
          */
-        Player getOpponent (Scanner in, PlayerList playerList, Player user){
+        Player getOpponent (Scanner in, PlayerList playerList, Player user, boolean isPrince){
             Player opponent = null;
             boolean validTarget = false;
             while (!validTarget) {
@@ -159,7 +158,7 @@ abstract class GameActions {
                     System.out.println("This player is not in the game");
                 } else if (opponent.isProtected()) {
                     System.out.println("This player is protected by a handmaiden");
-                } else if (opponent.getName().equals(user.getName())) {
+                } else if (opponent.getName().equals(user.getName()) && !isPrince) {
                     System.out.println("You cannot target yourself");
                 } else if (!opponent.hand().hasCards()) {
                     System.out.println("This player is eliminated");
