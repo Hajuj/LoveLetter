@@ -15,7 +15,7 @@ public class BotClient extends Client {
     private final int numberOfPlayers = 2;
     private PlayerList listOfPlayers = new PlayerList(this);
     private Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
-    private String currentOpponent ;
+    private Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
 
     /**
      * Instantiates a new chat.Client.
@@ -42,7 +42,9 @@ public class BotClient extends Client {
                 for (Player p : listOfPlayers.getPlayers()){
                     currentCards.put(p, 10);
                 }
-                currentOpponent = ("");
+                for (Player p : listOfPlayers.getPlayers()){
+                    currentOpponent.put(p, p.getName());
+                }
                // currentOpponent = "";
                 currentGame.setPlayers(listOfPlayers);
                 currentGame.setBotClient(this);
@@ -83,11 +85,11 @@ public class BotClient extends Client {
         return currentCards;
     }
 
-    public String getCurrentOpponent() {
+    public Map<Player, String> getCurrentOpponent() {
         return currentOpponent;
     }
 
-    public void setCurrentOpponent(String currentOpponent) {
+    public void setCurrentOpponent(Map<Player, String> currentOpponent) {
         this.currentOpponent = currentOpponent;
     }
 
@@ -115,7 +117,7 @@ public class BotClient extends Client {
             ConsoleHelper.writeMessage(message);
 
             // split name from message
-            String userNameDelimiter = "to you : ";
+            String userNameDelimiter = " to you : ";
             String[] split = message.split(userNameDelimiter);
             if (split.length != 2) return;
 
@@ -137,7 +139,7 @@ public class BotClient extends Client {
                 }
                 default:
                     if (listOfPlayers.checkForUser(split[0]) /*&& listOfPlayers.checkForUser(messageWithoutUserName)*/) {
-                        setCurrentOpponent(messageWithoutUserName) ;
+                        currentOpponent.replace(listOfPlayers.getPlayer(split[0]), messageWithoutUserName);
                             synchronized (currentOpponent) {
                                 System.out.println("Bis hier her");
                                 currentOpponent.notify();
