@@ -1,8 +1,11 @@
 package game;
 
-import cards.*;
+import cards.Card;
+import cards.Deck;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * The possible player actions to be taken during the game.
@@ -24,7 +27,7 @@ abstract class GameActions {
         ArrayList<String> cardNames = new ArrayList<>(Arrays.asList(Card.CARD_NAMES));
 
         System.out.print("Which card would you like to guess (other than Guard): ");
-        // TODO alle die Namen der Karten ausser Guard ausgeben. mit Zahlen
+        // TODO alle die Namen der Karten außer Guard ausgeben. mit Zahlen
         String cardName = in.nextLine();
 
         // TODO change from cardName to cardNumber
@@ -105,68 +108,65 @@ abstract class GameActions {
      * @param d        the deck of cards
      */
     void usePrince(Player opponent, Deck d) {
-            opponent.lose();
-            if (d.hasMoreCards()) {
-                opponent.hand().add(d.dealCard());
-            }
+        opponent.lose();
+        if (d.hasMoreCards()) {
+            opponent.hand().add(d.dealCard());
         }
-
-        /**
-         * Allows the user to switch cards with an opponent.
-         * Swaps the user's hand for the opponent's.
-         * @param user
-         *          the initiator of the swap
-         * @param opponent
-         *          the targeted player
-         */
-        void useKing (Player user, Player opponent){
-            Card userCard = user.hand().remove(0);
-            Card opponentCard = opponent.hand().remove(0);
-            user.hand().add(opponentCard);
-            opponent.hand().add(userCard);
-        }
-
-        /**
-         * If the princess is played, the user loses the round and must lay down their hand.
-         * @param user
-         *          the current player
-         */
-        void usePrincess (Player user){
-            user.lose();
-        }
-
-        /**
-         * Useful method for obtaining a chosen target from the player list.
-         * @param in
-         *          the input stream
-         * @param playerList
-         *          the list of players
-         * @param user
-         *          the player choosing an opponent
-         * @return the chosen target player
-         */
-        Player getOpponent (Scanner in, PlayerList playerList, Player user, boolean isPrince){
-            Player opponent = null;
-            boolean validTarget = false;
-            while (!validTarget) {
-                // TODO printUsedPiles all users, then choose a user depending on his number not name.
-                // TODO fix the not ending while loop,  when playing with only two players
-                System.out.print("Who would you like to target: ");
-                String opponentName = in.nextLine();
-                opponent = playerList.getPlayer(opponentName);
-                if (opponent == null) {
-                    System.out.println("This player is not in the game");
-                } else if (opponent.isProtected()) {
-                    System.out.println("This player is protected by a handmaiden");
-                } else if (opponent.getName().equals(user.getName()) && !isPrince) {
-                    System.out.println("You cannot target yourself");
-                } else if (!opponent.hand().hasCards()) {
-                    System.out.println("This player is eliminated");
-                } else {
-                    validTarget = true;
-                }
-            }
-            return opponent;
-        }
-
     }
+
+    /**
+     * Allows the user to switch cards with an opponent.
+     * Swaps the user's hand for the opponent's.
+     *
+     * @param user     the initiator of the swap
+     * @param opponent the targeted player
+     */
+    void useKing(Player user, Player opponent) {
+        Card userCard = user.hand().remove(0);
+        Card opponentCard = opponent.hand().remove(0);
+        user.hand().add(opponentCard);
+        opponent.hand().add(userCard);
+    }
+
+    /**
+     * If the princess is played, the user loses the round and must lay down their hand.
+     *
+     * @param user the current player
+     */
+    void usePrincess(Player user) {
+        user.lose();
+    }
+
+    /**
+     * Useful method for obtaining a chosen target from the player list.
+     *
+     * @param in         the input stream
+     * @param playerList the list of players
+     * @param user       the player choosing an opponent
+     * @return the chosen target player
+     */
+    Player getOpponent(Scanner in, PlayerList playerList, Player user, boolean isPrince) {
+        Player opponent = null;
+        boolean validTarget = false;
+        while (!validTarget) {
+            // TODO printUsedPiles all users, then choose a user depending on his number not name.
+            // TODO fix the not ending while loop,  when playing with only two players
+            System.out.print("Who would you like to target: ");
+            String opponentName = in.nextLine();
+            opponent = playerList.getPlayer(opponentName);
+            if (opponent == null) {
+                System.out.println("This player is not in the game");
+            } else if (opponent.isProtected()) {
+                System.out.println("This player is protected by a handmaiden");
+            } else if (opponent.getName().equals(user.getName()) && !isPrince) {
+                System.out.println("You cannot target yourself");
+            } else if (!opponent.hand().hasCards()) {
+                System.out.println("This player is eliminated");
+            } else {
+                validTarget = true;
+            }
+        }
+        return opponent;
+    }
+
+}

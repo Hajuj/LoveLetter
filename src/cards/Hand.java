@@ -9,15 +9,13 @@ public class Hand {
     private ArrayList<Card> hand;
 
     public Hand() {
-        this.hand  = new ArrayList<>();
+        this.hand = new ArrayList<>();
     }
 
     /**
      * Peeks the card held by the player.
      *
-     * @param idx
-     *          the index of the Card to peek
-     *
+     * @param idx the index of the Card to peek
      * @return the card held by the player
      */
     public Card peek(int idx) {
@@ -26,8 +24,8 @@ public class Hand {
 
     /**
      * Adds a card to the player's hand.
-     * @param card
-     *          the card to add
+     *
+     * @param card the card to add
      */
     public void add(Card card) {
         this.hand.add(card);
@@ -36,12 +34,12 @@ public class Hand {
     /**
      * Removes the card at the given index from the hand.
      *
-     * @param idx
-     *          the index of the card
-     *
+     * @param idx the index of the card
      * @return the card at the given index
      */
-    public Card remove(int idx) { return this.hand.remove(idx); }
+    public Card remove(int idx) {
+        return this.hand.remove(idx);
+    }
 
     /**
      * Finds the position of a royal card in the hand.

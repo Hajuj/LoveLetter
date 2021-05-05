@@ -1,16 +1,18 @@
-
 package chat;
-import game.*;
-import server.*;
+
+import game.Game;
+import game.Player;
+import game.PlayerList;
+import server.ConsoleHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class BotClient extends Client {
-    private Game currentGame;
-    private static ArrayList<String> waitingList = new ArrayList<>();
-    private boolean gameOn = false;
     private final int numberOfPlayers = 2;
+    private Game currentGame;
+    private ArrayList<String> waitingList = new ArrayList<>();
+    private boolean gameOn = false;
     private PlayerList listOfPlayers = new PlayerList(this);
 
     /**
@@ -18,10 +20,14 @@ public class BotClient extends Client {
      *
      * @throws IOException the io exception
      */
-    public BotClient () throws IOException {
+    public BotClient() throws IOException {
         this.currentGame = new Game();
     }
 
+    public static void main(String[] args) throws IOException {
+        Client client = new BotClient();
+        client.run();
+    }
 
     //hier ANZAHL DER PLAYERS
     protected boolean startTheGame(String newPlayer) {
@@ -65,13 +71,6 @@ public class BotClient extends Client {
         return "bot";
     }
 
-    public static void main(String[] args) throws IOException {
-        Client client = new BotClient();
-        client.run();
-    }
-
-
-
     public class BotSocketThread extends SocketThread {
         @Override
         protected void clientMainLoop() throws IOException, ClassNotFoundException {
@@ -85,23 +84,44 @@ public class BotClient extends Client {
         // TODO ignore the spaces after @bot + letter case
         @Override
         protected void processIncomingMessage(String message) {
-            // alles in die console
-            ConsoleHelper.writeMessage(message);
 
-            // split name from message
-            String userNameDelimiter = "to you : ";
-            String[] split = message.split(userNameDelimiter);
-            if (split.length != 2) return;
+            /*  Add If Loop: use second escape Character - e.g. "Action" in  << @bot Action 1 >>
+                to see whether it is a Command from the Players. Check first to see whether a
+                game is already being played. If so append the "1" to commandList.
+                Then replace scanner in with commandList (+busy waiting while commandList is empty)
+            */
+            if (message.contains("to you : Action")) {
 
-            String messageWithoutUserName = split[1];
+                ConsoleHelper.writeMessage(message);
 
-            String format = null;
-            switch (messageWithoutUserName) {
-                case "play":
-                    startTheGame(split[0]);
-                    break;
+                // split name from message
+                String commandDelimiter = "to you : Action";
+                String[] split = message.split(commandDelimiter);
+
+                String newCommand = split[1];
+
+                currentGame.setCommandList(newCommand);
+            } else {
+
+
+                // alles in die console
+                ConsoleHelper.writeMessage(message);
+
+                // split name from message
+                String userNameDelimiter = "to you : ";
+                String[] split = message.split(userNameDelimiter);
+                if (split.length != 2) return;
+
+                String messageWithoutUserName = split[1];
+
+                switch (messageWithoutUserName) {
+                    case "play":
+                        startTheGame(split[0]);
+                        break;
+                }
+
             }
-
         }
+
     }
 }

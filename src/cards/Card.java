@@ -14,15 +14,6 @@ public enum Card {
     PRINCESS("Princess", 8);
 
     /**
-     * The name of the card.
-     */
-    private String name;
-    /**
-     * The value of the card.
-     */
-    private int value;
-
-    /**
      * All possible card names.
      */
     public static final String[] CARD_NAMES = {
@@ -35,14 +26,20 @@ public enum Card {
             "countess",
             "princess"
     };
+    /**
+     * The name of the card.
+     */
+    private String name;
+    /**
+     * The value of the card.
+     */
+    private int value;
 
     /**
      * Constructor for a card object.
      *
-     * @param name
-     *          the name of the card
-     * @param value
-     *          the value of the card
+     * @param name  the name of the card
+     * @param value the value of the card
      */
     Card(String name, int value) {
         this.name = name;

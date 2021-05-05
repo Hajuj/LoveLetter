@@ -1,6 +1,7 @@
 package game;
 
-import cards.*;
+import cards.Hand;
+import cards.UsedPile;
 
 /**
  * Class representing a Player of Love Letter.
@@ -33,8 +34,7 @@ public class Player {
     /**
      * Public constructor for Player object.
      *
-     * @param name
-     *          the player name
+     * @param name the player name
      */
     public Player(String name) {
         this.name = name;

@@ -1,6 +1,6 @@
 package game;
 
-import cards.*;
+import cards.Deck;
 import chat.BotClient;
 
 import java.util.LinkedList;
@@ -8,7 +8,7 @@ import java.util.LinkedList;
 /**
  * Class representing the collective list of players.
  */
-public class PlayerList{
+public class PlayerList {
 
     /**
      * The list of players.
@@ -32,9 +32,7 @@ public class PlayerList{
     /**
      * Adds a new Player object with the given name to the PlayerList.
      *
-     * @param name
-     *          the given player name
-     *
+     * @param name the given player name
      * @return true if the player is not already in the list and can be added, false if not
      */
     public boolean addPlayer(String name) {
@@ -135,8 +133,7 @@ public class PlayerList{
     /**
      * Deals a card to each Player in the list.
      *
-     * @param deck
-     *          the deck of cards
+     * @param deck the deck of cards
      */
     public void dealCards(Deck deck) {
         for (Player p : players) {
@@ -147,9 +144,7 @@ public class PlayerList{
     /**
      * Gets the player with the given name.
      *
-     * @param name
-     *          the name of the desired player
-     *
+     * @param name the name of the desired player
      * @return the player with the given name or null if there is no such player
      */
     public Player getPlayer(String name) {

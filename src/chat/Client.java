@@ -1,6 +1,9 @@
 package chat;
 
-import server.*;
+import server.Connection;
+import server.ConsoleHelper;
+import server.Message;
+import server.MessageType;
 
 import java.io.IOException;
 import java.net.Socket;

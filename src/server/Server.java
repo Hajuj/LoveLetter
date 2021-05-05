@@ -148,7 +148,7 @@ public class Server {
                     continue;
                 }
 
-                if (userName.contains("@") || userName.contains(" ")){
+                if (userName.contains("@") || userName.contains(" ")) {
                     ConsoleHelper.writeMessage("UserName darf keine @ or Leerzeichen enthalten");
                     continue;
                 }
@@ -182,7 +182,7 @@ public class Server {
                         connection.close();
                         connectionMap.remove(userName);
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " left the room"));
-                    } else if (data.charAt(0) == '@'){
+                    } else if (data.charAt(0) == '@') {
                         try {
                             String usernameDirect = data.substring(1, data.indexOf(" "));
                             if (connectionMap.containsKey(usernameDirect) && !usernameDirect.equals(userName)) {
@@ -190,11 +190,11 @@ public class Server {
                                 sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + data), connection);
                                 sendDirectMessage(new Message(MessageType.TEXT, userName + " to you : " + directData), connectionMap.get(usernameDirect));
                             }
-                        } catch (StringIndexOutOfBoundsException e){
+                        } catch (StringIndexOutOfBoundsException e) {
                             sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
                         }
-                    }
-                    else {sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
+                    } else {
+                        sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
                     }
                 }
             }

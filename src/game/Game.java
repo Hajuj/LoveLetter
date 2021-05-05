@@ -1,6 +1,7 @@
 package game;
 
-import cards.*;
+import cards.Card;
+import cards.Deck;
 import chat.BotClient;
 
 import java.util.Scanner;
@@ -9,6 +10,10 @@ import java.util.Scanner;
  * The main game class. Contains methods for running the game.
  */
 public class Game extends GameActions {
+
+
+    private String commandList;
+
 
     /**
      * The list of players in the game.
@@ -31,6 +36,11 @@ public class Game extends GameActions {
     public Game() {
         this.players = new PlayerList(botClient);
         this.deck = new Deck();
+        this.commandList = null;
+    }
+
+    public void setCommandList(String commandList) {
+        this.commandList = commandList;
     }
 
     public void setPlayers(PlayerList players) {
@@ -67,33 +77,32 @@ public class Game extends GameActions {
             players.dealCards(deck);
             // next player
             while (!players.checkForRoundWinner() && deck.hasMoreCards()) {
-                Player turn = players.getCurrentPlayer(); // TODO turn -> playerTurn
+                Player currentPlayer = players.getCurrentPlayer();
 
-                if (turn.hand().hasCards()) {
+                if (currentPlayer.hand().hasCards()) {
                     players.printUsedPiles();
-                    botClient.sendToAllPlayers(turn.getName() + "'s turn:");
+                    botClient.sendToAllPlayers(currentPlayer.getName() + "'s turn:");
                     // wenn ein spieler geschutzt war aber jetzt er ist dran -> nicht mehr geschutzt
-                    if (turn.isProtected()) {
-                        turn.switchProtection();
+                    if (currentPlayer.isProtected()) {
+                        currentPlayer.switchProtection();
                     }
                     // spieler zieht eine karte
-                    turn.hand().add(deck.dealCard());
+                    currentPlayer.hand().add(deck.dealCard());
 
                     // royaltePos is card 5 oder 6
-                    int royaltyPos = turn.hand().royaltyPos();
+                    int royaltyPos = currentPlayer.hand().royaltyPos();
                     // wenn ein spieler karte 5 oder 6 hat dann countess werfen
                     if (royaltyPos != -1) {
-                        if (royaltyPos == 0 && turn.hand().peek(1).value() == 7) {
-                            playCard(turn.hand().remove(1), turn);
-                        } else if (royaltyPos == 1 && turn.hand().peek(0).value() == 7) {
-                            playCard(turn.hand().remove(0), turn);
-                        }
-                        else {
-                            playCard(getCard(turn), turn);
+                        if (royaltyPos == 0 && currentPlayer.hand().peek(1).value() == 7) {
+                            playCard(currentPlayer.hand().remove(1), currentPlayer);
+                        } else if (royaltyPos == 1 && currentPlayer.hand().peek(0).value() == 7) {
+                            playCard(currentPlayer.hand().remove(0), currentPlayer);
+                        } else {
+                            playCard(getCard(currentPlayer), currentPlayer);
                         }
                         // spieler hat kein Prince 5 oder King 6
                     } else {
-                        playCard(getCard(turn), turn);
+                        playCard(getCard(currentPlayer), currentPlayer);
                     }
                 }
             }
@@ -128,17 +137,16 @@ public class Game extends GameActions {
 
     /**
      * Determines the card used by the player and performs the card's action.
-     * @param card
-     *          the played card
-     * @param user
-     *          the player of the card
+     *
+     * @param card the played card
+     * @param user the player of the card
      */
     private void playCard(Card card, Player user) {
         int value = card.value();
         user.used().add(card);
         // TODO make it as switch case
         if (value < 4 || value == 5 || value == 6) {
-            Player opponent = value == 5 ? getOpponent(in, players, user, true):getOpponent(in, players, user, false);
+            Player opponent = value == 5 ? getOpponent(in, players, user, true) : getOpponent(in, players, user, false);
             if (value == 1) {
                 useGuard(in, opponent);
             } else if (value == 2) {
@@ -162,9 +170,7 @@ public class Game extends GameActions {
     /**
      * Allows for the user to pick a card from their hand to play.
      *
-     * @param user
-     *      the current player
-     *
+     * @param user the current player
      * @return the chosen card
      */
     private Card getCard(Player user) {

@@ -1,7 +1,6 @@
 package cards;
 
 
-
 import java.util.ArrayList;
 
 public class UsedPile {
@@ -15,8 +14,7 @@ public class UsedPile {
     /**
      * Adds a card to the player's used pile.
      *
-     * @param used
-     *          the card to add to the used pile
+     * @param used the card to add to the used pile
      */
     public void add(Card used) {
         this.used.add(used);
