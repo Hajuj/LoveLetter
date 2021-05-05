@@ -36,6 +36,15 @@ public class PlayerList {
         return players;
     }
 
+    public boolean checkForUser(String name) {
+        for (Player p : this.getPlayers()) {
+            if (p.getName().equals(name)) {
+                return true;
+            }
+        }
+            return false;
+    }
+
     /**
      * Check for user boolean.
      *
