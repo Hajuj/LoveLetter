@@ -1,52 +1,58 @@
-package chat;
 
-import game.Game;
-import game.Player;
-import game.PlayerList;
-import server.ConsoleHelper;
+package chat;
+import game.*;
+import server.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BotClient extends Client {
-    public static Game currentGame = new Game();
-    private final ArrayList<String> waitingList = new ArrayList<>();
+    private Game currentGame;
+    private static ArrayList<String> waitingList = new ArrayList<>();
     private boolean gameOn = false;
-    private final PlayerList listOfPlayers = new PlayerList(this);
+    private final int numberOfPlayers = 2;
+    private PlayerList listOfPlayers = new PlayerList(this);
+    private Map<Player, Integer> currentcards = new ConcurrentHashMap<>();
+    private String currentOpponent;
 
     /**
      * Instantiates a new chat.Client.
      *
      * @throws IOException the io exception
      */
-    public BotClient() throws IOException {
+    public BotClient () throws IOException {
+        this.currentGame = new Game();
     }
 
-
-    public static void main(String[] args) throws IOException {
-        Client client = new BotClient();
-        client.run();
-    }
 
     //hier ANZAHL DER PLAYERS
-    protected void startTheGame(String newPlayer) {
+    protected boolean startTheGame(String newPlayer) {
         if (waitingList.contains(newPlayer)) {
             this.sendTextMessage("@" + newPlayer + " you are already in the wait list");
         } else {
             waitingList.add(newPlayer);
-            int numberOfPlayers = 2;
             if (waitingList.size() < numberOfPlayers || gameOn) {
                 this.sendTextMessage("@" + newPlayer + " you are in the wait list");
             } else {
                 for (int i = 0; i < numberOfPlayers; i++) {
                     listOfPlayers.addPlayer(waitingList.get(i));
                 }
+                for (Player p : listOfPlayers.getPlayers()){
+                    currentcards.put(p, 10);
+                }
+                currentOpponent = "";
                 currentGame.setPlayers(listOfPlayers);
-                currentGame.start(this);
+                currentGame.setBotClient(this);
                 gameOn = true; // TODO remove all players from the waiting list.
+//                currentGame.start();
+                // sadThread because it toke us a long time to make him happy :(
+                Thread sadThread = new Thread(currentGame);
+                sadThread.start();
             }
         }
+        return true;
     }
 
     public void sendToAllPlayers(String message) {
@@ -68,8 +74,24 @@ public class BotClient extends Client {
 
     @Override
     protected String getUserName() {
-        return "bot";
+        // because we love you Thomas <3
+        return "thomas";
     }
+
+    public Map<Player, Integer> getCurrentcards() {
+        return currentcards;
+    }
+
+    public String getCurrentOpponent() {
+        return currentOpponent;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Client client = new BotClient();
+        client.run();
+    }
+
+
 
     public class BotSocketThread extends SocketThread {
         @Override
@@ -84,23 +106,40 @@ public class BotClient extends Client {
         // TODO ignore the spaces after @bot + letter case
         @Override
         protected void processIncomingMessage(String message) {
+            // alles in die console
+            ConsoleHelper.writeMessage(message);
 
-                // alles in die console
-                ConsoleHelper.writeMessage(message);
+            // split name from message
+            String userNameDelimiter = "to you : ";
+            String[] split = message.split(userNameDelimiter);
+            if (split.length != 2) return;
 
-                // split name from message
-                String userNameDelimiter = "to you : ";
-                String[] split = message.split(userNameDelimiter);
-                if (split.length != 2) return;
+            String messageWithoutUserName = split[1];
 
-                String messageWithoutUserName = split[1];
-
-                if (messageWithoutUserName.equals("play")) {
+            String format = null;
+            switch (messageWithoutUserName) {
+                case "play":
                     startTheGame(split[0]);
+                    break;
+                case "1", "2" : {
+                    if (listOfPlayers.checkForUser(split[0])) {
+                            currentcards.replace(listOfPlayers.getPlayer(split[0]), Integer.parseInt(messageWithoutUserName));
+                            synchronized (currentcards) {
+                                currentcards.notify();
+                            }
+                    }
+                    break;
                 }
-
+                default:
+                    if (listOfPlayers.checkForUser(split[0]) && listOfPlayers.checkForUser(messageWithoutUserName)) {
+                        currentOpponent = messageWithoutUserName;
+                            synchronized (currentOpponent) {
+                                currentOpponent.notify();
+                            }
+                        }
+                    }
+            }
 
         }
 
-    }
 }
