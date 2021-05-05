@@ -66,6 +66,6 @@ public enum Card {
 
     @Override
     public String toString() {
-        return this.name + " (" + value + ")";
+        return this.name + " (" + value + ") ";
     }
 }

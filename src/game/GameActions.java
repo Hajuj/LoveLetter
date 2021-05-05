@@ -32,15 +32,15 @@ abstract class GameActions {
         // TODO nicht den Guard ausgeben
 
 
-        synchronized (botClient.getCurrentcards()){
+        synchronized (botClient.getCurrentCards()){
             try{
-                botClient.getCurrentcards().wait();
+                botClient.getCurrentCards().wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
-        int card = botClient.getCurrentcards().get(user);
+        int card = botClient.getCurrentCards().get(user);
 
         String cardName = cardNames.get(card);
 
@@ -49,17 +49,17 @@ abstract class GameActions {
         while (!cardNames.contains(cardName.toLowerCase()) || cardName.equalsIgnoreCase("guard")) {
             botClient.sendTextMessage("@" + user.getName() + " Invalid card name \n Which card would you like to guess (other than Guard): ");
 
-            synchronized (botClient.getCurrentcards()){
+            synchronized (botClient.getCurrentCards()){
                 try{
-                    botClient.getCurrentcards().wait();
+                    botClient.getCurrentCards().wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
 
-            int newCard = botClient.getCurrentcards().get(user);
+            int newCard = botClient.getCurrentCards().get(user);
 
-            String newCardName = cardNames.get(card);
+            cardName = cardNames.get(newCard);
         }
 
         Card opponentCard = opponent.hand().peek(0);
@@ -190,12 +190,13 @@ abstract class GameActions {
                 botClient.sendTextMessage("@" + user.getName() + " Who would you like to target: ");
                 synchronized (botClient.getCurrentOpponent()){
                     try{
+
                         botClient.getCurrentOpponent().wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                opponent = playerList.getPlayer(botClient.getCurrentOpponent());
+                opponent = playerList.getPlayer(botClient.getCurrentOpponent().get(user));
                 if (opponent == null) {
                     botClient.sendTextMessage("@" + user.getName() + " This player is not in the game.");
 

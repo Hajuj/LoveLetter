@@ -142,7 +142,7 @@ public class Game extends GameActions implements Runnable {
         user.used().add(card);
         // TODO make it as switch case
         if (value < 4 || value == 5 || value == 6) {
-            Player opponent = value == 5 ? getOpponent(botClient, players, user, true):getOpponent(botClient, players, user, false);
+            Player opponent = value == 5 ? getOpponent(players, user, true):getOpponent(players, user, false);
             if (value == 1) {
                 useGuard(botClient, user, opponent);
             } else if (value == 2) {
@@ -171,11 +171,16 @@ public class Game extends GameActions implements Runnable {
      *
      * @return the chosen card
      */
-    private Card getCard(Player user) throws InterruptedException {
-        botClient.sendTextMessage("@" + user.getName() + " " + user.hand().print());
-//        System.out.println();
+    private Card getCard(Player user) {
+        botClient.sendTextMessage("@" + user.getName() + " " + user.hand().print() + " \n Which card would you like to play (1 for first, 2 for second): ");
+        /*int index=0;
+        for(String s : user.hand()){
+            botClient.sendTextMessage("@" + user.getName() + " " + String.valueOf(index++)+": "+s);
+        }*/
+
+
+
         // TODO change the 0 or 1 to 1 and 2
-        botClient.sendTextMessage("@" + user.getName() + " Which card would you like to play (1 for first, 2 for second): ");
 //        String cardPosition = in.nextLine();
 //        while (!cardPosition.equals("1") && !cardPosition.equals("2")) {
 //            botClient.sendTextMessage("@" + " Please enter a valid card position");
@@ -184,9 +189,9 @@ public class Game extends GameActions implements Runnable {
 //        }
         // remove the chosen card
 //        int idx = Integer.parseInt(cardPosition) - 1;
-        synchronized (botClient.getCurrentcards()){
+        synchronized (botClient.getCurrentCards()){
             try{
-                botClient.getCurrentcards().wait();
+                botClient.getCurrentCards().wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -197,12 +202,58 @@ public class Game extends GameActions implements Runnable {
 
 //        botClient.getCurrentcards().wait();
 
-                int idx = botClient.getCurrentcards().get(user);
-                botClient.getCurrentcards().replace(user, 10);
+                int idx = botClient.getCurrentCards().get(user);
+                botClient.getCurrentCards().replace(user, 10);
                 return user.hand().remove(idx - 1);
 
 
     }
+
+    /**
+     * Useful method for obtaining a chosen target from the player list.
+     * @param playerList
+     *          the list of players
+     * @param user
+     *          the player choosing an opponent
+     * @return the chosen target player
+     */
+    private Player getOpponent (PlayerList playerList, Player user, boolean isPrince){
+        Player opponent = null;
+        boolean validTarget = false;
+        while (!validTarget) {
+            // TODO printUsedPiles all users, then choose a user depending on his number not name.
+            // TODO fix the not ending while loop,  when playing with only two players
+            botClient.sendTextMessage("@" + user.getName() + " Who would you like to target: ");
+            synchronized (botClient.getCurrentOpponent()){
+                try{
+                    botClient.getCurrentOpponent().wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            opponent = playerList.getPlayer(botClient.getCurrentOpponent().get(user));
+            if (opponent == null) {
+                botClient.sendTextMessage("@" + user.getName() + " This player is not in the game.");
+
+            } else if (opponent.isProtected()) {
+                botClient.sendTextMessage("@" + user.getName() + " This player is protected by a handmaiden.");
+
+            } else if (opponent.getName().equals(user.getName()) && !isPrince) {
+                botClient.sendTextMessage("@" + user.getName() + " You cannot target yourself.");
+
+            } else if (!opponent.hand().hasCards()) {
+                botClient.sendTextMessage("@" + user.getName() + " This player is eliminated.");
+
+            } else {
+                validTarget = true;
+            }
+        }
+        return opponent;
+    }
+
+
+
+
 
     @Override
     public void run() {

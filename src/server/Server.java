@@ -173,6 +173,8 @@ public class Server {
         /*Busy Waiting Loop für das Schließen der Verbindung*/
         private void serverMainLoop(Connection connection, String userName) throws IOException, ClassNotFoundException {
             while (true) {
+
+                // TODO Semaphore implementieren um sicher zugehen, dass während dem Versenden der Nachricht, deren Inhalt nicht überschrieben wird
                 Message message = connection.receive();
 
                 if (message.getType() == MessageType.TEXT && !message.getData().isBlank()) {
