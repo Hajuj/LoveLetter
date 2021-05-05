@@ -6,6 +6,7 @@ import chat.BotClient;
 
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The main game class. Contains methods for running the game.
@@ -14,7 +15,8 @@ public class Game extends GameActions {
 
     public final CountDownLatch latch = new CountDownLatch(1);
 
-    private int commandList;
+
+    public AtomicInteger commandList;
 
 
     /**
@@ -30,7 +32,11 @@ public class Game extends GameActions {
      */
     private Scanner in;
 
-    private BotClient botClient;
+    public BotClient botClient;
+
+    public BotClient getBotClient() {
+        return botClient;
+    }
 
     /**
      * Public constructor for a Game object.
@@ -38,12 +44,20 @@ public class Game extends GameActions {
     public Game() {
         this.players = new PlayerList(null);
         this.deck = new Deck();
-        this.commandList = 0;
+        this.commandList = new AtomicInteger(0);
     }
 
-    public void setCommandList(int commandList) {
+    public synchronized void setCommandList(AtomicInteger commandList) {
         this.commandList = commandList;
+        this.commandList.notify();
     }
+
+
+
+    public synchronized AtomicInteger getCommandList() {
+        return commandList;
+    }
+
 
     public void setPlayers(PlayerList players) {
         this.players = players;
@@ -180,19 +194,21 @@ public class Game extends GameActions {
         System.out.println();
         // TODO change the 0 or 1 to 1 and 2
         System.out.print("Which card would you like to play (1 for first, 2 for second): ");
-        while(commandList==0) {
-            try {
-                latch.await();
+        synchronized (commandList){
+            try{
+                commandList.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        if (!(commandList ==1) && !(commandList ==2)) {
+
+        int s = getCommandList().get();
+        if (!(s == 1) && !(s ==2)) {
             System.out.println("Please enter a valid card position");
             System.out.print("Which card would you like to play (1 for first, 2 for second): ");
         }
         // remove the chosen card
-        int idx = commandList - 1;
+        int idx = s - 1;
         return user.hand().remove(idx);
     }
 

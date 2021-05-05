@@ -7,9 +7,10 @@ import server.ConsoleHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BotClient extends Client {
-    private final Game currentGame;
+    public static Game currentGame = new Game();
     private final ArrayList<String> waitingList = new ArrayList<>();
     private boolean gameOn = false;
     private final PlayerList listOfPlayers = new PlayerList(this);
@@ -20,8 +21,8 @@ public class BotClient extends Client {
      * @throws IOException the io exception
      */
     public BotClient() throws IOException {
-        this.currentGame = new Game();
     }
+
 
     public static void main(String[] args) throws IOException {
         Client client = new BotClient();
@@ -89,17 +90,17 @@ public class BotClient extends Client {
                 game is already being played. If so append the "1" to commandList.
                 Then replace scanner in with commandList (+busy waiting while commandList is empty)
             */
-            if (message.contains("to you : Action")) {
+            if (message.contains("Action")) {
 
                 ConsoleHelper.writeMessage(message);
 
                 // split name from message
-                String commandDelimiter = "to you : Action";
+                String commandDelimiter = "to you : Action ";
                 String[] split = message.split(commandDelimiter);
-
+                if (split.length != 2) return;
                 String newCommand = split[1];
-
-                currentGame.setCommandList(Integer.parseInt(newCommand));
+                AtomicInteger seed = new AtomicInteger(Integer.parseInt(newCommand));
+                currentGame.setCommandList(seed);
             } else {
 
 
