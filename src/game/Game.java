@@ -5,14 +5,16 @@ import cards.Deck;
 import chat.BotClient;
 
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * The main game class. Contains methods for running the game.
  */
 public class Game extends GameActions {
 
+    public final CountDownLatch latch = new CountDownLatch(1);
 
-    private String commandList;
+    private int commandList;
 
 
     /**
@@ -36,10 +38,10 @@ public class Game extends GameActions {
     public Game() {
         this.players = new PlayerList(null);
         this.deck = new Deck();
-        this.commandList = null;
+        this.commandList = 0;
     }
 
-    public void setCommandList(String commandList) {
+    public void setCommandList(int commandList) {
         this.commandList = commandList;
     }
 
@@ -178,16 +180,22 @@ public class Game extends GameActions {
         System.out.println();
         // TODO change the 0 or 1 to 1 and 2
         System.out.print("Which card would you like to play (1 for first, 2 for second): ");
-        String cardPosition = in.nextLine();
-        while (!cardPosition.equals("1") && !cardPosition.equals("2")) {
+        while(commandList==0) {
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!(commandList ==1) && !(commandList ==2)) {
             System.out.println("Please enter a valid card position");
             System.out.print("Which card would you like to play (1 for first, 2 for second): ");
-            cardPosition = in.nextLine();
         }
         // remove the chosen card
-        int idx = Integer.parseInt(cardPosition) - 1;
+        int idx = commandList - 1;
         return user.hand().remove(idx);
     }
+
 
 
 }

@@ -99,7 +99,7 @@ public class BotClient extends Client {
 
                 String newCommand = split[1];
 
-                currentGame.setCommandList(newCommand);
+                currentGame.setCommandList(Integer.parseInt(newCommand));
             } else {
 
 
@@ -114,7 +114,7 @@ public class BotClient extends Client {
                 String messageWithoutUserName = split[1];
 
                 if (messageWithoutUserName.equals("play")) {
-                        startTheGame(split[0]);
+                    startTheGame(split[0]);
                 }
 
             }
