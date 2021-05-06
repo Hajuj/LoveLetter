@@ -4,6 +4,19 @@ import cards.Card;
 import cards.Deck;
 import chat.BotClient;
 
+// check the serverMainLoop
+// TODO sometimes discarding a card, does not trigger it's effect. (see screenshot)
+// TODO when playing the Guard not all the card are printed for the user.
+// TODO check why some stuff are printed more than once.
+
+// game logic
+// TODO applying the prince to a player who has the Princess won't make him lose the game.
+// TODO if all players are protected, and a player tries to play one of these cards:
+//      Guard, Priest, Baron or King, the game should skip for the next round automatically,
+//      since the player can't choose himself or others (because they are protected).
+
+// bot
+// TODO leerzeichen nach dem Botbefehl ignorieren.
 
 /**
  * The main game class. Contains methods for running the game.
