@@ -68,7 +68,6 @@ public class PlayerList {
     }
 
 
-
     /**
      * Gets the first player in the list and adds them to end of the list.
      *
