@@ -175,6 +175,7 @@ public class Server {
             while (true) {
 
                 // TODO Semaphore implementieren um sicher zugehen, dass während dem Versenden der Nachricht, deren Inhalt nicht überschrieben wird
+                // Oder alle messages in eine liste mit index und die nachrichten der reihe nach abarbeiten
                 Message message = connection.receive();
 
                 if (message.getType() == MessageType.TEXT && !message.getData().isBlank()) {
