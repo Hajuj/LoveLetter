@@ -58,7 +58,6 @@ public class Client {
         // thread ist daemon
         socketThread.setDaemon(true);
         socketThread.run();
-        //TODO Wieso run und nicht start?
         try {
             synchronized (this) {
                 wait();
