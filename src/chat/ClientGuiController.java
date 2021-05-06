@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import server.Message;
 import server.MessageType;
 
+import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -62,6 +63,7 @@ public class ClientGuiController extends Client {
         messages.setEditable(false);
         users.setEditable(false);
 
+
     }
 
     /**
@@ -110,8 +112,17 @@ public class ClientGuiController extends Client {
      * @throws IOException the io exception
      */
     @FXML
-    public void startBotClientButton(ActionEvent event) throws IOException {
-        BotClient.main(null);
+    public void startBotClientButton(ActionEvent event) throws IOException{
+        BotClient botClient = new BotClient();
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    botClient.main(null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
