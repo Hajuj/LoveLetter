@@ -93,6 +93,7 @@ abstract class GameActions {
      *
      * @param user the current player
      */
+    //TODO: Handmaiden -> Handmaid
     void useHandmaiden(Player user) {
         System.out.println("You are now protected until your next turn");
         user.switchProtection();
@@ -159,6 +160,9 @@ abstract class GameActions {
                 } else if (opponent.isProtected()) {
                     System.out.println("This player is protected by a handmaiden");
                 } else if (opponent.getName().equals(user.getName()) && !isPrince) {
+                    System.out.println("You cannot target yourself");
+                    //TODO else if hinzugefügt, im Fall von !isPrince???
+                } else if (opponent.getName().equals(user.getName())) {
                     System.out.println("You cannot target yourself");
                 } else if (!opponent.hand().hasCards()) {
                     System.out.println("This player is eliminated");
