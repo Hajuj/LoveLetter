@@ -83,32 +83,32 @@ public class Game extends GameActions implements Runnable {
             players.dealCards(deck);
             // next player
             while (!players.checkForRoundWinner() && deck.hasMoreCards()) {
-                Player turn = players.getCurrentPlayer(); // TODO turn -> playerTurn
+                Player playerTurn = players.getCurrentPlayer();
 
-                if (turn.hand().hasCards()) {
+                if (playerTurn.hand().hasCards()) {
                     players.printUsedPiles();
-                    botClient.sendToAllPlayers(turn.getName() + "'s turn:");
+                    botClient.sendToAllPlayers(playerTurn.getName() + "'s turn:");
                     // wenn ein spieler geschützt war aber jetzt er ist dran -> nicht mehr geschützt
-                    if (turn.isProtected()) {
-                        turn.switchProtection();
+                    if (playerTurn.isProtected()) {
+                        playerTurn.switchProtection();
                     }
                     // spieler zieht eine karte
-                    turn.hand().add(deck.dealCard());
+                    playerTurn.hand().add(deck.dealCard());
 
                     // royaltyPos is card 5 oder 6
-                    int royaltyPos = turn.hand().royaltyPos();
+                    int royaltyPos = playerTurn.hand().royaltyPos();
                     // wenn ein spieler karte 5 oder 6 hat dann countess werfen
                     if (royaltyPos != -1) {
-                        if (royaltyPos == 0 && turn.hand().peek(1).value() == 7) {
-                            playCard(turn.hand().remove(1), turn);
-                        } else if (royaltyPos == 1 && turn.hand().peek(0).value() == 7) {
-                            playCard(turn.hand().remove(0), turn);
+                        if (royaltyPos == 0 && playerTurn.hand().peek(1).value() == 7) {
+                            playCard(playerTurn.hand().remove(1), playerTurn);
+                        } else if (royaltyPos == 1 && playerTurn.hand().peek(0).value() == 7) {
+                            playCard(playerTurn.hand().remove(0), playerTurn);
                         } else {
-                            playCard(getCard(turn), turn);
+                            playCard(getCard(playerTurn), playerTurn);
                         }
                         // spieler hat kein Prince 5 oder King 6
                     } else {
-                        playCard(getCard(turn), turn);
+                        playCard(getCard(playerTurn), playerTurn);
                     }
                 }
             }
@@ -120,10 +120,10 @@ public class Game extends GameActions implements Runnable {
             } // if there's is a tie compare the used cards
             else {
                 winner = players.compareUsedPiles();
-                winner.addBlock();
+                winner.addRoundWinner();
             }
             // add the winner of the round
-            winner.addBlock();
+            winner.addRoundWinner();
             System.out.println(winner.getName() + " has won this round!");
             players.print();
         }
@@ -225,8 +225,6 @@ public class Game extends GameActions implements Runnable {
         Player opponent = null;
         boolean validTarget = false;
         while (!validTarget) {
-            // TODO printUsedPiles all users, then choose a user depending on his number not name.
-            // TODO fix the not ending while loop,  when playing with only two players
             botClient.sendTextMessage("@" + user.getName() + " Who would you like to target: ");
             synchronized (botClient.getCurrentOpponent()) {
                 try {

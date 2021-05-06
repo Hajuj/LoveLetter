@@ -51,7 +51,12 @@ public class Connection implements Closeable {
     /*Empfangen der Nachricht*/
     public Message receive() throws IOException, ClassNotFoundException {
         synchronized (in) {
+            // notwendig für langsame CPUs und natürlicherem Spielfluss
+            try {
+                Thread.sleep(111);
+            } catch (Exception e) {}
             return (Message) in.readObject();
+
         }
     }
 
