@@ -1,6 +1,6 @@
 package game;
 
-import cards.*;
+import cards.Deck;
 import chat.BotClient;
 
 import java.util.LinkedList;
@@ -8,35 +8,56 @@ import java.util.LinkedList;
 /**
  * Class representing the collective list of players.
  */
-public class PlayerList{
+public class PlayerList {
 
     /**
      * The list of players.
      */
-    private LinkedList<Player> players;
+    private final LinkedList<Player> players;
 
-    private BotClient botClient;
+    private final BotClient botClient;
 
     /**
      * Public constructor for a PlayerList object.
+     *
+     * @param botClient the bot client
      */
     public PlayerList(BotClient botClient) {
         this.players = new LinkedList<>();
         this.botClient = botClient;
     }
 
+    /**
+     * Gets players.
+     *
+     * @return the players
+     */
     public LinkedList<Player> getPlayers() {
         return players;
     }
 
     /**
+     * Check for user boolean.
+     *
+     * @param name the name
+     * @return the boolean
+     */
+    public boolean checkForUser(String name) {
+        for (Player p : this.getPlayers()) {
+            if (p.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Adds a new Player object with the given name to the PlayerList.
      *
-     * @param name
-     *          the given player name
-     *
+     * @param name the given player name
      * @return true if the player is not already in the list and can be added, false if not
      */
+//TODO Wieso ist die methode boolean?
     public boolean addPlayer(String name) {
         for (Player p : players) {
             if (p.getName().equalsIgnoreCase(name)) {
@@ -135,8 +156,7 @@ public class PlayerList{
     /**
      * Deals a card to each Player in the list.
      *
-     * @param deck
-     *          the deck of cards
+     * @param deck the deck of cards
      */
     public void dealCards(Deck deck) {
         for (Player p : players) {
@@ -147,9 +167,7 @@ public class PlayerList{
     /**
      * Gets the player with the given name.
      *
-     * @param name
-     *          the name of the desired player
-     *
+     * @param name the name of the desired player
      * @return the player with the given name or null if there is no such player
      */
     public Player getPlayer(String name) {
@@ -166,7 +184,7 @@ public class PlayerList{
      *
      * @return the player with the highest used pile value
      */
-    // TODO all players win if there's still a tie after comparing the used cards. (if else in the for).
+// TODO all players win if there's still a tie after comparing the used cards. (if else in the for).
     public Player compareUsedPiles() {
         Player winner = players.getFirst();
         for (Player p : players) {

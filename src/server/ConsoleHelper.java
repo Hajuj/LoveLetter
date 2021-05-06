@@ -8,14 +8,14 @@ import java.io.InputStreamReader;
  * The type Server.Console Helper.
  */
 public class ConsoleHelper {
-    private static BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));
 
     /**
      * Write message.
      *
      * @param message the message
      */
-    /*Hilfsfunktion um Nachrichten auf der Konsole auszugeben --> später evtl. implementierung in FX*/
+    /*Hilfsfunktion um Nachrichten auf der Konsole auszugeben */
     public static void writeMessage(String message) {
         System.out.println(message);
     }
@@ -38,13 +38,10 @@ public class ConsoleHelper {
         }
     }
 
-    /**
-     * Read int int.
-     *
-     * @return the int
-     */
-    /*Hilfsfunktion um Integers einzulesen*/
-    public static int readInt() {
+
+//TODO safe delete?
+
+/*    public static int readInt() {
         while (true) {
             try {
                 return Integer.parseInt(readString().trim());
@@ -52,5 +49,5 @@ public class ConsoleHelper {
                 writeMessage("Keine Zahl");
             }
         }
-    }
+    }*/
 }

@@ -1,6 +1,7 @@
 package game;
 
-import cards.*;
+import cards.Hand;
+import cards.UsedPile;
 
 /**
  * Class representing a Player of Love Letter.
@@ -11,15 +12,15 @@ public class Player {
      * The name of the player.z
      */
     // TODO add player ID
-    private String name;
+    private final String name;
     /**
      * Hand of cards the player possesses.
      */
-    private Hand hand;
+    private final Hand hand;
     /**
      * UsedPile of cards the player has used.
      */
-    private UsedPile used;
+    private final UsedPile used;
     /**
      * True if the player is protected by a handmaiden, false if not.
      */
@@ -33,8 +34,7 @@ public class Player {
     /**
      * Public constructor for Player object.
      *
-     * @param name
-     *          the player name
+     * @param name the player name
      */
     public Player(String name) {
         this.name = name;
@@ -47,7 +47,7 @@ public class Player {
     /**
      * Adds one block to the players block count.
      */
-    // TODO change to add addRoundWinner
+// TODO change to add addRoundWinner
     public void addBlock() {
         this.blockCount++;
     }
@@ -56,7 +56,7 @@ public class Player {
      * Indicates that a player has lost the game by removing
      * the last card from the hand and placing it in used.
      */
-    // TODO CHANGE THE FUCKING NAME!!!!
+// TODO CHANGE THE FUCKING NAME!!!!
     public void lose() {
         this.used.add(this.hand.remove(0));
     }
@@ -71,7 +71,7 @@ public class Player {
     /**
      * Gets the hand of the player.
      *
-     * @return this.hand
+     * @return this.hand hand
      */
     public Hand hand() {
         return this.hand;
@@ -80,7 +80,7 @@ public class Player {
     /**
      * Gets the used pile of the player.
      *
-     * @return this.used
+     * @return this.used used pile
      */
     public UsedPile used() {
         return this.used;
@@ -98,7 +98,7 @@ public class Player {
     /**
      * Getter for the user's block count.
      *
-     * @return player's block count
+     * @return player 's block count
      */
     public int getBlockCount() {
         return this.blockCount;
@@ -107,7 +107,7 @@ public class Player {
     /**
      * Getter for the user's name.
      *
-     * @return player's name
+     * @return player 's name
      */
     public String getName() {
         return this.name;

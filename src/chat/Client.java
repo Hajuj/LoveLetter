@@ -1,6 +1,9 @@
 package chat;
 
-import server.*;
+import server.Connection;
+import server.ConsoleHelper;
+import server.Message;
+import server.MessageType;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -55,7 +58,6 @@ public class Client {
         // thread ist daemon
         socketThread.setDaemon(true);
         socketThread.run();
-
         try {
             synchronized (this) {
                 wait();
@@ -130,7 +132,7 @@ public class Client {
     /**
      * The type Socket thread.
      */
-    /*Run Methode für Handshake und Mainloop*/
+    /*Run Methode für Handshake und MainLoop*/
     public class SocketThread extends Thread {
         @Override
         public void run() {
@@ -151,8 +153,8 @@ public class Client {
          */
         /*client Handshake um die Nachrichten zu synchronisieren*/
         protected void clientHandshake() throws IOException, ClassNotFoundException {
-            // TODO maybe make it smarter? eliminate busy waiting -> synchronize block rather than while.
-            String name = null;
+            // TODO fix the while loop issue when giving the same name (check master branch)
+            String name;
             while (true) {
                 Message message = connection.receive();
 
@@ -160,10 +162,6 @@ public class Client {
                     name = getUserName();
                     connection.send(new Message(MessageType.USER_NAME, name));
                     this.notifyConnectionStatusChanged(false);
-                    /*TBD neue Funktion um direkte Nachrichten zu senden*/
-//                    name = getUserName();
-//                    connection.send(new chat.Message(chat.MessageType.USER_NAME, name));
-//                    this.notifyConnectionStatusChanged(false);
 
                 } else if (message.getType() == MessageType.NAME_ACCEPTED) { // server accepted the name
                     this.notifyConnectionStatusChanged(true);

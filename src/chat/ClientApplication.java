@@ -39,7 +39,7 @@ public class ClientApplication extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("chat.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Chat.fxml")));
         stage.setTitle("LoveLetter Chat Login");
         Scene scene = new Scene(root);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Chat.css")).toString());
