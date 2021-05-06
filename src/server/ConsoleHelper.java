@@ -37,13 +37,13 @@ public class ConsoleHelper {
             }
         }
     }
-
-    /**
-     * Read int int.
-     *
-     * @return the int
-     */
-    /*Hilfsfunktion um Integers einzulesen*/
+//TODO safe delete?
+   /* /**
+    // * Read int int.
+     //*
+     //* @return the int
+     //*//*
+     *//*Hilfsfunktion um Integers einzulesen*//*
     public static int readInt() {
         while (true) {
             try {
@@ -52,5 +52,5 @@ public class ConsoleHelper {
                 writeMessage("Keine Zahl");
             }
         }
-    }
+    }*/
 }

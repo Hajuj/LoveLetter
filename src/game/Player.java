@@ -47,7 +47,7 @@ public class Player {
     /**
      * Adds one block to the players block count.
      */
-    // TODO change to add addRoundWinner
+// TODO change to add addRoundWinner
     public void addBlock() {
         this.blockCount++;
     }
@@ -56,7 +56,7 @@ public class Player {
      * Indicates that a player has lost the game by removing
      * the last card from the hand and placing it in used.
      */
-    // TODO CHANGE THE FUCKING NAME!!!!
+// TODO CHANGE THE FUCKING NAME!!!!
     public void lose() {
         this.used.add(this.hand.remove(0));
     }
@@ -71,7 +71,7 @@ public class Player {
     /**
      * Gets the hand of the player.
      *
-     * @return this.hand
+     * @return this.hand hand
      */
     public Hand hand() {
         return this.hand;
@@ -80,7 +80,7 @@ public class Player {
     /**
      * Gets the used pile of the player.
      *
-     * @return this.used
+     * @return this.used used pile
      */
     public UsedPile used() {
         return this.used;
@@ -98,7 +98,7 @@ public class Player {
     /**
      * Getter for the user's block count.
      *
-     * @return player's block count
+     * @return player 's block count
      */
     public int getBlockCount() {
         return this.blockCount;
@@ -107,7 +107,7 @@ public class Player {
     /**
      * Getter for the user's name.
      *
-     * @return player's name
+     * @return player 's name
      */
     public String getName() {
         return this.name;

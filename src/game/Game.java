@@ -1,9 +1,9 @@
 package game;
 
-import cards.*;
+import cards.Card;
+import cards.Deck;
 import chat.BotClient;
 
-import java.util.Scanner;
 
 /**
  * The main game class. Contains methods for running the game.
@@ -11,17 +11,16 @@ import java.util.Scanner;
 public class Game extends GameActions implements Runnable {
 
     /**
+     * The deck of cards.
+     */
+    private final Deck deck;
+    /**
      * The list of players in the game.
      */
     private PlayerList players;
     /**
-     * The deck of cards.
-     */
-    private Deck deck;
-    /**
      * The input stream.
      */
-    private Scanner in;
 
     private BotClient botClient;
 
@@ -29,21 +28,32 @@ public class Game extends GameActions implements Runnable {
      * Public constructor for a Game object.
      */
     public Game() {
+        //TODO wieso ist botClient immer null? ersetzen mit null?
         this.players = new PlayerList(botClient);
         this.deck = new Deck();
     }
 
+    /**
+     * Sets players.
+     *
+     * @param players the players
+     */
     public void setPlayers(PlayerList players) {
         this.players = players;
     }
 
+    /**
+     * Sets bot client.
+     *
+     * @param botClient the bot client
+     */
     public void setBotClient(BotClient botClient) {
         this.botClient = botClient;
     }
 
-    /**
-     * Sets up the players that make up the player list.
-     */
+    // /**
+    //   * Sets up the players that make up the player list.
+//     */
     // TODO limit players number from 2 to 4, and change the tokens needed according to the players number.
 //    public void setPlayers() {
 //        System.out.printUsedPiles("Enter player name (empty when done): ");
@@ -60,6 +70,8 @@ public class Game extends GameActions implements Runnable {
 
     /**
      * The main game loop.
+     *
+     * @throws InterruptedException the interrupted exception
      */
     public void start() throws InterruptedException {
 //        this.botClient = botClient;
@@ -76,14 +88,14 @@ public class Game extends GameActions implements Runnable {
                 if (turn.hand().hasCards()) {
                     players.printUsedPiles();
                     botClient.sendToAllPlayers(turn.getName() + "'s turn:");
-                    // wenn ein spieler geschutzt war aber jetzt er ist dran -> nicht mehr geschutzt
+                    // wenn ein spieler geschützt war aber jetzt er ist dran -> nicht mehr geschützt
                     if (turn.isProtected()) {
                         turn.switchProtection();
                     }
                     // spieler zieht eine karte
                     turn.hand().add(deck.dealCard());
 
-                    // royaltePos is card 5 oder 6
+                    // royaltyPos is card 5 oder 6
                     int royaltyPos = turn.hand().royaltyPos();
                     // wenn ein spieler karte 5 oder 6 hat dann countess werfen
                     if (royaltyPos != -1) {
@@ -91,8 +103,7 @@ public class Game extends GameActions implements Runnable {
                             playCard(turn.hand().remove(1), turn);
                         } else if (royaltyPos == 1 && turn.hand().peek(0).value() == 7) {
                             playCard(turn.hand().remove(0), turn);
-                        }
-                        else {
+                        } else {
                             playCard(getCard(turn), turn);
                         }
                         // spieler hat kein Prince 5 oder King 6
@@ -132,17 +143,16 @@ public class Game extends GameActions implements Runnable {
 
     /**
      * Determines the card used by the player and performs the card's action.
-     * @param card
-     *          the played card
-     * @param user
-     *          the player of the card
+     *
+     * @param card the played card
+     * @param user the player of the card
      */
     private void playCard(Card card, Player user) {
         int value = card.value();
         user.used().add(card);
         // TODO make it as switch case
         if (value < 4 || value == 5 || value == 6) {
-            Player opponent = value == 5 ? getOpponent(players, user, true):getOpponent(players, user, false);
+            Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
             if (value == 1) {
                 useGuard(botClient, user, opponent);
             } else if (value == 2) {
@@ -166,18 +176,15 @@ public class Game extends GameActions implements Runnable {
     /**
      * Allows for the user to pick a card from their hand to play.
      *
-     * @param user
-     *      the current player
-     *
+     * @param user the current player
      * @return the chosen card
      */
     private Card getCard(Player user) {
-        botClient.sendTextMessage("@" + user.getName() + " " + user.hand().print() + " \n Which card would you like to play (1 for first, 2 for second): ");
+        botClient.sendTextMessage("@" + user.getName() + " " + user.hand().printHand() + " \n Which card would you like to play (1 for first, 2 for second): ");
         /*int index=0;
         for(String s : user.hand()){
             botClient.sendTextMessage("@" + user.getName() + " " + String.valueOf(index++)+": "+s);
         }*/
-
 
 
         // TODO change the 0 or 1 to 1 and 2
@@ -189,8 +196,8 @@ public class Game extends GameActions implements Runnable {
 //        }
         // remove the chosen card
 //        int idx = Integer.parseInt(cardPosition) - 1;
-        synchronized (botClient.getCurrentCards()){
-            try{
+        synchronized (botClient.getCurrentCards()) {
+            try {
                 botClient.getCurrentCards().wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -198,34 +205,31 @@ public class Game extends GameActions implements Runnable {
         }
 
 
+//        botClient.getCurrentCards().wait();
 
-
-//        botClient.getCurrentcards().wait();
-
-                int idx = botClient.getCurrentCards().get(user);
-                botClient.getCurrentCards().replace(user, 10);
-                return user.hand().remove(idx - 1);
+        int idx = botClient.getCurrentCards().get(user);
+        botClient.getCurrentCards().replace(user, 10);
+        return user.hand().remove(idx - 1);
 
 
     }
 
     /**
      * Useful method for obtaining a chosen target from the player list.
-     * @param playerList
-     *          the list of players
-     * @param user
-     *          the player choosing an opponent
+     *
+     * @param playerList the list of players
+     * @param user       the player choosing an opponent
      * @return the chosen target player
      */
-    private Player getOpponent (PlayerList playerList, Player user, boolean isPrince){
+    private Player getOpponent(PlayerList playerList, Player user, boolean isPrince) {
         Player opponent = null;
         boolean validTarget = false;
         while (!validTarget) {
             // TODO printUsedPiles all users, then choose a user depending on his number not name.
             // TODO fix the not ending while loop,  when playing with only two players
             botClient.sendTextMessage("@" + user.getName() + " Who would you like to target: ");
-            synchronized (botClient.getCurrentOpponent()){
-                try{
+            synchronized (botClient.getCurrentOpponent()) {
+                try {
                     botClient.getCurrentOpponent().wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -250,9 +254,6 @@ public class Game extends GameActions implements Runnable {
         }
         return opponent;
     }
-
-
-
 
 
     @Override

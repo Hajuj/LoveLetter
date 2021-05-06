@@ -1,6 +1,9 @@
 package chat;
 
-import server.*;
+import server.Connection;
+import server.ConsoleHelper;
+import server.Message;
+import server.MessageType;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -55,7 +58,7 @@ public class Client {
         // thread ist daemon
         socketThread.setDaemon(true);
         socketThread.run();
-
+        //TODO Wieso run und nicht start?
         try {
             synchronized (this) {
                 wait();
@@ -130,7 +133,7 @@ public class Client {
     /**
      * The type Socket thread.
      */
-    /*Run Methode für Handshake und Mainloop*/
+    /*Run Methode für Handshake und MainLoop*/
     public class SocketThread extends Thread {
         @Override
         public void run() {
@@ -152,7 +155,7 @@ public class Client {
         /*client Handshake um die Nachrichten zu synchronisieren*/
         protected void clientHandshake() throws IOException, ClassNotFoundException {
             // TODO fix the while loop issue when giving the same name (check master branch)
-            String name = null;
+            String name;
             while (true) {
                 Message message = connection.receive();
 

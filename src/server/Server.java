@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * The type chat.Server.
  */
 public class Server {
-    private static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
+    private final static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
 
     /**
      * The entry point of application.
@@ -24,7 +24,7 @@ public class Server {
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleHelper.writeMessage("Server läuft!");
-
+            //TODO Replace while loop?
             while (true) {
                 // warten auf chat.Client Socket
                 Socket socket = serverSocket.accept();
@@ -55,13 +55,13 @@ public class Server {
      * Send broadcast message except user.
      *
      * @param message        the message
-     * @param userconnection the userconnection
+     * @param userConnection the userConnection
      */
     /*Senden der Nachricht an alle User außer sich selbst*/
-    public static void sendBroadcastMessageExceptUser(Message message, Connection userconnection) {
+    public static void sendBroadcastMessageExceptUser(Message message, Connection userConnection) {
 
         for (Connection connection : connectionMap.values()) {
-            if (!connection.equals(userconnection)) {
+            if (!connection.equals(userConnection)) {
                 try {
                     connection.send(message);
                 } catch (IOException e) {
@@ -88,7 +88,7 @@ public class Server {
 
     /*Thread Handler mit run Methode - Herstellen der Verbindung und Willkommensnachricht*/
     private static class Handler extends Thread {
-        private Socket socket;
+        private final Socket socket;
 
         /**
          * Instantiates a new Handler.
@@ -148,7 +148,7 @@ public class Server {
                     continue;
                 }
 
-                if (userName.contains("@") || userName.contains(" ")){
+                if (userName.contains("@") || userName.contains(" ")) {
                     ConsoleHelper.writeMessage("UserName darf keine @ or Leerzeichen enthalten");
                     continue;
                 }
@@ -184,7 +184,7 @@ public class Server {
                         connection.close();
                         connectionMap.remove(userName);
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " left the room"));
-                    } else if (data.charAt(0) == '@'){
+                    } else if (data.charAt(0) == '@') {
                         try {
                             String usernameDirect = data.substring(1, data.indexOf(" "));
                             if (connectionMap.containsKey(usernameDirect) && !usernameDirect.equals(userName)) {
@@ -192,11 +192,11 @@ public class Server {
                                 sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + data), connection);
                                 sendDirectMessage(new Message(MessageType.TEXT, userName + " to you : " + directData), connectionMap.get(usernameDirect));
                             }
-                        } catch (StringIndexOutOfBoundsException e){
+                        } catch (StringIndexOutOfBoundsException e) {
                             sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
                         }
-                    }
-                    else {sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
+                    } else {
+                        sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
                     }
                 }
             }

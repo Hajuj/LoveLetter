@@ -19,23 +19,36 @@ public class PlayerList {
 
     /**
      * Public constructor for a PlayerList object.
+     *
+     * @param botClient the bot client
      */
     public PlayerList(BotClient botClient) {
         this.players = new LinkedList<>();
         this.botClient = botClient;
     }
 
+    /**
+     * Gets players.
+     *
+     * @return the players
+     */
     public LinkedList<Player> getPlayers() {
         return players;
     }
 
+    /**
+     * Check for user boolean.
+     *
+     * @param name the name
+     * @return the boolean
+     */
     public boolean checkForUser(String name) {
         for (Player p : this.getPlayers()) {
             if (p.getName().equals(name)) {
                 return true;
             }
         }
-            return false;
+        return false;
     }
 
     /**
@@ -44,6 +57,7 @@ public class PlayerList {
      * @param name the given player name
      * @return true if the player is not already in the list and can be added, false if not
      */
+//TODO Wieso ist die methode boolean?
     public boolean addPlayer(String name) {
         for (Player p : players) {
             if (p.getName().equalsIgnoreCase(name)) {
@@ -170,7 +184,7 @@ public class PlayerList {
      *
      * @return the player with the highest used pile value
      */
-    // TODO all players win if there's still a tie after comparing the used cards. (if else in the for).
+// TODO all players win if there's still a tie after comparing the used cards. (if else in the for).
     public Player compareUsedPiles() {
         Player winner = players.getFirst();
         for (Player p : players) {

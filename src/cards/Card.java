@@ -4,13 +4,37 @@ package cards;
  * Enum with all possible cards.
  */
 public enum Card {
+    /**
+     * Guard card.
+     */
     GUARD("Guard", 1),
+    /**
+     * Priest card.
+     */
     PRIEST("Priest", 2),
+    /**
+     * Baron card.
+     */
     BARON("Baron", 3),
+    /**
+     * Handmaiden card.
+     */
     HANDMAIDEN("Handmaiden", 4),
+    /**
+     * Prince card.
+     */
     PRINCE("Prince", 5),
+    /**
+     * King card.
+     */
     KING("King", 6),
+    /**
+     * Countess card.
+     */
     COUNTESS("Countess", 7),
+    /**
+     * Princess card.
+     */
     PRINCESS("Princess", 8);
 
     /**

@@ -1,32 +1,54 @@
-
 package chat;
-import game.*;
-import server.*;
+
+import game.Game;
+import game.Player;
+import game.PlayerList;
+import server.ConsoleHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * The type Bot client.
+ */
 public class BotClient extends Client {
-    private Game currentGame;
-    private static ArrayList<String> waitingList = new ArrayList<>();
-    private boolean gameOn = false;
+    private final static ArrayList<String> waitingList = new ArrayList<>();
+    private final Game currentGame;
     private final int numberOfPlayers = 2;
-    private PlayerList listOfPlayers = new PlayerList(this);
-    private Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
-    private Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
+    private final PlayerList listOfPlayers = new PlayerList(this);
+    private final Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
+    private final Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
+    private boolean gameOn = false;
 
     /**
      * Instantiates a new chat.Client.
      *
      * @throws IOException the io exception
      */
-    public BotClient () throws IOException {
+    public BotClient() throws IOException {
         this.currentGame = new Game();
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws IOException the io exception
+     */
+    public static void main(String[] args) throws IOException {
+        Client client = new BotClient();
+        client.run();
+    }
 
+    /**
+     * Start the game boolean.
+     *
+     * @param newPlayer the new player
+     * @return the boolean
+     */
+//TODO Muss es eine boolean methode sein?
     //hier ANZAHL DER PLAYERS
     protected boolean startTheGame(String newPlayer) {
         if (waitingList.contains(newPlayer)) {
@@ -39,13 +61,13 @@ public class BotClient extends Client {
                 for (int i = 0; i < numberOfPlayers; i++) {
                     listOfPlayers.addPlayer(waitingList.get(i));
                 }
-                for (Player p : listOfPlayers.getPlayers()){
+                for (Player p : listOfPlayers.getPlayers()) {
                     currentCards.put(p, 10);
                 }
-                for (Player p : listOfPlayers.getPlayers()){
+                for (Player p : listOfPlayers.getPlayers()) {
                     currentOpponent.put(p, p.getName());
                 }
-               // currentOpponent = "";
+                // currentOpponent = "";
                 currentGame.setPlayers(listOfPlayers);
                 currentGame.setBotClient(this);
                 gameOn = true; // TODO remove all players from the waiting list.
@@ -58,6 +80,11 @@ public class BotClient extends Client {
         return true;
     }
 
+    /**
+     * Send to all players.
+     *
+     * @param message the message
+     */
     public void sendToAllPlayers(String message) {
         for (Player player : listOfPlayers.getPlayers()) {
             this.sendTextMessage("@" + player.getName() + " " + message);
@@ -78,32 +105,34 @@ public class BotClient extends Client {
     @Override
     protected String getUserName() {
         // because we love you Thomas <3
-        return "BREZEL";
+        return "bot";
     }
 
+    /**
+     * Gets current cards.
+     *
+     * @return the current cards
+     */
     public Map<Player, Integer> getCurrentCards() {
         return currentCards;
     }
 
+    /**
+     * Gets current opponent.
+     *
+     * @return the current opponent
+     */
     public Map<Player, String> getCurrentOpponent() {
         return currentOpponent;
     }
 
-    public void setCurrentOpponent(Map<Player, String> currentOpponent) {
-        this.currentOpponent = currentOpponent;
-    }
-
-    public static void main(String[] args) throws IOException {
-        Client client = new BotClient();
-        client.run();
-    }
-
-
-
+    /**
+     * The type Bot socket thread.
+     */
     public class BotSocketThread extends SocketThread {
         @Override
         protected void clientMainLoop() throws IOException, ClassNotFoundException {
-            String hello = "Hi everyone! To start the game send @BREZEL play";
+            String hello = "Hi everyone! To start the game send @bot play";
             BotClient.this.sendTextMessage(hello);
             super.clientMainLoop();
         }
@@ -123,31 +152,38 @@ public class BotClient extends Client {
 
             String messageWithoutUserName = split[1];
 
-            String format = null;
+            //   String format = null;
             switch (messageWithoutUserName) {
                 case "play":
                     startTheGame(split[0]);
                     break;
-                case "1", "2", "3", "4", "5", "6", "7", "8" : {
+                case "score":
+                    //TODO Return Score
+                    break;
+                case "start":
+                    //TODO synchronized boolean value to finally start the game in Class Game
+                    break;
+                case "1", "2", "3", "4", "5", "6", "7", "8": {
+                    // TODO two if loops for the cases of choosing cards on hand (A - only 1 or 2) and guessing the cards by using guard (B - between 1 and 7)
                     if (listOfPlayers.checkForUser(split[0])) {
-                            currentCards.replace(listOfPlayers.getPlayer(split[0]), Integer.parseInt(messageWithoutUserName));
-                            synchronized (currentCards) {
-                                currentCards.notify();
-                            }
+                        currentCards.replace(listOfPlayers.getPlayer(split[0]), Integer.parseInt(messageWithoutUserName));
+                        synchronized (currentCards) {
+                            currentCards.notify();
+                        }
                     }
                     break;
                 }
                 default:
                     if (listOfPlayers.checkForUser(split[0]) /*&& listOfPlayers.checkForUser(messageWithoutUserName)*/) {
                         currentOpponent.replace(listOfPlayers.getPlayer(split[0]), messageWithoutUserName);
-                            synchronized (currentOpponent) {
-                                System.out.println("Bis hier her");
-                                currentOpponent.notify();
-                            }
+                        synchronized (currentOpponent) {
+                            System.out.println("Bis hier her");
+                            currentOpponent.notify();
                         }
                     }
             }
-
         }
+
+    }
 
 }

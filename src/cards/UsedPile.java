@@ -3,10 +3,16 @@ package cards;
 
 import java.util.ArrayList;
 
+/**
+ * The type Used pile.
+ */
 public class UsedPile {
 
     private final ArrayList<Card> used;
 
+    /**
+     * Instantiates a new Used pile.
+     */
     public UsedPile() {
         this.used = new ArrayList<>();
     }
@@ -33,12 +39,17 @@ public class UsedPile {
         return value;
     }
 
+    /**
+     * Clear.
+     */
     public void clear() {
         this.used.clear();
     }
 
     /**
      * Prints the used pile of the current player.
+     *
+     * @return the string
      */
     public String printUsedPiles() {
         StringBuilder cards = new StringBuilder();

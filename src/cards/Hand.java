@@ -4,10 +4,16 @@ package cards;
 
 import java.util.ArrayList;
 
+/**
+ * The type Hand.
+ */
 public class Hand {
 
     private final ArrayList<Card> hand;
 
+    /**
+     * Instantiates a new Hand.
+     */
     public Hand() {
         this.hand = new ArrayList<>();
     }
@@ -73,14 +79,15 @@ public class Hand {
 
     /**
      * Prints the cards making up the current player's hand.
+     *
+     * @return the string
      */
-    // TODO make name more clear
-    public String print() {
-        String carten = "";
+    public String printHand() {
+        StringBuilder handCards = new StringBuilder();
         for (Card c : this.hand) {
-            carten = carten + c.toString();
+            handCards.append(c.toString());
         }
-        return carten;
+        return handCards.toString();
     }
 
 

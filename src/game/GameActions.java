@@ -1,9 +1,11 @@
 package game;
 
-import cards.*;
+import cards.Card;
+import cards.Deck;
 import chat.BotClient;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 // TODO eingaben mit Guard
 
@@ -12,28 +14,29 @@ import java.util.*;
  */
 abstract class GameActions {
 
+    // TODO beschreibung der Funktionen von jeder Karte
+
     /**
      * Allows the user to guess a card that a player's hand contains (excluding another guard).
      * If the user is correct, the opponent loses the round and must lay down their card.
      * If the user is incorrect, the opponent is not affected.
      *
-     * @param opponent the targeted player
+     * @param botClient the bot client
+     * @param user      the user
+     * @param opponent  the targeted player
      */
-
-    // TODO beschreibung der Funktionen von jeder Karte
-
     void useGuard(BotClient botClient, Player user, Player opponent) {
         ArrayList<String> cardNames = new ArrayList<>(Arrays.asList(Card.CARD_NAMES));
         botClient.sendTextMessage("@" + user.getName() + " Which card would you like to guess (other than Guard): ");
-        int index=0;
-        for(String s : cardNames){
-            botClient.sendTextMessage("@" + user.getName() + " " + String.valueOf(index++)+": "+s);
+        int index = 0;
+        for (String s : cardNames) {
+            botClient.sendTextMessage("@" + user.getName() + " " + (index++) + ": " + s);
         }
         // TODO nicht den Guard ausgeben
 
 
-        synchronized (botClient.getCurrentCards()){
-            try{
+        synchronized (botClient.getCurrentCards()) {
+            try {
                 botClient.getCurrentCards().wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -49,8 +52,8 @@ abstract class GameActions {
         while (!cardNames.contains(cardName.toLowerCase()) || cardName.equalsIgnoreCase("guard")) {
             botClient.sendTextMessage("@" + user.getName() + " Invalid card name \n Which card would you like to guess (other than Guard): ");
 
-            synchronized (botClient.getCurrentCards()){
-                try{
+            synchronized (botClient.getCurrentCards()) {
+                try {
                     botClient.getCurrentCards().wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -76,7 +79,9 @@ abstract class GameActions {
     /**
      * Allows the user to peek at the card of an opposing player.
      *
-     * @param opponent the targeted player
+     * @param botClient the bot client
+     * @param user      the user
+     * @param opponent  the targeted player
      */
     void usePriest(BotClient botClient, Player user, Player opponent) {
         Card opponentCard = opponent.hand().peek(0);
@@ -90,8 +95,9 @@ abstract class GameActions {
      * If the user's card is of lower value, the user loses the round and their card.
      * If the two players have the same card, their used pile values are compared in the same manner.
      *
-     * @param user     the initiator of the comparison
-     * @param opponent the targeted player
+     * @param botClient the bot client
+     * @param user      the initiator of the comparison
+     * @param opponent  the targeted player
      */
     void useBaron(BotClient botClient, Player user, Player opponent) {
         Card userCard = user.hand().peek(0);
@@ -102,9 +108,7 @@ abstract class GameActions {
             botClient.sendTextMessage("@" + user.getName() + " You have won the comparison!");
 
             opponent.lose();
-            botClient.sendTextMessage( opponent + " is eliminated!");
-
-
+            botClient.sendTextMessage(opponent + " is eliminated!");
 
 
         } else if (cardComparison < 0) {
@@ -128,9 +132,11 @@ abstract class GameActions {
     /**
      * Switches the user's protection for one turn. This protects them from being targeted.
      *
-     * @param user the current player
+     * @param botClient the bot client
+     * @param user      the current player
      */
     void useHandmaiden(BotClient botClient, Player user) {
+        //TODO Bei Zwei Spielern führt es zu einer endlosschleife
         botClient.sendTextMessage("@" + user.getName() + " You are now protected until your next turn.");
 
         user.switchProtection();
@@ -143,34 +149,33 @@ abstract class GameActions {
      * @param d        the deck of cards
      */
     void usePrince(Player opponent, Deck d) {
-            opponent.lose();
-            if (d.hasMoreCards()) {
-                opponent.hand().add(d.dealCard());
-            }
+        opponent.lose();
+        if (d.hasMoreCards()) {
+            opponent.hand().add(d.dealCard());
         }
-
-        /**
-         * Allows the user to switch cards with an opponent.
-         * Swaps the user's hand for the opponent's.
-         * @param user
-         *          the initiator of the swap
-         * @param opponent
-         *          the targeted player
-         */
-        void useKing (Player user, Player opponent){
-            Card userCard = user.hand().remove(0);
-            Card opponentCard = opponent.hand().remove(0);
-            user.hand().add(opponentCard);
-            opponent.hand().add(userCard);
-        }
-
-        /**
-         * If the princess is played, the user loses the round and must lay down their hand.
-         * @param user
-         *          the current player
-         */
-        void usePrincess (Player user){
-            user.lose();
-        }
-
     }
+
+    /**
+     * Allows the user to switch cards with an opponent.
+     * Swaps the user's hand for the opponent's.
+     *
+     * @param user     the initiator of the swap
+     * @param opponent the targeted player
+     */
+    void useKing(Player user, Player opponent) {
+        Card userCard = user.hand().remove(0);
+        Card opponentCard = opponent.hand().remove(0);
+        user.hand().add(opponentCard);
+        opponent.hand().add(userCard);
+    }
+
+    /**
+     * If the princess is played, the user loses the round and must lay down their hand.
+     *
+     * @param user the current player
+     */
+    void usePrincess(Player user) {
+        user.lose();
+    }
+
+}
