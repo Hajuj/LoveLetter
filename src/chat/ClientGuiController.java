@@ -102,6 +102,7 @@ public class ClientGuiController extends Client {
     public void loginButton(ActionEvent event) {
         run();
         userName = nameField.getText();
+        loginButton.setDisable(true);
     }
 
 
@@ -123,6 +124,8 @@ public class ClientGuiController extends Client {
                 }
             }
         });
+        startButton.setDisable(true);
+        errorLabel.setText("You started LoveLetter");
     }
 
 
