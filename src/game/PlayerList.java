@@ -36,15 +36,6 @@ public class PlayerList {
         return players;
     }
 
-    public boolean checkForUser(String name) {
-        for (Player p : this.getPlayers()) {
-            if (p.getName().equals(name)) {
-                return true;
-            }
-        }
-            return false;
-    }
-
     /**
      * Check for user boolean.
      *
@@ -103,8 +94,7 @@ public class PlayerList {
      */
     public void printUsedPiles() {
         for (Player p : players) {
-            botClient.sendToAllPlayers(p.getName() + "\n" + p.used().printUsedPiles());
-//            p.used().printUsedPiles();
+            botClient.sendToAllPlayers("The used cards of [" + p.getName() + "] are:" + "\n" + p.used().printUsedPiles());
         }
     }
 
