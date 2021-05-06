@@ -11,7 +11,6 @@ public class Player {
     /**
      * The name of the player.z
      */
-    // TODO add player ID
     private final String name;
     /**
      * Hand of cards the player possesses.
@@ -28,8 +27,7 @@ public class Player {
     /**
      * The number of blocks the player has won.
      */
-    // TODO change name letterCount
-    private int blockCount;
+    private int letterCount;
 
     /**
      * Public constructor for Player object.
@@ -41,23 +39,21 @@ public class Player {
         this.hand = new Hand();
         this.used = new UsedPile();
         this.isProtected = false;
-        this.blockCount = 0;
+        this.letterCount = 0;
     }
 
     /**
      * Adds one block to the players block count.
      */
-// TODO change to add addRoundWinner
-    public void addBlock() {
-        this.blockCount++;
+    public void addRoundWinner() {
+        this.letterCount++;
     }
 
     /**
      * Indicates that a player has lost the game by removing
      * the last card from the hand and placing it in used.
      */
-// TODO CHANGE THE FUCKING NAME!!!!
-    public void lose() {
+    public void discardCard() {
         this.used.add(this.hand.remove(0));
     }
 
@@ -100,8 +96,8 @@ public class Player {
      *
      * @return player 's block count
      */
-    public int getBlockCount() {
-        return this.blockCount;
+    public int getLetterCount() {
+        return this.letterCount;
     }
 
     /**
@@ -115,6 +111,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return this.name + " (" + this.blockCount + ")";
+        return this.name + " (" + this.letterCount + ")";
     }
 }

@@ -25,6 +25,8 @@ public class ClientGuiController extends Client {
     @FXML
     private Button loginButton;
     @FXML
+    private Button startButton;
+    @FXML
     private TextField nameField;
     @FXML
     private TextArea users;
@@ -98,6 +100,18 @@ public class ClientGuiController extends Client {
     public void loginButton(ActionEvent event) {
         run();
         userName = nameField.getText();
+    }
+
+
+    /**
+     * Start bot client button.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
+    @FXML
+    public void startBotClientButton(ActionEvent event) throws IOException {
+        BotClient.main(null);
     }
 
 

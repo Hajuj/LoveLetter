@@ -7,7 +7,6 @@ import chat.BotClient;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-// TODO eingaben mit Guard
 
 /**
  * The possible player actions to be taken during the game.
@@ -33,7 +32,6 @@ abstract class GameActions {
         for (String s : cardNames) {
             botClient.sendTextMessage("@" + user.getName() + " " + (index++) + ": " + s);
         }
-        // TODO nicht den Guard ausgeben
 
 
         synchronized (botClient.getCurrentCards()) {
@@ -49,7 +47,6 @@ abstract class GameActions {
         String cardName = cardNames.get(card);
 
 
-        // TODO change from cardName to cardNumber
         while (!cardNames.contains(cardName.toLowerCase()) || cardName.equalsIgnoreCase("guard")) {
             botClient.sendTextMessage("@" + user.getName() + " Invalid card name \n Which card would you like to guess (other than Guard): ");
 
@@ -70,7 +67,7 @@ abstract class GameActions {
         if (opponentCard.getName().equalsIgnoreCase(cardName)) {
             botClient.sendTextMessage("@" + user.getName() + " You have guessed correctly!");
 
-            opponent.lose();
+            opponent.discardCard();
         } else {
             botClient.sendTextMessage("@" + user.getName() + " You have guessed incorrectly.");
 
@@ -108,14 +105,14 @@ abstract class GameActions {
         if (cardComparison > 0) {
             botClient.sendTextMessage("@" + user.getName() + " You have won the comparison!");
 
-            opponent.lose();
+            opponent.discardCard();
             botClient.sendTextMessage(opponent + " is eliminated!");
 
 
         } else if (cardComparison < 0) {
             botClient.sendTextMessage("@" + user.getName() + " You have lost the comparison.");
 
-            user.lose();
+            user.discardCard();
         } else {
             botClient.sendTextMessage("@" + user.getName() + " You have the same card!");
 
@@ -150,7 +147,7 @@ abstract class GameActions {
      * @param d        the deck of cards
      */
     void usePrince(Player opponent, Deck d) {
-        opponent.lose();
+        opponent.discardCard();
         if (d.hasMoreCards()) {
             opponent.hand().add(d.dealCard());
         }
@@ -176,7 +173,7 @@ abstract class GameActions {
      * @param user the current player
      */
     void usePrincess(Player user) {
-        user.lose();
+        user.discardCard();
     }
 
 }

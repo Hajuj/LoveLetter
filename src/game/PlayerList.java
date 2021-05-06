@@ -146,7 +146,7 @@ public class PlayerList {
      */
     public Player getGameWinner() {
         for (Player p : players) {
-            if (p.getBlockCount() == 5) {
+            if (p.getLetterCount() == 5) {
                 return p;
             }
         }
