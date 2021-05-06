@@ -37,14 +37,11 @@ public class ConsoleHelper {
             }
         }
     }
+
+
 //TODO safe delete?
-   /* /**
-    // * Read int int.
-     //*
-     //* @return the int
-     //*//*
-     *//*Hilfsfunktion um Integers einzulesen*//*
-    public static int readInt() {
+
+/*    public static int readInt() {
         while (true) {
             try {
                 return Integer.parseInt(readString().trim());
