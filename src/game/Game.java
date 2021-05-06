@@ -13,16 +13,16 @@ public class Game extends GameActions implements Runnable {
     /**
      * The deck of cards.
      */
-    private final Deck deck;
+    public final Deck deck;
     /**
      * The list of players in the game.
      */
-    private PlayerList players;
+    public PlayerList players;
     /**
      * The input stream.
      */
 
-    private BotClient botClient;
+    public BotClient botClient;
 
     /**
      * Public constructor for a Game object.

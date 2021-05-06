@@ -57,13 +57,16 @@ public class PlayerList {
      * @param name the given player name
      * @return true if the player is not already in the list and can be added, false if not
      */
-    public void addPlayer(String name) {
+    public boolean addPlayer(String name) {
         for (Player p : players) {
-            if (!p.getName().equalsIgnoreCase(name)) {
-                players.addLast(new Player(name));
+            if (p.getName().equalsIgnoreCase(name)) {
+                return false;
             }
         }
+        players.addLast(new Player(name));
+        return true;
     }
+
 
 
     /**

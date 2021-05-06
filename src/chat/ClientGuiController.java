@@ -114,11 +114,11 @@ public class ClientGuiController extends Client {
      */
     @FXML
     public void startBotClientButton(ActionEvent event) throws IOException {
-        BotClient botClient = new BotClient();
         EventQueue.invokeLater(new Runnable() {
             public void run() {
+
                 try {
-                    botClient.main(null);
+                    BotClient.main(null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
