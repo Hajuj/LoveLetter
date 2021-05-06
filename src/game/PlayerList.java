@@ -57,16 +57,14 @@ public class PlayerList {
      * @param name the given player name
      * @return true if the player is not already in the list and can be added, false if not
      */
-//TODO Wieso ist die methode boolean?
-    public boolean addPlayer(String name) {
+    public void addPlayer(String name) {
         for (Player p : players) {
-            if (p.getName().equalsIgnoreCase(name)) {
-                return false;
+            if (!p.getName().equalsIgnoreCase(name)) {
+                players.addLast(new Player(name));
             }
         }
-        players.addLast(new Player(name));
-        return true;
     }
+
 
     /**
      * Gets the first player in the list and adds them to end of the list.

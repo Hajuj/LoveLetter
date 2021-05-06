@@ -24,7 +24,6 @@ public class Server {
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleHelper.writeMessage("Server läuft!");
-            //TODO Replace while loop?
             while (true) {
                 // warten auf chat.Client Socket
                 Socket socket = serverSocket.accept();
@@ -172,7 +171,7 @@ public class Server {
 
         /*Busy Waiting Loop für das Schließen der Verbindung*/
         private void serverMainLoop(Connection connection, String userName) throws IOException, ClassNotFoundException {
-           do {
+            do {
                 Message message = connection.receive();
 
                 if (message.getType() == MessageType.TEXT && !message.getData().isBlank()) {
@@ -198,7 +197,7 @@ public class Server {
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
                     }
                 }
-            }  while (true);
+            } while (true);
         }
     }
 }

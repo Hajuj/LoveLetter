@@ -48,9 +48,7 @@ public class BotClient extends Client {
      * @param newPlayer the new player
      * @return the boolean
      */
-//TODO Muss es eine boolean methode sein?
-    //hier ANZAHL DER PLAYERS
-    protected boolean startTheGame(String newPlayer) {
+    protected void startTheGame(String newPlayer) {
         if (waitingList.contains(newPlayer)) {
             this.sendTextMessage("@" + newPlayer + " you are already in the wait list");
         } else {
@@ -77,7 +75,6 @@ public class BotClient extends Client {
                 sadThread.start();
             }
         }
-        return true;
     }
 
     /**

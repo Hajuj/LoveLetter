@@ -38,16 +38,4 @@ public class ConsoleHelper {
         }
     }
 
-
-//TODO safe delete?
-
-/*    public static int readInt() {
-        while (true) {
-            try {
-                return Integer.parseInt(readString().trim());
-            } catch (NumberFormatException e) {
-                writeMessage("Keine Zahl");
-            }
-        }
-    }*/
 }

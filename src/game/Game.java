@@ -29,7 +29,7 @@ public class Game extends GameActions implements Runnable {
      */
     public Game() {
         //TODO wieso ist botClient immer null? ersetzen mit null?
-        this.players = new PlayerList(botClient);
+        this.players = new PlayerList(null);
         this.deck = new Deck();
     }
 

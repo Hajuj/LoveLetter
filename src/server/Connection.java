@@ -54,7 +54,8 @@ public class Connection implements Closeable {
             // notwendig für langsame CPUs und natürlicherem Spielfluss
             try {
                 Thread.sleep(111);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
             return (Message) in.readObject();
 
         }
