@@ -27,8 +27,9 @@ abstract class GameActions {
      */
     void useGuard(BotClient botClient, Player user, Player opponent) {
         ArrayList<String> cardNames = new ArrayList<>(Arrays.asList(Card.CARD_NAMES));
+        cardNames.remove(0);
         botClient.sendTextMessage("@" + user.getName() + " Which card would you like to guess (other than Guard): ");
-        int index = 0;
+        int index = 1;
         for (String s : cardNames) {
             botClient.sendTextMessage("@" + user.getName() + " " + (index++) + ": " + s);
         }

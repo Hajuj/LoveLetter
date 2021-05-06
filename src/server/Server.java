@@ -172,7 +172,7 @@ public class Server {
 
         /*Busy Waiting Loop für das Schließen der Verbindung*/
         private void serverMainLoop(Connection connection, String userName) throws IOException, ClassNotFoundException {
-            while (true) {
+           do {
 
                 // TODO Semaphore implementieren um sicher zugehen, dass während dem Versenden der Nachricht, deren Inhalt nicht überschrieben wird
                 // Oder alle messages in eine liste mit index und die nachrichten der reihe nach abarbeiten
@@ -180,6 +180,7 @@ public class Server {
 
                 if (message.getType() == MessageType.TEXT && !message.getData().isBlank()) {
                     String data = message.getData();
+
 
                     if (data.equals("bye")) {
                         connection.close();
@@ -200,7 +201,7 @@ public class Server {
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
                     }
                 }
-            }
+            }  while (true);
         }
     }
 }
