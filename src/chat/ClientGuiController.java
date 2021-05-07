@@ -149,11 +149,11 @@ public class ClientGuiController extends Client {
             // TODO check the notify method again to fix the name and welcome problem.
             messageField.setDisable(false);
             Platform.runLater(() -> errorLabel.setText("You are connected!"));
-            Platform.runLater(() -> errorLabel.setTextFill(Color.rgb(0,139,0)));
+            //Platform.runLater(() -> errorLabel.setTextFill(Color.rgb(0,139,0)));
             Platform.runLater(() -> nameField.setDisable(true));
         } else {
             Platform.runLater(() -> errorLabel.setText("Please use another name"));
-            Platform.runLater(() -> errorLabel.setTextFill(Color.rgb(255,0,0)));
+            //Platform.runLater(() -> errorLabel.setTextFill(Color.rgb(255,0,0)));
         }
     }
 
