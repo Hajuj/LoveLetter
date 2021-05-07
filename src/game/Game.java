@@ -13,7 +13,7 @@ import chat.BotClient;
 // TODO limit players number from 2 to 4, and change the tokens needed according to the players number.
 
 // bot
-// TODO leerzeichen nach dem Botbefehl ignorieren.
+// TODO leerzeichen nach dem Bot-Befehl ignorieren.
 
 /**
  * The main game class. Contains methods for running the game.
@@ -91,6 +91,14 @@ public class Game extends GameActions implements Runnable {
                     // royaltyPos is card 5 oder 6
                     int royaltyPos = playerTurn.hand().royaltyPos();
                     // wenn ein spieler karte 5 oder 6 hat dann countess werfen
+
+                    /*Unlike other cards, which take effect when discarded, the text on the Countess
+                    applies while she is in your hand. In fact, the only time it doesn't apply
+                    is when you discard her. If you ever have the Countess and either the King or
+                    Prince in your hand, you must discard the Countess. You do not have to reveal
+                    the other card in your hand. Of course, you can also discard the Countess even
+                    if you do not have a royal family member in your hand.
+                    The Countess likes to play mind games....*/
                     if (royaltyPos != -1) {
                         if (royaltyPos == 0 && playerTurn.hand().peek(1).value() == 7) {
                             playCard(playerTurn.hand().remove(1), playerTurn);
