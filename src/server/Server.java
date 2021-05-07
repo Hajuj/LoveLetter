@@ -19,7 +19,7 @@ public class Server {
      */
     /*Main Methode mit vorerst festen Werten (Hostname, Port Nummer)*/
     public static void main(String[] args) {
-        int port = 500;
+        int port = 5000;
         ConsoleHelper.writeMessage("Port Nummer: " + port);
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
@@ -30,7 +30,7 @@ public class Server {
                 new Handler(socket).start();
             }
         } catch (Exception e) {
-            ConsoleHelper.writeMessage("Es gab leider einen Fehler beim Server.");
+            ConsoleHelper.writeMessage("Es gab leider einen Fehler beim Server." + e.getMessage());
         }
     }
 

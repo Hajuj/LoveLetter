@@ -208,7 +208,7 @@ public class ClientGuiController extends Client {
     /*Getter Methode für Serverport - fixer Wert von 500*/
     @Override
     protected int getServerPort() {
-        return 500;
+        return 5000;
     }
 
 

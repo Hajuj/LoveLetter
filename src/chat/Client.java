@@ -94,7 +94,7 @@ public class Client {
      */
     protected int getServerPort() {
         ConsoleHelper.writeMessage("server.Server Port: 500");
-        return 500;
+        return 505;
     }
 
     /**

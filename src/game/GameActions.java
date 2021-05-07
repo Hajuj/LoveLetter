@@ -16,14 +16,15 @@ abstract class GameActions {
 
 
     /**
-     * When you discard the Guard, choose a player and name a number (other than 1).
-     * If that player has that number in their hand, that player is knocked out of the round.
-     * If all other players still in the round cannot be chosen
-     * (eg. due to Handmaid or Sycophant), this card is discarded without effect.
+     * User of the card "Guard" chooses an opponent and takes a guess on which card his/her
+     * opponent holds in hand.
+     * If the guess is right ,chosen opponent gets eliminated.
+     * If the guess is wrong ,,nothing happens and game goes on.
+     *
      *
      * @param botClient the bot client
      * @param user      the user
-     * @param opponent  the targeted player
+     * @param opponent  the selected player
      */
     void useGuard(BotClient botClient, Player user, Player opponent) {
         ArrayList<String> cardNames = new ArrayList<>(Arrays.asList(Card.CARD_NAMES));
@@ -65,12 +66,12 @@ abstract class GameActions {
     }
 
     /**
-     * When you discard the Priest, you can look at another player’s hand.
-     * Do not reveal the hand to any other players.
+     * User of the card "Priest" chooses an opponent and takes a look at the card that opponent is holding.
+     * Other players cannot see which card it is.
      *
      * @param botClient the bot client
      * @param user      the user
-     * @param opponent  the targeted player
+     * @param opponent  the selected player
      */
     void usePriest(BotClient botClient, Player user, Player opponent) {
         Card opponentCard = opponent.hand().peek(0);
@@ -78,13 +79,14 @@ abstract class GameActions {
     }
 
     /**
-     * When you discard the Baron, choose another player still in the round.
-     * You and that player secretly compare your hands. The player with the lower number
-     * is knocked out of the round. In case of a tie, nothing happens.
+     * User of the card "Baron" chooses an opponent and compares hands with this opponent.
+     * If the User's hand has a greater Value user wins and opponent gets eliminated.
+     * If the Opponent's hand has a greater Value opponent wins and user gets eliminated.
+     * If the card have the same value it is declared as a tie and game goes on.
      *
      * @param botClient the bot client
      * @param user      the initiator of the comparison
-     * @param opponent  the targeted player
+     * @param opponent  the selected player
      */
     void useBaron(BotClient botClient, Player user, Player opponent) {
         Card userCard = user.hand().peek(0);

@@ -2,40 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d0d68a5-9c57-4de2-9f8d-c85a03867b40" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/cards/Card.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cards/Deck.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cards/Hand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cards/UsedPile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chat/BotClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chat/Chat.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chat/Chat.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chat/Client.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chat/ClientApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chat/ClientGuiController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chat/ClientGuiModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chat/background.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/Game.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/GameActions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/PlayerList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/brave_barsche.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/src.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/brave-barsche/brave-barsche.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/brave-barsche/chat/Chat.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/brave-barsche/chat/Chat.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/brave-barsche/chat/Chat.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/brave-barsche/chat/Chat.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/brave-barsche/images/chat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/brave-barsche/images/login.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/brave-barsche.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/ChientApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/ClientApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/ClientGuiController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/ClientGuiModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/images/chat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/images/login.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Connection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/ConsoleHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/ConsoleHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/MessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/MessageType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chat/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chat/ClientGuiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat/ClientGuiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/GameActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameActions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,13 +36,27 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="TODO_SCOPE" value="All Places" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.21974148" />
     <property name="project.structure.side.proportion" value="0.36953244" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.BotClient">
+    <configuration name="BotClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="chat.BotClient" />
+      <module name="brave-barsche" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="chat.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Server" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.Server" />
       <module name="brave-barsche" />
@@ -84,8 +71,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Server" />
+      <item itemvalue="Application.BotClient" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.BotClient" />
         <item itemvalue="Application.Server" />
       </list>
     </recent_temporary>
@@ -106,12 +98,20 @@
       <option name="project" value="LOCAL" />
       <updated>1620287932524</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="src updated">
+      <created>1620379063825</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1620379063825</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="try after the conflict problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="try after the conflict problem" />
+    <MESSAGE value="src updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="src updated" />
   </component>
 </project>
