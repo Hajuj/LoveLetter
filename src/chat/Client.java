@@ -1,10 +1,12 @@
 package chat;
 
-import server.*;
+import server.Connection;
+import server.ConsoleHelper;
+import server.Message;
+import server.MessageType;
 
 import java.io.IOException;
 import java.net.Socket;
-
 
 
 /**
@@ -147,7 +149,6 @@ public class Client {
 
         // TODO Check the users connected not showing, after writing a false name more than once.
         // TODO Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
-
         protected void clientHandshake() throws IOException, ClassNotFoundException {
             String name = "";
             while (true) {

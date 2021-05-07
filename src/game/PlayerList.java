@@ -152,13 +152,10 @@ public class PlayerList {
 
     public void getCurrentScore() {
         for (Player p : players) {
-            botClient.sendTextMessage ("\nThe score of [" + p.getName() + "] is: " + p.getLetterCount());
-            }
+            botClient.sendTextMessage("\nThe score of [" + p.getName() + "] is: " + p.getLetterCount());
+        }
 
     }
-
-
-
 
 
     /**

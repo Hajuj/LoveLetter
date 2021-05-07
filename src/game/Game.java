@@ -147,7 +147,7 @@ public class Game extends GameActions implements Runnable {
     private void playCard(Card card, Player user) {
         int value = card.value();
         user.used().add(card);
-        if (value < 4  || value == 5 || value == 6) {
+        if (value < 4 || value == 5 || value == 6) {
             Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
             switch (value) {
                 case 1 -> useGuard(botClient, user, opponent);
@@ -163,7 +163,6 @@ public class Game extends GameActions implements Runnable {
             }
         }
     }
-
 
 
     /**
@@ -182,7 +181,7 @@ public class Game extends GameActions implements Runnable {
             }
         }
         int idx = botClient.getCurrentCards().get(user);
-        while(!(idx == 1 || idx == 2)){
+        while (!(idx == 1 || idx == 2)) {
 
 
             botClient.sendTextMessage("@" + user.getName() + " " + user.hand().printHand() + " \n Wrong number - Which card would you like to play (1 for first, 2 for second): ");
