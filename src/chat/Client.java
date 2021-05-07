@@ -6,10 +6,6 @@ import java.io.IOException;
 import java.net.Socket;
 
 
-// TODO Check the users connected not showing, after writing a false name more than once.
-// TODO Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
-// TODO Fix message/error not showing, After trying to send a direct message but the name is not written correctly.
-// TODO Change the error message, when writing only '@' in chat.
 
 /**
  * The type chat.Client.
@@ -40,7 +36,7 @@ public class Client {
         try {
             connection.send(new Message(MessageType.TEXT, text));
         } catch (IOException e) {
-            ConsoleHelper.writeMessage("Error beim Senden");
+            ConsoleHelper.writeMessage("Error while sending");
             clientConnected = false;
         }
     }
@@ -148,6 +144,10 @@ public class Client {
          * @throws ClassNotFoundException the class not found exception
          */
         /*client Handshake um die Nachrichten zu synchronisieren*/
+
+        // TODO Check the users connected not showing, after writing a false name more than once.
+        // TODO Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
+
         protected void clientHandshake() throws IOException, ClassNotFoundException {
             String name = "";
             while (true) {

@@ -14,11 +14,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BotClient extends Client {
     private final static ArrayList<String> waitingList = new ArrayList<>();
     private final Game currentGame;
-    private final int numberOfPlayers = 2;
+    private int numberOfPlayers=2;
     private final PlayerList listOfPlayers = new PlayerList(this);
     private final Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
     private final Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
     private boolean gameOn = false;
+
 
     /**
      * Instantiates a new chat.Client.
@@ -40,6 +41,11 @@ public class BotClient extends Client {
         client.run();
     }
 
+
+    public void stop() {
+        System.exit(0);
+    }
+
     /**
      * Start the game boolean.
      *
@@ -51,7 +57,7 @@ public class BotClient extends Client {
             this.sendTextMessage("@" + newPlayer + " you are already in the wait list");
         } else {
             waitingList.add(newPlayer);
-            if (waitingList.size() < numberOfPlayers || gameOn) {
+            if ( waitingList.size() < numberOfPlayers || gameOn) {
                 this.sendTextMessage("@" + newPlayer + " you are in the wait list");
             } else {
                 for (int i = 0; i < numberOfPlayers; i++) {
@@ -64,11 +70,12 @@ public class BotClient extends Client {
                     currentOpponent.put(p, p.getName());
                 }
                 // currentOpponent = "";
+
                 currentGame.setPlayers(listOfPlayers);
                 currentGame.setBotClient(this);
-                gameOn = true;
                 waitingList.clear();
 //                currentGame.start();
+
                 // sadThread because it toke us a long time to make him happy :(
                 Thread sadThread = new Thread(currentGame);
                 sadThread.start();
@@ -160,7 +167,8 @@ public class BotClient extends Client {
                     listOfPlayers.getCurrentScore();
                     break;
                 case "start":
-                    //TODO synchronized boolean value to finally start the game in Class Game
+                    //TODO Implement start check with notify or ask for number of players
+                        gameOn= true;
                     break;
                 case "1", "2", "3", "4", "5", "6", "7", "8": {
                     if (listOfPlayers.checkForUser(split[0])) {
