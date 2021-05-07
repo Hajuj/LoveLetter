@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.net.Socket;
 
 
-// TODO Check the users connected not showing, after writing a false name more than once.
-// TODO Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
 
 /**
  * The type chat.Client.
@@ -146,6 +144,10 @@ public class Client {
          * @throws ClassNotFoundException the class not found exception
          */
         /*client Handshake um die Nachrichten zu synchronisieren*/
+
+        // TODO Check the users connected not showing, after writing a false name more than once.
+        // TODO Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
+
         protected void clientHandshake() throws IOException, ClassNotFoundException {
             String name = "";
             while (true) {

@@ -123,7 +123,7 @@ abstract class GameActions {
     /**
      * When you discard Prince Arnaud, choose one player still in the round
      * (including yourself). That player discards his or her hand
-     * (but doesn’t apply its effect, unless it is the Princess, see page 8)
+     * (but doesn't apply its effect, unless it is the Princess, see page 8)
      * and draws a new one. If the deck is empty and the player cannot draw a card,
      * that player draws the card that was removed at the start of the round.
      * If all other players are protected by the Handmaid, you must choose yourself.
