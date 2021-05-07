@@ -53,7 +53,7 @@ public class UsedPile {
     public String printUsedPiles() {
         StringBuilder cards = new StringBuilder();
         for (Card c : this.used) {
-            cards.append(c.toString());
+            cards.append(c.toString() + "\n ");
         }
         return cards.toString();
     }

@@ -122,6 +122,7 @@ public class Game extends GameActions implements Runnable {
             // add the winner of the round
             winner.addRoundWinner();
             botClient.sendToAllPlayers(winner.getName() + " has won this round!");
+            botClient.sendToAllPlayers(" \n\n ### new Round ### \n ");
             players.print();
         }
         // gives the winner of the game
@@ -150,6 +151,29 @@ public class Game extends GameActions implements Runnable {
         // TODO make it as switch case
         if (value < 4 || value == 5 || value == 6) {
             Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
+            switch (value) {
+                case 1: useGuard(botClient, user, opponent);
+                    break;
+                case 2: usePriest(botClient, user, opponent);
+                    break;
+                case 3: useBaron(botClient, user, opponent);
+                    break;
+                case 5: usePrince(opponent, deck);
+                    break;
+                case 6: useKing(user, opponent);
+                    break;
+            }
+        } else {
+            switch (value) {
+                case 4: useHandmaiden(botClient, user);
+                    break;
+                case 8: usePrincess(user);
+                    break;
+            }
+        }
+        /*
+        if (value < 4 || value == 5 || value == 6) {
+            Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
             if (value == 1) {
                 useGuard(botClient, user, opponent);
             } else if (value == 2) {
@@ -167,7 +191,7 @@ public class Game extends GameActions implements Runnable {
             } else if (value == 8) {
                 usePrincess(user);
             }
-        }
+        }*/
     }
 
     /**
