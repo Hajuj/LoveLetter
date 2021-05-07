@@ -138,15 +138,14 @@ public class BotClient extends Client {
         }
 
 
-        // TODO eingaben vom user durch den bot einlesen
-        // TODO ignore the spaces after @bot + letter case
         @Override
         protected void processIncomingMessage(String message) {
             // alles in die console
             ConsoleHelper.writeMessage(message);
 
             // split name from message
-            String userNameDelimiter = " to you : ";
+            message = message.replaceAll("\\s+","");
+            String userNameDelimiter = "toyou:";
             String[] split = message.split(userNameDelimiter);
             if (split.length != 2) return;
 
@@ -158,7 +157,7 @@ public class BotClient extends Client {
                     startTheGame(split[0]);
                     break;
                 case "score":
-                    //TODO Return Score
+                    listOfPlayers.getCurrentScore();
                     break;
                 case "start":
                     //TODO synchronized boolean value to finally start the game in Class Game

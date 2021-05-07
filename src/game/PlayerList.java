@@ -152,6 +152,17 @@ public class PlayerList {
         return null;
     }
 
+    public void getCurrentScore() {
+        for (Player p : players) {
+            botClient.sendTextMessage ("\nThe score of [" + p.getName() + "] is: " + p.getLetterCount());
+            }
+
+    }
+
+
+
+
+
     /**
      * Deals a card to each Player in the list.
      *

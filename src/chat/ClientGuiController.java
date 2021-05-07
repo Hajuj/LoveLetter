@@ -157,7 +157,7 @@ public class ClientGuiController extends Client {
         if (clientConnected) {
             messageField.setDisable(false);
             Platform.runLater(() -> errorLabel.setText("You are connected!"));
-            Platform.runLater(() -> errorLabel.setTextFill(Color.rgb(0, 139, 0)));
+            Platform.runLater(() -> errorLabel.setTextFill(Color.rgb(255, 255, 255)));
             Platform.runLater(() -> nameField.setDisable(true));
         } else {
             Platform.runLater(() -> errorLabel.setText("Please use another name!"));
