@@ -163,7 +163,6 @@ public class BotClient extends Client {
                     //TODO synchronized boolean value to finally start the game in Class Game
                     break;
                 case "1", "2", "3", "4", "5", "6", "7", "8": {
-                    // TODO two if loops for the cases of choosing cards on hand (A - only 1 or 2) and guessing the cards by using guard (B - between 1 and 7)
                     if (listOfPlayers.checkForUser(split[0])) {
                         currentCards.replace(listOfPlayers.getPlayer(split[0]), Integer.parseInt(messageWithoutUserName));
                         synchronized (currentCards) {

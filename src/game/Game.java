@@ -189,8 +189,23 @@ public class Game extends GameActions implements Runnable {
             }
         }
         int idx = botClient.getCurrentCards().get(user);
+        while(!(idx == 1 || idx == 2)){
+
+
+            botClient.sendTextMessage("@" + user.getName() + " " + user.hand().printHand() + " \n Wrong number - Which card would you like to play (1 for first, 2 for second): ");
+
+            synchronized (botClient.getCurrentCards()) {
+                try {
+                    botClient.getCurrentCards().wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            idx = botClient.getCurrentCards().get(user);
+        }
         botClient.getCurrentCards().replace(user, 10);
         return user.hand().remove(idx - 1);
+
     }
 
     /**
