@@ -146,6 +146,7 @@ public class BotClient extends Client {
             ConsoleHelper.writeMessage(message);
 
             // split name from message
+
             String userNameDelimiter = " to you : ";
             String[] split = message.split(userNameDelimiter);
             if (split.length != 2) return;

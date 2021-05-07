@@ -40,7 +40,7 @@ abstract class GameActions {
                 e.printStackTrace();
             }
         }
-        int card = botClient.getCurrentCards().get(user);
+        int card = botClient.getCurrentCards().get(user)-2;
         String cardName = cardNames.get(card);
         while (!cardNames.contains(cardName.toLowerCase()) || cardName.equalsIgnoreCase("guard")) {
             botClient.sendTextMessage("@" + user.getName() + " Invalid card name \n Which card would you like to guess (other than Guard): ");
