@@ -1,19 +1,15 @@
 package chat;
 
-import server.Connection;
-import server.ConsoleHelper;
-import server.Message;
-import server.MessageType;
+import server.*;
 
 import java.io.IOException;
 import java.net.Socket;
 
 
-// TODO 1. Check the window not completely closing after clicking on the x.
-// TODO 2. Check the users connected not showing, after writing a false name more than once.
-// TODO 3. Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
-// TODO 4. Fix message / error not showing, After trying to send a direct message but the name is written false.
-// TODO 5. Change the error message, when writing only '@' in chat.
+// TODO Check the users connected not showing, after writing a false name more than once.
+// TODO Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
+// TODO Fix message/error not showing, After trying to send a direct message but the name is not written correctly.
+// TODO Change the error message, when writing only '@' in chat.
 
 /**
  * The type chat.Client.
@@ -21,7 +17,7 @@ import java.net.Socket;
 /*chat.Client Class für Socket Verbindungen der Threads*/
 public class Client {
     /**
-     * The chat.Connection.
+     * The server.Connection.
      */
     protected Connection connection = new Connection(new Socket(getServerAddress(), getServerPort()));
     private volatile boolean clientConnected;
@@ -57,13 +53,13 @@ public class Client {
         SocketThread socketThread = getSocketThread();
         // thread ist daemon
         socketThread.setDaemon(true);
-        socketThread.run();
+        socketThread.start();
         try {
             synchronized (this) {
                 wait();
             }
         } catch (InterruptedException e) {
-            ConsoleHelper.writeMessage("Fehler ");
+            ConsoleHelper.writeMessage("Fehler");
             return;
         }
 
@@ -87,7 +83,7 @@ public class Client {
      */
     /*Getter Methoden für IP, Port und Name - Vorerst aber fest definiert bei "127.0.0.1" und 500*/
     protected String getServerAddress() {
-        ConsoleHelper.writeMessage("chat.Server IP:");
+        ConsoleHelper.writeMessage("server.Server IP: 127.0.0.1");
         return "127.0.0.1";
     }
 
@@ -97,7 +93,7 @@ public class Client {
      * @return the server port
      */
     protected int getServerPort() {
-        ConsoleHelper.writeMessage("chat.Server Port:");
+        ConsoleHelper.writeMessage("server.Server Port: 500");
         return 500;
     }
 
@@ -153,22 +149,22 @@ public class Client {
          */
         /*client Handshake um die Nachrichten zu synchronisieren*/
         protected void clientHandshake() throws IOException, ClassNotFoundException {
-            // TODO fix the while loop issue when giving the same name (check master branch)
-            String name;
+            String name = "";
             while (true) {
                 Message message = connection.receive();
 
                 if (message.getType() == MessageType.NAME_REQUEST) { // ask the name
-                    name = getUserName();
-                    connection.send(new Message(MessageType.USER_NAME, name));
-                    this.notifyConnectionStatusChanged(false);
-
+                    if (!name.equals(getUserName())) {
+                        name = getUserName();
+                        connection.send(new Message(MessageType.USER_NAME, name));
+                        this.notifyConnectionStatusChanged(false);
+                    }
                 } else if (message.getType() == MessageType.NAME_ACCEPTED) { // server accepted the name
                     this.notifyConnectionStatusChanged(true);
                     return;
 
                 } else {
-                    throw new IOException("Unexpected chat.MessageType");
+                    throw new IOException("Unexpected server.MessageType");
                 }
             }
         }
@@ -179,9 +175,8 @@ public class Client {
          * @throws IOException            the io exception
          * @throws ClassNotFoundException the class not found exception
          */
-        /*Verwaltung der Art von Informationen die über den chat.Server laufen*/
+        /*Verwaltung der Art von Informationen die über den server.Server laufen*/
         protected void clientMainLoop() throws IOException, ClassNotFoundException {
-
             while (true) {
                 Message message = connection.receive();
                 if (message.getType() == MessageType.TEXT) {
@@ -191,7 +186,7 @@ public class Client {
                 } else if (MessageType.USER_REMOVED == message.getType()) {
                     informAboutDeletingNewUser(message.getData());
                 } else {
-                    throw new IOException("Unexpected chat.MessageType");
+                    throw new IOException("Unexpected server.MessageType");
                 }
             }
         }

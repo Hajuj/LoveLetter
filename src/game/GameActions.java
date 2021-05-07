@@ -32,8 +32,6 @@ abstract class GameActions {
         for (String s : cardNames) {
             botClient.sendTextMessage("@" + user.getName() + " " + (index++) + ": " + s);
         }
-
-
         synchronized (botClient.getCurrentCards()) {
             try {
                 botClient.getCurrentCards().wait();
@@ -41,15 +39,10 @@ abstract class GameActions {
                 e.printStackTrace();
             }
         }
-
         int card = botClient.getCurrentCards().get(user);
-
         String cardName = cardNames.get(card);
-
-
         while (!cardNames.contains(cardName.toLowerCase()) || cardName.equalsIgnoreCase("guard")) {
             botClient.sendTextMessage("@" + user.getName() + " Invalid card name \n Which card would you like to guess (other than Guard): ");
-
             synchronized (botClient.getCurrentCards()) {
                 try {
                     botClient.getCurrentCards().wait();
@@ -57,20 +50,15 @@ abstract class GameActions {
                     e.printStackTrace();
                 }
             }
-
             int newCard = botClient.getCurrentCards().get(user);
-
             cardName = cardNames.get(newCard);
         }
-
         Card opponentCard = opponent.hand().peek(0);
         if (opponentCard.getName().equalsIgnoreCase(cardName)) {
             botClient.sendTextMessage("@" + user.getName() + " You have guessed correctly!");
-
             opponent.discardCard();
         } else {
             botClient.sendTextMessage("@" + user.getName() + " You have guessed incorrectly.");
-
         }
     }
 
@@ -84,7 +72,6 @@ abstract class GameActions {
     void usePriest(BotClient botClient, Player user, Player opponent) {
         Card opponentCard = opponent.hand().peek(0);
         botClient.sendTextMessage("@" + user.getName() + " " + opponent.getName() + " shows you a " + opponentCard);
-
     }
 
     /**
@@ -104,26 +91,13 @@ abstract class GameActions {
         int cardComparison = Integer.compare(userCard.value(), opponentCard.value());
         if (cardComparison > 0) {
             botClient.sendTextMessage("@" + user.getName() + " You have won the comparison!");
-
             opponent.discardCard();
             botClient.sendTextMessage(opponent + " is eliminated!");
-
-
         } else if (cardComparison < 0) {
             botClient.sendTextMessage("@" + user.getName() + " You have lost the comparison.");
-
             user.discardCard();
         } else {
             botClient.sendTextMessage("@" + user.getName() + " You have the same card!");
-
-            // it is not in the rules
-//            if (opponent.used().value() > user.used().value()) {
-//                System.out.println("You have lost the used pile comparison");
-//                user.lose();
-//            } else {
-//                System.out.println("You have won the used pile comparison");
-//                opponent.lose();
-//            }
         }
     }
 
@@ -136,7 +110,6 @@ abstract class GameActions {
     void useHandmaiden(BotClient botClient, Player user) {
         //TODO Bei Zwei Spielern führt es zu einer endlosschleife
         botClient.sendTextMessage("@" + user.getName() + " You are now protected until your next turn.");
-
         user.switchProtection();
     }
 

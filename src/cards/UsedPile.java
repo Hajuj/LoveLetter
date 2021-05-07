@@ -1,6 +1,5 @@
 package cards;
 
-
 import java.util.ArrayList;
 
 /**
@@ -58,6 +57,5 @@ public class UsedPile {
         }
         return cards.toString();
     }
-
 
 }
