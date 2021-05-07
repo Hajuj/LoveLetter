@@ -12,9 +12,6 @@ import chat.BotClient;
 // TODO print that a player lost when discarding the Princess.
 // TODO limit players number from 2 to 4, and change the tokens needed according to the players number.
 
-// bot
-// TODO leerzeichen nach dem Bot-Befehl ignorieren.
-
 /**
  * The main game class. Contains methods for running the game.
  */
