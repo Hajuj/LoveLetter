@@ -147,7 +147,7 @@ public class Game extends GameActions implements Runnable {
     private void playCard(Card card, Player user) {
         int value = card.value();
         user.used().add(card);
-        if (value < 4  ||value == 5 || value == 6) {
+        if (value < 4  || value == 5 || value == 6) {
             Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
             switch (value) {
                 case 1 -> useGuard(botClient, user, opponent);

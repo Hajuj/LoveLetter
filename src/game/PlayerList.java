@@ -55,16 +55,14 @@ public class PlayerList {
      * Adds a new Player object with the given name to the PlayerList.
      *
      * @param name the given player name
-     * @return true if the player is not already in the list and can be added, false if not
      */
-    public boolean addPlayer(String name) {
+    public void addPlayer(String name) {
         for (Player p : players) {
             if (p.getName().equalsIgnoreCase(name)) {
-                return false;
+                return;
             }
         }
         players.addLast(new Player(name));
-        return true;
     }
 
 

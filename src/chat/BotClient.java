@@ -41,16 +41,10 @@ public class BotClient extends Client {
         client.run();
     }
 
-
-    public void stop() {
-        System.exit(0);
-    }
-
     /**
      * Start the game boolean.
      *
      * @param newPlayer the new player
-     * @return the boolean
      */
     protected void startTheGame(String newPlayer) {
         if (waitingList.contains(newPlayer)) {

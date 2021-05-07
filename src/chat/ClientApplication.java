@@ -35,7 +35,6 @@ public class ClientApplication extends Application {
     /**
      * Design of the Stage including the set of the scene with fxml-File and CSS-File
      * @param stage the window of the application
-     * @throws Exception
      */
     @Override
     public void start(Stage stage) throws Exception {
