@@ -120,6 +120,7 @@ public class Game extends GameActions implements Runnable {
             // add the winner of the round
             winner.addRoundWinner();
             botClient.sendToAllPlayers(winner.getName() + " has won this round!");
+            botClient.sendToAllPlayers(winner.getName() + "\n ### new Round ### \n");
             players.print();
         }
         // gives the winner of the game
