@@ -1,7 +1,5 @@
 package cards;
 
-//import model.Card;
-
 import java.util.ArrayList;
 
 /**
@@ -89,6 +87,5 @@ public class Hand {
         }
         return handCards.toString();
     }
-
 
 }

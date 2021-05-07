@@ -1,5 +1,7 @@
 package chat;
 
+import server.*;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,8 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import server.Message;
-import server.MessageType;
+import javafx.scene.paint.Color;
 
 import java.awt.*;
 import java.io.IOException;
@@ -58,13 +59,11 @@ public class ClientGuiController extends Client {
      */
     /*Konstruktor für GUI Controller*/
     public void initialize() {
-
         messageField.setDisable(true);
         messages.setEditable(false);
         users.setEditable(false);
-
-
     }
+
 
     /**
      * Refresh messages.
@@ -72,6 +71,7 @@ public class ClientGuiController extends Client {
     public synchronized void refreshMessages() {
         Platform.runLater(() -> messages.appendText(getModel().getNewMessage() + "\n"));
     }
+
 
     /**
      * Send message button.
@@ -102,6 +102,12 @@ public class ClientGuiController extends Client {
     public void loginButton(ActionEvent event) {
         run();
         userName = nameField.getText();
+        try {
+            connection.send(new Message(MessageType.USER_NAME, nameField.getText()));
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        loginButton.setDisable(true);
     }
 
 
@@ -112,17 +118,18 @@ public class ClientGuiController extends Client {
      * @throws IOException the io exception
      */
     @FXML
-    public void startBotClientButton(ActionEvent event) throws IOException{
-        BotClient botClient = new BotClient();
+    public void startBotClientButton(ActionEvent event) throws IOException {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    botClient.main(null);
+                    BotClient.main(null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+        startButton.setDisable(true);
+        errorLabel.setText("You started LoveLetter");
     }
 
 
@@ -138,6 +145,7 @@ public class ClientGuiController extends Client {
         Platform.runLater(() -> users.setText(sb.toString()));
     }
 
+
     /**
      * Notify connection status changed.
      *
@@ -146,13 +154,15 @@ public class ClientGuiController extends Client {
     /*Funktion um zu überprüfen ob die Verbindung weiterhin besteht*/
     public synchronized void notifyConnectionStatusChanged(boolean clientConnected) {
         if (clientConnected) {
-            // TODO check the notify method again to fix the name and welcome problem.
             messageField.setDisable(false);
             Platform.runLater(() -> errorLabel.setText("You are connected!"));
+            Platform.runLater(() -> errorLabel.setTextFill(Color.rgb(0, 139, 0)));
             Platform.runLater(() -> nameField.setDisable(true));
         } else {
-            Platform.runLater(() -> errorLabel.setText("Please use another name"));
+            Platform.runLater(() -> errorLabel.setText("Please use another name!"));
+            Platform.runLater(() -> errorLabel.setTextFill(Color.rgb(255, 0, 0)));
         }
+
     }
 
 
@@ -165,7 +175,6 @@ public class ClientGuiController extends Client {
     public String getUserName() {
         return userName;
     }
-
 
     /*run Methode für Thread*/
     public void run() {
@@ -208,6 +217,7 @@ public class ClientGuiController extends Client {
         super.sendTextMessage(text);
     }
 
+
     /**
      * The type Gui socket thread.
      */
@@ -234,12 +244,11 @@ public class ClientGuiController extends Client {
             refreshUsers();
         }
 
-        /*Mitteilung falls eine Verbindung zum chat.Server sich geändert hat*/
+        /*Mitteilung falls eine Verbindung zum server.Server sich geändert hat*/
         @Override
         protected void notifyConnectionStatusChanged(boolean clientConnected) {
             super.notifyConnectionStatusChanged(clientConnected);
             ClientGuiController.this.notifyConnectionStatusChanged(clientConnected);
-
         }
     }
 }

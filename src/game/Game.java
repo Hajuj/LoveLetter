@@ -4,6 +4,16 @@ import cards.Card;
 import cards.Deck;
 import chat.BotClient;
 
+// game logic
+// TODO applying the prince to a player who has the Princess won't make him lose the game.
+// TODO if all players are protected, and a player tries to play one of these cards:
+//      Guard, Priest, Baron or King, the game should skip for the next round automatically,
+//      since the player can't choose himself or others (because they are protected).
+// TODO print that a player lost when discarding the Princess.
+// TODO limit players number from 2 to 4, and change the tokens needed according to the players number.
+
+// bot
+// TODO leerzeichen nach dem Botbefehl ignorieren.
 
 /**
  * The main game class. Contains methods for running the game.
@@ -13,23 +23,23 @@ public class Game extends GameActions implements Runnable {
     /**
      * The deck of cards.
      */
-    private final Deck deck;
+    public final Deck deck;
     /**
      * The list of players in the game.
      */
-    private PlayerList players;
+    public PlayerList players;
     /**
      * The input stream.
      */
 
-    private BotClient botClient;
+    public BotClient botClient;
 
     /**
      * Public constructor for a Game object.
      */
     public Game() {
         //TODO wieso ist botClient immer null? ersetzen mit null?
-        this.players = new PlayerList(botClient);
+        this.players = new PlayerList(null);
         this.deck = new Deck();
     }
 
@@ -51,22 +61,6 @@ public class Game extends GameActions implements Runnable {
         this.botClient = botClient;
     }
 
-    // /**
-    //   * Sets up the players that make up the player list.
-//     */
-    // TODO limit players number from 2 to 4, and change the tokens needed according to the players number.
-//    public void setPlayers() {
-//        System.out.printUsedPiles("Enter player name (empty when done): ");
-//        String name = in.nextLine();
-//
-//        while (!name.isEmpty()) {
-//            if (!this.players.addPlayer(name)) {
-//                System.out.println("Player is already in the game");
-//            }
-//            System.out.printUsedPiles("Enter player name (empty when done): ");
-//            name = in.nextLine();
-//        }
-//    }
 
     /**
      * The main game loop.
@@ -112,7 +106,6 @@ public class Game extends GameActions implements Runnable {
                     }
                 }
             }
-
             Player winner;
             // winner of the round
             if (players.checkForRoundWinner() && players.getRoundWinner() != null) {
@@ -124,13 +117,13 @@ public class Game extends GameActions implements Runnable {
             }
             // add the winner of the round
             winner.addRoundWinner();
-            System.out.println(winner.getName() + " has won this round!");
+            botClient.sendToAllPlayers(winner.getName() + " has won this round!");
             players.print();
         }
         // gives the winner of the game
         Player gameWinner = players.getGameWinner();
-        System.out.println(gameWinner + " has won the game and the heart of the princess!");
-
+        botClient.sendToAllPlayers(gameWinner + " has won the game and the heart of the princess!");
+        botClient.setGameOn(false);
     }
 
     /**
@@ -181,21 +174,6 @@ public class Game extends GameActions implements Runnable {
      */
     private Card getCard(Player user) {
         botClient.sendTextMessage("@" + user.getName() + " " + user.hand().printHand() + " \n Which card would you like to play (1 for first, 2 for second): ");
-        /*int index=0;
-        for(String s : user.hand()){
-            botClient.sendTextMessage("@" + user.getName() + " " + String.valueOf(index++)+": "+s);
-        }*/
-
-
-        // TODO change the 0 or 1 to 1 and 2
-//        String cardPosition = in.nextLine();
-//        while (!cardPosition.equals("1") && !cardPosition.equals("2")) {
-//            botClient.sendTextMessage("@" + " Please enter a valid card position");
-//            botClient.sendTextMessage("@" + " Which card would you like to play (1 for first, 2 for second): ");
-//            cardPosition = in.nextLine();
-//        }
-        // remove the chosen card
-//        int idx = Integer.parseInt(cardPosition) - 1;
         synchronized (botClient.getCurrentCards()) {
             try {
                 botClient.getCurrentCards().wait();
@@ -203,15 +181,9 @@ public class Game extends GameActions implements Runnable {
                 e.printStackTrace();
             }
         }
-
-
-//        botClient.getCurrentCards().wait();
-
         int idx = botClient.getCurrentCards().get(user);
         botClient.getCurrentCards().replace(user, 10);
         return user.hand().remove(idx - 1);
-
-
     }
 
     /**

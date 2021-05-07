@@ -1,9 +1,7 @@
 package chat;
 
-import game.Game;
-import game.Player;
-import game.PlayerList;
-import server.ConsoleHelper;
+import game.*;
+import server.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,9 +46,7 @@ public class BotClient extends Client {
      * @param newPlayer the new player
      * @return the boolean
      */
-//TODO Muss es eine boolean methode sein?
-    //hier ANZAHL DER PLAYERS
-    protected boolean startTheGame(String newPlayer) {
+    protected void startTheGame(String newPlayer) {
         if (waitingList.contains(newPlayer)) {
             this.sendTextMessage("@" + newPlayer + " you are already in the wait list");
         } else {
@@ -70,14 +66,14 @@ public class BotClient extends Client {
                 // currentOpponent = "";
                 currentGame.setPlayers(listOfPlayers);
                 currentGame.setBotClient(this);
-                gameOn = true; // TODO remove all players from the waiting list.
+                gameOn = true;
+                waitingList.clear();
 //                currentGame.start();
                 // sadThread because it toke us a long time to make him happy :(
                 Thread sadThread = new Thread(currentGame);
                 sadThread.start();
             }
         }
-        return true;
     }
 
     /**
@@ -88,9 +84,9 @@ public class BotClient extends Client {
     public void sendToAllPlayers(String message) {
         for (Player player : listOfPlayers.getPlayers()) {
             this.sendTextMessage("@" + player.getName() + " " + message);
-
         }
     }
+
 
     @Override
     protected SocketThread getSocketThread() {
@@ -106,6 +102,10 @@ public class BotClient extends Client {
     protected String getUserName() {
         // because we love you Thomas <3
         return "bot";
+    }
+
+    public void setGameOn(boolean gameOn) {
+        this.gameOn = gameOn;
     }
 
     /**
@@ -177,7 +177,6 @@ public class BotClient extends Client {
                     if (listOfPlayers.checkForUser(split[0]) /*&& listOfPlayers.checkForUser(messageWithoutUserName)*/) {
                         currentOpponent.replace(listOfPlayers.getPlayer(split[0]), messageWithoutUserName);
                         synchronized (currentOpponent) {
-                            System.out.println("Bis hier her");
                             currentOpponent.notify();
                         }
                     }

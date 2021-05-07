@@ -43,7 +43,6 @@ public class ClientApplication extends Application {
         stage.setTitle("LoveLetter Chat Login");
         Scene scene = new Scene(root);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Chat.css")).toString());
-        //stage.setScene(new Scene(root, 600, 275));
         stage.setScene(scene);
         stage.show();
         System.out.println("start!");
