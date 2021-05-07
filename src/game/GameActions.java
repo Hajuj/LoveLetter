@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 abstract class GameActions {
 
-    // TODO beschreibung der Funktionen von jeder Karte
+
 
     /**
      * Allows the user to guess a card that a player's hand contains (excluding another guard).
@@ -28,10 +28,11 @@ abstract class GameActions {
         ArrayList<String> cardNames = new ArrayList<>(Arrays.asList(Card.CARD_NAMES));
         cardNames.remove(0);
         botClient.sendTextMessage("@" + user.getName() + " Which card would you like to guess (other than Guard): ");
-        int index = 1;
+        int index = 2;
         for (String s : cardNames) {
-            botClient.sendTextMessage("@" + user.getName() + " " + (index++) + ": " + s);
+            botClient.sendTextMessage("@" + user.getName() + " " + (index++) + ": " + s );
         }
+        botClient.sendTextMessage("@" + user.getName() + " " + "Please write the Number of the Card!");
         synchronized (botClient.getCurrentCards()) {
             try {
                 botClient.getCurrentCards().wait();

@@ -3,39 +3,40 @@ package cards;
 /**
  * Enum with all possible cards.
  */
+// TODO Beschreibung bzw. Text der Karten-Funktion überprüfen
 public enum Card {
     /**
      * Guard card.
      */
-    GUARD("Guard", 1),
+    GUARD("Guard","guess the card of your chosen opponent",1),
     /**
      * Priest card.
      */
-    PRIEST("Priest", 2),
+    PRIEST("Priest","show the opponent's card",2),
     /**
      * Baron card.
      */
-    BARON("Baron", 3),
+    BARON("Baron","compare the card with your chosen opponent" ,3),
     /**
      * Handmaiden card.
      */
-    HANDMAIDEN("Handmaiden", 4),
+    HANDMAIDEN("Handmaiden","protect yourself for a round" ,4),
     /**
      * Prince card.
      */
-    PRINCE("Prince", 5),
+    PRINCE("Prince","chose one player or yourself - discard the card and draws a new one" ,5),
     /**
      * King card.
      */
-    KING("King", 6),
+    KING("King", "trade the card with your chosen opponent",6),
     /**
      * Countess card.
      */
-    COUNTESS("Countess", 7),
+    COUNTESS("Countess","discard the card, if you have King or Prince too" ,7),
     /**
      * Princess card.
      */
-    PRINCESS("Princess", 8);
+    PRINCESS("Princess","if you discard it, you knocked out of the round" ,8);
 
     /**
      * All possible card names.
@@ -58,6 +59,10 @@ public enum Card {
      * The value of the card.
      */
     private final int value;
+    /**
+     * The describe of the card
+     */
+    private final String describe;
 
     /**
      * Constructor for a card object.
@@ -65,8 +70,9 @@ public enum Card {
      * @param name  the name of the card
      * @param value the value of the card
      */
-    Card(String name, int value) {
+    Card(String name, String describe, int value) {
         this.name = name;
+        this.describe = describe;
         this.value = value;
     }
 
@@ -90,6 +96,6 @@ public enum Card {
 
     @Override
     public String toString() {
-        return this.name + " (" + value + ") ";
+        return "\n ->" + this.name  + " (" + value + ") " + " - " + describe;
     }
 }
