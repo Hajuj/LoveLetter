@@ -1,23 +1,31 @@
+package server;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * The type chat.Server.
+ */
 public class Server {
-    private static final Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
+    private final static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
 
-    /*Main Methode mit vorerst festen Werten (Hostname, Portnummer)*/
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
+    /*Main Methode mit vorerst festen Werten (Hostname, Port Nummer)*/
     public static void main(String[] args) {
         int port = 500;
-        ConsoleHelper.writeMessage("Portnummer: " + port);
+        ConsoleHelper.writeMessage("Port Nummer: " + port);
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleHelper.writeMessage("Server läuft!");
-
             while (true) {
-                // warten auf Client Socket
+                // warten auf chat.Client Socket
                 Socket socket = serverSocket.accept();
                 new Handler(socket).start();
             }
@@ -26,6 +34,11 @@ public class Server {
         }
     }
 
+    /**
+     * Send broadcast message.
+     *
+     * @param message the message
+     */
     /*Senden der Nachricht an alle User*/
     public static void sendBroadcastMessage(Message message) {
         for (Connection connection : connectionMap.values()) {
@@ -37,11 +50,17 @@ public class Server {
         }
     }
 
+    /**
+     * Send broadcast message except user.
+     *
+     * @param message        the message
+     * @param userConnection the userConnection
+     */
     /*Senden der Nachricht an alle User außer sich selbst*/
-    public static void sendBroadcastMessageExceptUser(Message message, Connection userconnection) {
+    public static void sendBroadcastMessageExceptUser(Message message, Connection userConnection) {
 
         for (Connection connection : connectionMap.values()) {
-            if (!connection.equals(userconnection)) {
+            if (!connection.equals(userConnection)) {
                 try {
                     connection.send(message);
                 } catch (IOException e) {
@@ -51,43 +70,37 @@ public class Server {
         }
     }
 
+    /**
+     * Send direct message.
+     *
+     * @param message        the message
+     * @param userConnection the user connection
+     */
     /*Senden der Nachricht an einen spezifischen User*/
     public static void sendDirectMessage(Message message, Connection userConnection) {
-                     try {
-            userConnection.send(message);
-            }
-                 catch (IOException e) {
-            ConsoleHelper.writeMessage("Error with " + userConnection.getRemoteSocketAddress());
-        }
-    }
-
-    public static void sendDirectMessageP2P(Message message, Connection userconnection) {
-        LinkedList<String> splittedMessage = message.split(" ");
-        
-        splittedMessage.removeFirst();
-        String username = splittedMessage.getFirst();
-        splittedMessage.removeFirst();
-        
-        if(connection.equals(userconnection)){
-
         try {
-            userConnection.send(splittedMessage);
-                
-            }
+            userConnection.send(message);
+        } catch (IOException e) {
+            ConsoleHelper.writeMessage("Error with " + userConnection.getRemoteSocketAddress());
         }
     }
 
     /*Thread Handler mit run Methode - Herstellen der Verbindung und Willkommensnachricht*/
     private static class Handler extends Thread {
-        private Socket socket;
+        private final Socket socket;
 
+        /**
+         * Instantiates a new Handler.
+         *
+         * @param socket the socket
+         */
         public Handler(Socket socket) {
             this.socket = socket;
         }
 
         @Override
         public void run() {
-            ConsoleHelper.writeMessage("Client Socket " + socket.getRemoteSocketAddress() + " connected.");
+            ConsoleHelper.writeMessage("chat.Client Socket " + socket.getRemoteSocketAddress() + " connected.");
 
             String userName = null;
 
@@ -133,6 +146,11 @@ public class Server {
                     ConsoleHelper.writeMessage("User mit Nickname " + userName + " ist schon im Chat");
                     continue;
                 }
+
+                if (userName.contains("@") || userName.contains(" ")) {
+                    ConsoleHelper.writeMessage("UserName darf keine @ or Leerzeichen enthalten");
+                    continue;
+                }
                 connectionMap.put(userName, connection);
                 System.out.println("user " + userName + " ist da");
                 connection.send(new Message(MessageType.NAME_ACCEPTED));
@@ -153,26 +171,33 @@ public class Server {
 
         /*Busy Waiting Loop für das Schließen der Verbindung*/
         private void serverMainLoop(Connection connection, String userName) throws IOException, ClassNotFoundException {
-            while (true) {
+            do {
                 Message message = connection.receive();
 
-                if (message.getType() == MessageType.TEXT) {
+                if (message.getType() == MessageType.TEXT && !message.getData().isBlank()) {
                     String data = message.getData();
-                    String first = data.charAt(0);
 
-                    if (message.getData().equals("bye")) {
+
+                    if (data.equals("bye")) {
                         connection.close();
                         connectionMap.remove(userName);
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " left the room"));
-                        
-                        else if (first.getData().equals("@")){
-                            sendDirectMessageP2P(new Message(MessageType.TEXT, userName + " : " + data));
+                    } else if (data.charAt(0) == '@') {
+                        try {
+                            String usernameDirect = data.substring(1, data.indexOf(" "));
+                            if (connectionMap.containsKey(usernameDirect) && !usernameDirect.equals(userName)) {
+                                String directData = data.substring(data.indexOf(" ") + 1);
+                                sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + data), connection);
+                                sendDirectMessage(new Message(MessageType.TEXT, userName + " to you : " + directData), connectionMap.get(usernameDirect));
+                            }
+                        } catch (StringIndexOutOfBoundsException e) {
+                            sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
                         }
                     } else {
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));
                     }
                 }
-            }
+            } while (true);
         }
     }
 }
