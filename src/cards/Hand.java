@@ -82,8 +82,9 @@ public class Hand {
      */
     public String printHand() {
         StringBuilder handCards = new StringBuilder();
+        int index = 1;
         for (Card c : this.hand) {
-            handCards.append(c.toString());
+            handCards.append("\n " + (index++) + ". " + c.toString());
         }
         return handCards.toString();
     }

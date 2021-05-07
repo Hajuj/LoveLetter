@@ -3,7 +3,7 @@ package cards;
 /**
  * Enum with all possible cards.
  */
-// TODO Beschreibung bzw. Text der Karten-Funktion überprüfen
+
 public enum Card {
     /**
      * Guard card.
@@ -24,7 +24,7 @@ public enum Card {
     /**
      * Prince card.
      */
-    PRINCE("Prince","chose one player or yourself - discard the card and draws a new one" ,5),
+    PRINCE("Prince","chose one player or yourself; discard the card and draws a new one" ,5),
     /**
      * King card.
      */
@@ -96,6 +96,6 @@ public enum Card {
 
     @Override
     public String toString() {
-        return "\n ->" + this.name  + " (" + value + ") " + " - " + describe;
+        return this.name  + " (" + value + ") " + " - " + describe;
     }
 }

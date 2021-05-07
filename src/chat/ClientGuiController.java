@@ -130,6 +130,7 @@ public class ClientGuiController extends Client {
         });
         startButton.setDisable(true);
         errorLabel.setText("You started LoveLetter");
+        errorLabel.setTextFill(Color.rgb(255, 255, 255));
     }
 
 
