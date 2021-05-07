@@ -94,8 +94,7 @@ public class PlayerList {
      */
     public void printUsedPiles() {
         for (Player p : players) {
-            botClient.sendToAllPlayers(p.getName() + "\n" + p.used().printUsedPiles());
-//            p.used().printUsedPiles();
+            botClient.sendToAllPlayers("The used cards of [" + p.getName() + "] are:" + "\n" + p.used().printUsedPiles());
         }
     }
 
