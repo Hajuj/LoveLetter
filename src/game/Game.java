@@ -4,12 +4,10 @@ import cards.Card;
 import cards.Deck;
 import chat.BotClient;
 
-// game logic
 // TODO applying the prince to a player who has the Princess won't make him lose the game.
 // TODO if all players are protected, and a player tries to play one of these cards:
 //      Guard, Priest, Baron or King, the game should skip for the next round automatically,
 //      since the player can't choose himself or others (because they are protected).
-// TODO print that a player lost when discarding the Princess.
 // TODO limit players number from 2 to 4, and change the tokens needed according to the players number.
 
 /**
@@ -128,6 +126,8 @@ public class Game extends GameActions implements Runnable {
         Player gameWinner = players.getGameWinner();
         botClient.sendToAllPlayers(gameWinner + " has won the game and the heart of the princess!");
         botClient.setGameOn(false);
+        // botClient.stop();
+
     }
 
     /**
@@ -147,28 +147,39 @@ public class Game extends GameActions implements Runnable {
     private void playCard(Card card, Player user) {
         int value = card.value();
         user.used().add(card);
-        // TODO make it as switch case
-        if (value < 4 || value == 5 || value == 6) {
+        if (value < 4  ||value == 5 || value == 6) {
             Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
-            if (value == 1) {
-                useGuard(botClient, user, opponent);
-            } else if (value == 2) {
-                usePriest(botClient, user, opponent);
-            } else if (value == 3) {
-                useBaron(botClient, user, opponent);
-            } else if (value == 5) {
-                usePrince(opponent, deck);
-            } else if (value == 6) {
-                useKing(user, opponent);
+            switch (value) {
+                case 1:
+                    useGuard(botClient, user, opponent);
+                    break;
+                case 2:
+                    usePriest(botClient, user, opponent);
+                    break;
+                case 3:
+                    useBaron(botClient, user, opponent);
+                    break;
+
+                case 5:
+                    usePrince(opponent, deck);
+                    break;
+                case 6:
+                    useKing(user, opponent);
+                    break;
             }
         } else {
-            if (value == 4) {
-                useHandmaiden(botClient, user);
-            } else if (value == 8) {
-                usePrincess(user);
+            switch (value) {
+                case 4:
+                    useHandmaiden(botClient, user);
+                    break;
+                case 8:
+                    usePrincess(botClient, user);
+                    break;
             }
         }
     }
+
+
 
     /**
      * Allows for the user to pick a card from their hand to play.

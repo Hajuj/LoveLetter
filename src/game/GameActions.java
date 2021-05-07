@@ -59,6 +59,8 @@ abstract class GameActions {
         if (opponentCard.getName().equalsIgnoreCase(cardName)) {
             botClient.sendTextMessage("@" + user.getName() + " You have guessed correctly!");
             opponent.discardCard();
+            botClient.sendToAllPlayers(opponent.getName() + " is eliminated!");
+
         } else {
             botClient.sendTextMessage("@" + user.getName() + " You have guessed incorrectly.");
         }
@@ -94,7 +96,7 @@ abstract class GameActions {
         if (cardComparison > 0) {
             botClient.sendTextMessage("@" + user.getName() + " You have won the comparison!");
             opponent.discardCard();
-            botClient.sendTextMessage(opponent + " is eliminated!");
+            botClient.sendToAllPlayers(opponent.getName() + " is eliminated!");
         } else if (cardComparison < 0) {
             botClient.sendTextMessage("@" + user.getName() + " You have lost the comparison.");
             user.discardCard();
@@ -160,8 +162,10 @@ abstract class GameActions {
      *
      * @param user the current player
      */
-    void usePrincess(Player user) {
+    void usePrincess(BotClient botClient, Player user) {
         user.discardCard();
+        botClient.sendToAllPlayers(user.getName() + " is eliminated!");
+
     }
 
 }

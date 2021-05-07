@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BotClient extends Client {
     private final static ArrayList<String> waitingList = new ArrayList<>();
     private final Game currentGame;
-    private int numberOfPlayers=4;
+    private int numberOfPlayers=2;
     private final PlayerList listOfPlayers = new PlayerList(this);
     private final Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
     private final Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
@@ -39,6 +39,11 @@ public class BotClient extends Client {
     public static void main(String[] args) throws IOException {
         Client client = new BotClient();
         client.run();
+    }
+
+
+    public void stop() {
+        System.exit(0);
     }
 
     /**
