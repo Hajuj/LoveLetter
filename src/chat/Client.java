@@ -147,8 +147,8 @@ public class Client {
          */
         /*client Handshake um die Nachrichten zu synchronisieren*/
 
-        // TODO Check the users connected not showing, after writing a false name more than once.
-        // TODO Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
+        // TODO  Prio 2: Check the users connected not showing, after writing a false name more than once.
+        // TODO  Prio 2: Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
         protected void clientHandshake() throws IOException, ClassNotFoundException {
             String name = "";
             while (true) {

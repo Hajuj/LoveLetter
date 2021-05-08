@@ -4,11 +4,11 @@ import cards.Card;
 import cards.Deck;
 import chat.BotClient;
 
-// TODO applying the prince to a player who has the Princess won't make him lose the game.
-// TODO if all players are protected, and a player tries to play one of these cards:
+// TODO  Prio 1: applying the prince to a player who has the Princess won't make him lose the game.
+// TODO  Prio 1: if all players are protected, and a player tries to play one of these cards:
 //      Guard, Priest, Baron or King, the game should skip for the next round automatically,
 //      since the player can't choose himself or others (because they are protected).
-// TODO limit players number from 2 to 4, and change the tokens needed according to the players number.
+// TODO  Prio 1: limit players number from 2 to 4, and change the tokens needed according to the players number.
 
 /**
  * The main game class. Contains methods for running the game.

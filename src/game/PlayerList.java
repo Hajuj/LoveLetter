@@ -189,7 +189,7 @@ public class PlayerList {
      *
      * @return the player with the highest used pile value
      */
-// TODO all players win if there's still a tie after comparing the used cards. (if else in the for).
+// TODO Prio 1: all players win if there's still a tie after comparing the used cards. (if else in the for).
     public Player compareUsedPiles() {
         Player winner = players.getFirst();
         for (Player p : players) {

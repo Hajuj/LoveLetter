@@ -114,7 +114,7 @@ abstract class GameActions {
      * @param user      the current player
      */
     void useHandmaiden(BotClient botClient, Player user) {
-        //TODO Bei Zwei Spielern führt es zu einer endlosschleife
+        //TODO Prio 1: Bei Zwei Spielern führt es zu einer endlosschleife
         botClient.sendTextMessage("@" + user.getName() + " You are now protected until your next turn.");
         user.switchProtection();
     }

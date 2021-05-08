@@ -163,7 +163,7 @@ public class BotClient extends Client {
                     listOfPlayers.getCurrentScore();
                     break;
                 case "start":
-                    //TODO Implement start check with notify or ask for number of players
+                    //TODO  Prio 1: Implement start check with notify or ask for number of players
                     gameOn = true;
                     break;
                 case "1", "2", "3", "4", "5", "6", "7", "8": {
