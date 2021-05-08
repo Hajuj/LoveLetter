@@ -51,7 +51,7 @@ public class Client {
         SocketThread socketThread = getSocketThread();
         // thread ist daemon
         socketThread.setDaemon(true);
-        socketThread.start();
+        socketThread.run();
         try {
             synchronized (this) {
                 wait();
