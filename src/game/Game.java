@@ -4,14 +4,11 @@ import cards.Card;
 import cards.Deck;
 import chat.BotClient;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-// TODO applying the prince to a player who has the Princess won't make him lose the game.
-// TODO if all players are protected, and a player tries to play one of these cards:
+// TODO  Prio 1: applying the prince to a player who has the Princess won't make him lose the game.
+// TODO  Prio 1: if all players are protected, and a player tries to play one of these cards:
 //      Guard, Priest, Baron or King, the game should skip for the next round automatically,
 //      since the player can't choose himself or others (because they are protected).
-// TODO limit players number from 2 to 4, and change the tokens needed according to the players number.
+// TODO  Prio 1: limit players number from 2 to 4, and change the tokens needed according to the players number.
 
 /**
  * The main game class. Contains methods for running the game.
@@ -58,20 +55,6 @@ public class Game extends GameActions implements Runnable {
         this.botClient = botClient;
     }
 
-    public boolean checkProtection() {
-        Player current = players.getCurrentPlayer();
-        boolean res = false;
-        for(Player player : players.getPlayers()) {
-            if (!player.equals(current)) {
-                if(!player.isProtected()) {
-                    res = false;
-                } else {
-                    res = true;
-                }
-            }
-        }
-        return res;
-    }
 
     /**
      * The main game loop.
@@ -80,7 +63,7 @@ public class Game extends GameActions implements Runnable {
      */
     public void start() throws InterruptedException {
 //        this.botClient = botClient;
-        botClient.sendToAllPlayers("### The game has started! ###");
+        botClient.sendToAllPlayers("The game has started!");
         // ganz neues Spiel starten.
         while (players.getGameWinner() == null) {
             players.reset();
@@ -89,7 +72,6 @@ public class Game extends GameActions implements Runnable {
             // next player
             while (!players.checkForRoundWinner() && deck.hasMoreCards()) {
                 Player playerTurn = players.getCurrentPlayer();
-                //Player opponentNoHandmaid = players.getCurrentOpponent();
 
                 if (playerTurn.hand().hasCards()) {
                     players.printUsedPiles();
@@ -121,13 +103,7 @@ public class Game extends GameActions implements Runnable {
                             playCard(getCard(playerTurn), playerTurn);
                         }
                         // spieler hat kein Prince 5 oder King 6
-                    } //TODO: Opponent with Handmaid ?
-                     /* else if (opponentNoHandmaid == null) {
-                         boolean index = true;
-                         if (index){
-                             playCard(playerTurn.hand().remove(0), playerTurn);
-                         } else {playCard(playerTurn.hand().remove(1), playerTurn);}
-                    } */ else {
+                    } else {
                         playCard(getCard(playerTurn), playerTurn);
                     }
                 }
@@ -144,7 +120,6 @@ public class Game extends GameActions implements Runnable {
             // add the winner of the round
             winner.addRoundWinner();
             botClient.sendToAllPlayers(winner.getName() + " has won this round!");
-            botClient.sendToAllPlayers(winner.getName() + "\n" + "\n ### new Round ### \n");
             players.print();
         }
         // gives the winner of the game
@@ -169,37 +144,7 @@ public class Game extends GameActions implements Runnable {
      * @param card the played card
      * @param user the player of the card
      */
-
     private void playCard(Card card, Player user) {
-        int value = card.value();
-        user.used().add(card);
-        // TODO make it as switch case ()
-        if (value < 4 || value == 5 || value == 6) {
-            Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
-            if (value == 1 && !checkProtection()) {
-                useGuard(botClient, user, opponent);
-            } else if (value == 2) {
-                usePriest(botClient, user, opponent);
-            } else if (value == 3) {
-                useBaron(botClient, user, opponent);
-            } else if (value == 5) {
-                usePrince(opponent, deck);
-            } else if (value == 6) {
-                useKing(user, opponent);
-            }
-        } else {
-            if (value == 4) {
-                useHandmaiden(botClient, user);
-            } else if (value == 8) {
-                usePrincess(botClient, user);
-            }
-        }
-    }
-
-
-
-
-    /*private void playCard(Card card, Player user) {
         int value = card.value();
         user.used().add(card);
         if (value < 4 || value == 5 || value == 6) {
@@ -217,7 +162,7 @@ public class Game extends GameActions implements Runnable {
                 case 8 -> usePrincess(botClient, user);
             }
         }
-    }*/
+    }
 
 
     /**

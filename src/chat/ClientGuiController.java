@@ -69,6 +69,7 @@ public class ClientGuiController extends Client {
      * Refresh messages.
      */
     public synchronized void refreshMessages() {
+        // TODO  Prio 1: replace with bindings
         Platform.runLater(() -> messages.appendText(getModel().getNewMessage() + "\n"));
     }
 
