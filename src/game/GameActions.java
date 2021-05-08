@@ -14,7 +14,6 @@ import java.util.Arrays;
 abstract class GameActions {
 
 
-
     /**
      * When you discard the Guard, choose a player and name a number (other than 1).
      * If that player has that number in their hand, that player is knocked out of the round.
@@ -31,7 +30,7 @@ abstract class GameActions {
         botClient.sendTextMessage("@" + user.getName() + " Which card would you like to guess: ");
         int index = 2;
         for (String s : cardNames) {
-            botClient.sendTextMessage("@" + user.getName() + " " + (index++) + ": " + s );
+            botClient.sendTextMessage("@" + user.getName() + " " + (index++) + ": " + s);
         }
         botClient.sendTextMessage("@" + user.getName() + " " + "Please write the Number of the Card!");
         synchronized (botClient.getCurrentCards()) {
@@ -41,7 +40,7 @@ abstract class GameActions {
                 e.printStackTrace();
             }
         }
-        int card = botClient.getCurrentCards().get(user)-2;
+        int card = botClient.getCurrentCards().get(user) - 2;
         String cardName = cardNames.get(card);
         while (!cardNames.contains(cardName.toLowerCase()) || cardName.equalsIgnoreCase("guard")) {
             botClient.sendTextMessage("@" + user.getName() + " Invalid card name \n Which card would you like to guess (other than Guard): ");

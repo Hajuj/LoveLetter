@@ -1,7 +1,9 @@
 package chat;
 
-import game.*;
-import server.*;
+import game.Game;
+import game.Player;
+import game.PlayerList;
+import server.ConsoleHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,10 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BotClient extends Client {
     private final static ArrayList<String> waitingList = new ArrayList<>();
     private final Game currentGame;
-    private int numberOfPlayers=2;
     private final PlayerList listOfPlayers = new PlayerList(this);
     private final Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
     private final Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
+    private final int numberOfPlayers = 2;
     private boolean gameOn = false;
 
 
@@ -41,23 +43,17 @@ public class BotClient extends Client {
         client.run();
     }
 
-
-    public void stop() {
-        System.exit(0);
-    }
-
     /**
      * Start the game boolean.
      *
      * @param newPlayer the new player
-     * @return the boolean
      */
     protected void startTheGame(String newPlayer) {
         if (waitingList.contains(newPlayer)) {
             this.sendTextMessage("@" + newPlayer + " you are already in the wait list");
         } else {
             waitingList.add(newPlayer);
-            if ( waitingList.size() < numberOfPlayers || gameOn) {
+            if (waitingList.size() < numberOfPlayers || gameOn) {
                 this.sendTextMessage("@" + newPlayer + " you are in the wait list");
             } else {
                 for (int i = 0; i < numberOfPlayers; i++) {
@@ -151,7 +147,7 @@ public class BotClient extends Client {
             ConsoleHelper.writeMessage(message);
 
             // split name from message
-            message = message.replaceAll("\\s+","");
+            message = message.replaceAll("\\s+", "");
             String userNameDelimiter = "toyou:";
             String[] split = message.split(userNameDelimiter);
             if (split.length != 2) return;
@@ -168,7 +164,7 @@ public class BotClient extends Client {
                     break;
                 case "start":
                     //TODO Implement start check with notify or ask for number of players
-                        gameOn= true;
+                    gameOn = true;
                     break;
                 case "1", "2", "3", "4", "5", "6", "7", "8": {
                     if (listOfPlayers.checkForUser(split[0])) {
