@@ -173,7 +173,7 @@ public class Game extends GameActions implements Runnable {
     private void playCard(Card card, Player user) {
         int value = card.value();
         user.used().add(card);
-        // TODO make it as switch case
+        // TODO make it as switch case ()
         if (value < 4 || value == 5 || value == 6) {
             Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
             if (value == 1 && !checkProtection()) {
