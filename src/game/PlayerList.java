@@ -152,6 +152,10 @@ public class PlayerList {
         return null;
     }
 
+    /**
+     * Returns the current score
+     *
+     */
     public void getCurrentScore() {
         for (Player p : players) {
             botClient.sendTextMessage ("\nThe score of [" + p.getName() + "] is: " + p.getLetterCount());
@@ -159,7 +163,18 @@ public class PlayerList {
 
     }
 
-
+    /**
+     *
+     * @return the opponent without Handmaid
+     */
+    public Player getCurrentOpponent() {
+        for (Player p : players) {
+            if (!p.isProtected()){
+                return p;
+            }
+        }
+        return null;
+    }
 
 
 

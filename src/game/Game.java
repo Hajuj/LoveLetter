@@ -4,6 +4,9 @@ import cards.Card;
 import cards.Deck;
 import chat.BotClient;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 // TODO applying the prince to a player who has the Princess won't make him lose the game.
 // TODO if all players are protected, and a player tries to play one of these cards:
 //      Guard, Priest, Baron or King, the game should skip for the next round automatically,
@@ -72,6 +75,7 @@ public class Game extends GameActions implements Runnable {
             // next player
             while (!players.checkForRoundWinner() && deck.hasMoreCards()) {
                 Player playerTurn = players.getCurrentPlayer();
+                Player opponentNoHandmaid = players.getCurrentOpponent();
 
                 if (playerTurn.hand().hasCards()) {
                     players.printUsedPiles();
@@ -103,7 +107,13 @@ public class Game extends GameActions implements Runnable {
                             playCard(getCard(playerTurn), playerTurn);
                         }
                         // spieler hat kein Prince 5 oder King 6
-                    } else {
+                    } //TODO: Opponent with Handmaid ?
+                     /* else if (opponentNoHandmaid == null) {
+                         boolean index = true;
+                         if (index){
+                             playCard(playerTurn.hand().remove(0), playerTurn);
+                         } else {playCard(playerTurn.hand().remove(1), playerTurn);}
+                    } */ else {
                         playCard(getCard(playerTurn), playerTurn);
                     }
                 }
@@ -120,7 +130,7 @@ public class Game extends GameActions implements Runnable {
             // add the winner of the round
             winner.addRoundWinner();
             botClient.sendToAllPlayers(winner.getName() + " has won this round!");
-            botClient.sendToAllPlayers(winner.getName() + "\n ### new Round ### \n");
+            botClient.sendToAllPlayers(winner.getName() + "\n" + "\n ### new Round ### \n");
             players.print();
         }
         // gives the winner of the game
