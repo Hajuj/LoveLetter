@@ -1,7 +1,5 @@
 package cards;
 
-//import model.Card;
-
 import java.util.ArrayList;
 
 /**
@@ -84,11 +82,11 @@ public class Hand {
      */
     public String printHand() {
         StringBuilder handCards = new StringBuilder();
+        int index = 1;
         for (Card c : this.hand) {
-            handCards.append(c.toString());
+            handCards.append("\n ").append(index++).append(". ").append(c.toString());
         }
         return handCards.toString();
     }
-
 
 }

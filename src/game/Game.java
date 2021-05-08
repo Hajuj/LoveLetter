@@ -4,19 +4,11 @@ import cards.Card;
 import cards.Deck;
 import chat.BotClient;
 
-// check the serverMainLoop
-// TODO sometimes discarding a card, does not trigger it's effect. (see screenshot)
-// TODO when playing the Guard not all the card are printed for the user.
-// TODO check why some stuff are printed more than once.
-
-// game logic
 // TODO applying the prince to a player who has the Princess won't make him lose the game.
 // TODO if all players are protected, and a player tries to play one of these cards:
 //      Guard, Priest, Baron or King, the game should skip for the next round automatically,
 //      since the player can't choose himself or others (because they are protected).
-
-// bot
-// TODO leerzeichen nach dem Botbefehl ignorieren.
+// TODO limit players number from 2 to 4, and change the tokens needed according to the players number.
 
 /**
  * The main game class. Contains methods for running the game.
@@ -41,7 +33,6 @@ public class Game extends GameActions implements Runnable {
      * Public constructor for a Game object.
      */
     public Game() {
-        //TODO wieso ist botClient immer null? ersetzen mit null?
         this.players = new PlayerList(null);
         this.deck = new Deck();
     }
@@ -64,22 +55,6 @@ public class Game extends GameActions implements Runnable {
         this.botClient = botClient;
     }
 
-    // /**
-    //   * Sets up the players that make up the player list.
-//     */
-    // TODO limit players number from 2 to 4, and change the tokens needed according to the players number.
-//    public void setPlayers() {
-//        System.out.printUsedPiles("Enter player name (empty when done): ");
-//        String name = in.nextLine();
-//
-//        while (!name.isEmpty()) {
-//            if (!this.players.addPlayer(name)) {
-//                System.out.println("Player is already in the game");
-//            }
-//            System.out.printUsedPiles("Enter player name (empty when done): ");
-//            name = in.nextLine();
-//        }
-//    }
 
     /**
      * The main game loop.
@@ -111,6 +86,14 @@ public class Game extends GameActions implements Runnable {
                     // royaltyPos is card 5 oder 6
                     int royaltyPos = playerTurn.hand().royaltyPos();
                     // wenn ein spieler karte 5 oder 6 hat dann countess werfen
+
+                    /*Unlike other cards, which take effect when discarded, the text on the Countess
+                    applies while she is in your hand. In fact, the only time it doesn't apply
+                    is when you discard her. If you ever have the Countess and either the King or
+                    Prince in your hand, you must discard the Countess. You do not have to reveal
+                    the other card in your hand. Of course, you can also discard the Countess even
+                    if you do not have a royal family member in your hand.
+                    The Countess likes to play mind games....*/
                     if (royaltyPos != -1) {
                         if (royaltyPos == 0 && playerTurn.hand().peek(1).value() == 7) {
                             playCard(playerTurn.hand().remove(1), playerTurn);
@@ -125,7 +108,6 @@ public class Game extends GameActions implements Runnable {
                     }
                 }
             }
-
             Player winner;
             // winner of the round
             if (players.checkForRoundWinner() && players.getRoundWinner() != null) {
@@ -137,12 +119,14 @@ public class Game extends GameActions implements Runnable {
             }
             // add the winner of the round
             winner.addRoundWinner();
-            System.out.println(winner.getName() + " has won this round!");
+            botClient.sendToAllPlayers(winner.getName() + " has won this round!");
             players.print();
         }
         // gives the winner of the game
         Player gameWinner = players.getGameWinner();
-        System.out.println(gameWinner + " has won the game and the heart of the princess!");
+        botClient.sendToAllPlayers(gameWinner + " has won the game and the heart of the princess!");
+        botClient.setGameOn(false);
+        // botClient.stop();
 
     }
 
@@ -163,28 +147,23 @@ public class Game extends GameActions implements Runnable {
     private void playCard(Card card, Player user) {
         int value = card.value();
         user.used().add(card);
-        // TODO make it as switch case
         if (value < 4 || value == 5 || value == 6) {
             Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
-            if (value == 1) {
-                useGuard(botClient, user, opponent);
-            } else if (value == 2) {
-                usePriest(botClient, user, opponent);
-            } else if (value == 3) {
-                useBaron(botClient, user, opponent);
-            } else if (value == 5) {
-                usePrince(opponent, deck);
-            } else if (value == 6) {
-                useKing(user, opponent);
+            switch (value) {
+                case 1 -> useGuard(botClient, user, opponent);
+                case 2 -> usePriest(botClient, user, opponent);
+                case 3 -> useBaron(botClient, user, opponent);
+                case 5 -> usePrince(opponent, deck);
+                case 6 -> useKing(user, opponent);
             }
         } else {
-            if (value == 4) {
-                useHandmaiden(botClient, user);
-            } else if (value == 8) {
-                usePrincess(user);
+            switch (value) {
+                case 4 -> useHandmaiden(botClient, user);
+                case 8 -> usePrincess(botClient, user);
             }
         }
     }
+
 
     /**
      * Allows for the user to pick a card from their hand to play.
@@ -194,21 +173,6 @@ public class Game extends GameActions implements Runnable {
      */
     private Card getCard(Player user) {
         botClient.sendTextMessage("@" + user.getName() + " " + user.hand().printHand() + " \n Which card would you like to play (1 for first, 2 for second): ");
-        /*int index=0;
-        for(String s : user.hand()){
-            botClient.sendTextMessage("@" + user.getName() + " " + String.valueOf(index++)+": "+s);
-        }*/
-
-
-        // TODO change the 0 or 1 to 1 and 2
-//        String cardPosition = in.nextLine();
-//        while (!cardPosition.equals("1") && !cardPosition.equals("2")) {
-//            botClient.sendTextMessage("@" + " Please enter a valid card position");
-//            botClient.sendTextMessage("@" + " Which card would you like to play (1 for first, 2 for second): ");
-//            cardPosition = in.nextLine();
-//        }
-        // remove the chosen card
-//        int idx = Integer.parseInt(cardPosition) - 1;
         synchronized (botClient.getCurrentCards()) {
             try {
                 botClient.getCurrentCards().wait();
@@ -216,14 +180,23 @@ public class Game extends GameActions implements Runnable {
                 e.printStackTrace();
             }
         }
-
-
-//        botClient.getCurrentCards().wait();
-
         int idx = botClient.getCurrentCards().get(user);
+        while (!(idx == 1 || idx == 2)) {
+
+
+            botClient.sendTextMessage("@" + user.getName() + " " + user.hand().printHand() + " \n Wrong number - Which card would you like to play (1 for first, 2 for second): ");
+
+            synchronized (botClient.getCurrentCards()) {
+                try {
+                    botClient.getCurrentCards().wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            idx = botClient.getCurrentCards().get(user);
+        }
         botClient.getCurrentCards().replace(user, 10);
         return user.hand().remove(idx - 1);
-
 
     }
 

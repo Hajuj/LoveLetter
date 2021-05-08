@@ -189,9 +189,11 @@ public class Server {
                                 String directData = data.substring(data.indexOf(" ") + 1);
                                 sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + data), connection);
                                 sendDirectMessage(new Message(MessageType.TEXT, userName + " to you : " + directData), connectionMap.get(usernameDirect));
+                            } else {
+                                sendDirectMessage(new Message(MessageType.TEXT, "User could not be found -- please try again"), connection);
                             }
                         } catch (StringIndexOutOfBoundsException e) {
-                            sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
+                            sendDirectMessage(new Message(MessageType.TEXT, "Error for your direct message -- please try again"), connection);
                         }
                     } else {
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));

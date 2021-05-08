@@ -11,9 +11,6 @@ import java.util.Objects;
 /**
  * The type Chat.Client Application.
  */
-/*
-Bevor die Chat.ClientApplication gestartet werden kann, muss der Server.Server sich verbinden (Server.Server Klasse)
-*/
 public class ClientApplication extends Application {
 
     /**
@@ -25,17 +22,30 @@ public class ClientApplication extends Application {
         launch(args);
     }
 
+    /**
+     * starts before the method start - Lifecycle of JavaFX
+     */
+    @Override
     public void init() {
         System.out.println("init!");
     }
 
+    /*Design der Stage inklusive der Platzierung aller Elemente*/
+
+    /**
+     * starts before the application will close - Lifecycle of JavaFX
+     */
     @Override
     public void stop() {
         System.out.println("Stage is closing");
         System.exit(0);
     }
 
-    /*Design der Stage inklusive der Platzierung aller Elemente*/
+    /**
+     * Design of the Stage including the set of the scene with fxml-File and CSS-File
+     *
+     * @param stage the window of the application
+     */
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Chat.fxml")));
@@ -44,5 +54,6 @@ public class ClientApplication extends Application {
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Chat.css")).toString());
         stage.setScene(scene);
         stage.show();
+        System.out.println("start!");
     }
 }

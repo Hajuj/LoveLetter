@@ -13,12 +13,12 @@ import java.util.Arrays;
  */
 abstract class GameActions {
 
-    // TODO beschreibung der Funktionen von jeder Karte
 
     /**
-     * Allows the user to guess a card that a player's hand contains (excluding another guard).
-     * If the user is correct, the opponent loses the round and must lay down their card.
-     * If the user is incorrect, the opponent is not affected.
+     * When you discard the Guard, choose a player and name a number (other than 1).
+     * If that player has that number in their hand, that player is knocked out of the round.
+     * If all other players still in the round cannot be chosen
+     * (eg. due to Handmaid or Sycophant), this card is discarded without effect.
      *
      * @param botClient the bot client
      * @param user      the user
@@ -27,13 +27,12 @@ abstract class GameActions {
     void useGuard(BotClient botClient, Player user, Player opponent) {
         ArrayList<String> cardNames = new ArrayList<>(Arrays.asList(Card.CARD_NAMES));
         cardNames.remove(0);
-        botClient.sendTextMessage("@" + user.getName() + " Which card would you like to guess (other than Guard): ");
-        int index = 1;
+        botClient.sendTextMessage("@" + user.getName() + " Which card would you like to guess: ");
+        int index = 2;
         for (String s : cardNames) {
             botClient.sendTextMessage("@" + user.getName() + " " + (index++) + ": " + s);
         }
-
-
+        botClient.sendTextMessage("@" + user.getName() + " " + "Please write the Number of the Card!");
         synchronized (botClient.getCurrentCards()) {
             try {
                 botClient.getCurrentCards().wait();
@@ -41,15 +40,10 @@ abstract class GameActions {
                 e.printStackTrace();
             }
         }
-
-        int card = botClient.getCurrentCards().get(user);
-
+        int card = botClient.getCurrentCards().get(user) - 2;
         String cardName = cardNames.get(card);
-
-
         while (!cardNames.contains(cardName.toLowerCase()) || cardName.equalsIgnoreCase("guard")) {
             botClient.sendTextMessage("@" + user.getName() + " Invalid card name \n Which card would you like to guess (other than Guard): ");
-
             synchronized (botClient.getCurrentCards()) {
                 try {
                     botClient.getCurrentCards().wait();
@@ -57,25 +51,23 @@ abstract class GameActions {
                     e.printStackTrace();
                 }
             }
-
             int newCard = botClient.getCurrentCards().get(user);
-
             cardName = cardNames.get(newCard);
         }
-
         Card opponentCard = opponent.hand().peek(0);
         if (opponentCard.getName().equalsIgnoreCase(cardName)) {
             botClient.sendTextMessage("@" + user.getName() + " You have guessed correctly!");
-
             opponent.discardCard();
+            botClient.sendToAllPlayers(opponent.getName() + " is eliminated!");
+
         } else {
             botClient.sendTextMessage("@" + user.getName() + " You have guessed incorrectly.");
-
         }
     }
 
     /**
-     * Allows the user to peek at the card of an opposing player.
+     * When you discard the Priest, you can look at another player’s hand.
+     * Do not reveal the hand to any other players.
      *
      * @param botClient the bot client
      * @param user      the user
@@ -84,14 +76,12 @@ abstract class GameActions {
     void usePriest(BotClient botClient, Player user, Player opponent) {
         Card opponentCard = opponent.hand().peek(0);
         botClient.sendTextMessage("@" + user.getName() + " " + opponent.getName() + " shows you a " + opponentCard);
-
     }
 
     /**
-     * Allows the user to compare cards with an opponent.
-     * If the user's card is of higher value, the opposing player loses the round and their card.
-     * If the user's card is of lower value, the user loses the round and their card.
-     * If the two players have the same card, their used pile values are compared in the same manner.
+     * When you discard the Baron, choose another player still in the round.
+     * You and that player secretly compare your hands. The player with the lower number
+     * is knocked out of the round. In case of a tie, nothing happens.
      *
      * @param botClient the bot client
      * @param user      the initiator of the comparison
@@ -104,31 +94,21 @@ abstract class GameActions {
         int cardComparison = Integer.compare(userCard.value(), opponentCard.value());
         if (cardComparison > 0) {
             botClient.sendTextMessage("@" + user.getName() + " You have won the comparison!");
-
             opponent.discardCard();
-            botClient.sendTextMessage(opponent + " is eliminated!");
-
-
+            botClient.sendToAllPlayers(opponent.getName() + " is eliminated!");
         } else if (cardComparison < 0) {
             botClient.sendTextMessage("@" + user.getName() + " You have lost the comparison.");
-
             user.discardCard();
         } else {
             botClient.sendTextMessage("@" + user.getName() + " You have the same card!");
-
-            // it is not in the rules
-//            if (opponent.used().value() > user.used().value()) {
-//                System.out.println("You have lost the used pile comparison");
-//                user.lose();
-//            } else {
-//                System.out.println("You have won the used pile comparison");
-//                opponent.lose();
-//            }
         }
     }
 
     /**
-     * Switches the user's protection for one turn. This protects them from being targeted.
+     * When you discard the Handmaid, you are immune to the effects of other players’ cards
+     * until the start of your next turn. If all players other than the player
+     * whose turn it is are protected by the Handmaid, the player must choose him-
+     * or herself for a card’s effects, if possible.
      *
      * @param botClient the bot client
      * @param user      the current player
@@ -136,12 +116,16 @@ abstract class GameActions {
     void useHandmaiden(BotClient botClient, Player user) {
         //TODO Bei Zwei Spielern führt es zu einer endlosschleife
         botClient.sendTextMessage("@" + user.getName() + " You are now protected until your next turn.");
-
         user.switchProtection();
     }
 
     /**
-     * Makes an opposing player lay down their card in their used pile and draw another.
+     * When you discard Prince Arnaud, choose one player still in the round
+     * (including yourself). That player discards his or her hand
+     * (but doesn't apply its effect, unless it is the Princess, see page 8)
+     * and draws a new one. If the deck is empty and the player cannot draw a card,
+     * that player draws the card that was removed at the start of the round.
+     * If all other players are protected by the Handmaid, you must choose yourself.
      *
      * @param opponent the targeted player
      * @param d        the deck of cards
@@ -154,8 +138,9 @@ abstract class GameActions {
     }
 
     /**
-     * Allows the user to switch cards with an opponent.
-     * Swaps the user's hand for the opponent's.
+     * When you discard King Arnaud IV, trade the card in your hand with the card
+     * held by another player of your choice. You cannot trade with a player who is
+     * out of the round.
      *
      * @param user     the initiator of the swap
      * @param opponent the targeted player
@@ -168,12 +153,18 @@ abstract class GameActions {
     }
 
     /**
-     * If the princess is played, the user loses the round and must lay down their hand.
+     * If you discard the Princess—no matter how or why—she has tossed your letter
+     * into the fire. You are immediately knocked out of the round. If the Princess
+     * was discarded by a card effect, any remaining effects of that card do not
+     * apply (you do not draw a card from the Prince, for example). Effects tied to
+     * being knocked out the round still apply (eg. Constable, Jester), however.
      *
      * @param user the current player
      */
-    void usePrincess(Player user) {
+    void usePrincess(BotClient botClient, Player user) {
         user.discardCard();
+        botClient.sendToAllPlayers(user.getName() + " is eliminated!");
+
     }
 
 }

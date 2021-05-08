@@ -16,11 +16,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BotClient extends Client {
     private final static ArrayList<String> waitingList = new ArrayList<>();
     private final Game currentGame;
-    private final int numberOfPlayers = 2;
     private final PlayerList listOfPlayers = new PlayerList(this);
     private final Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
     private final Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
+    private final int numberOfPlayers = 2;
     private boolean gameOn = false;
+
 
     /**
      * Instantiates a new chat.Client.
@@ -46,7 +47,6 @@ public class BotClient extends Client {
      * Start the game boolean.
      *
      * @param newPlayer the new player
-     * @return the boolean
      */
     protected void startTheGame(String newPlayer) {
         if (waitingList.contains(newPlayer)) {
@@ -66,10 +66,12 @@ public class BotClient extends Client {
                     currentOpponent.put(p, p.getName());
                 }
                 // currentOpponent = "";
+
                 currentGame.setPlayers(listOfPlayers);
                 currentGame.setBotClient(this);
-                gameOn = true; // TODO remove all players from the waiting list.
+                waitingList.clear();
 //                currentGame.start();
+
                 // sadThread because it toke us a long time to make him happy :(
                 Thread sadThread = new Thread(currentGame);
                 sadThread.start();
@@ -85,9 +87,9 @@ public class BotClient extends Client {
     public void sendToAllPlayers(String message) {
         for (Player player : listOfPlayers.getPlayers()) {
             this.sendTextMessage("@" + player.getName() + " " + message);
-
         }
     }
+
 
     @Override
     protected SocketThread getSocketThread() {
@@ -103,6 +105,10 @@ public class BotClient extends Client {
     protected String getUserName() {
         // because we love you Thomas <3
         return "bot";
+    }
+
+    public void setGameOn(boolean gameOn) {
+        this.gameOn = gameOn;
     }
 
     /**
@@ -135,15 +141,14 @@ public class BotClient extends Client {
         }
 
 
-        // TODO eingaben vom user durch den bot einlesen
-        // TODO ignore the spaces after @bot + letter case
         @Override
         protected void processIncomingMessage(String message) {
             // alles in die console
             ConsoleHelper.writeMessage(message);
 
             // split name from message
-            String userNameDelimiter = " to you : ";
+            message = message.replaceAll("\\s+", "");
+            String userNameDelimiter = "toyou:";
             String[] split = message.split(userNameDelimiter);
             if (split.length != 2) return;
 
@@ -155,13 +160,13 @@ public class BotClient extends Client {
                     startTheGame(split[0]);
                     break;
                 case "score":
-                    //TODO Return Score
+                    listOfPlayers.getCurrentScore();
                     break;
                 case "start":
-                    //TODO synchronized boolean value to finally start the game in Class Game
+                    //TODO Implement start check with notify or ask for number of players
+                    gameOn = true;
                     break;
                 case "1", "2", "3", "4", "5", "6", "7", "8": {
-                    // TODO two if loops for the cases of choosing cards on hand (A - only 1 or 2) and guessing the cards by using guard (B - between 1 and 7)
                     if (listOfPlayers.checkForUser(split[0])) {
                         currentCards.replace(listOfPlayers.getPlayer(split[0]), Integer.parseInt(messageWithoutUserName));
                         synchronized (currentCards) {
@@ -174,7 +179,6 @@ public class BotClient extends Client {
                     if (listOfPlayers.checkForUser(split[0]) /*&& listOfPlayers.checkForUser(messageWithoutUserName)*/) {
                         currentOpponent.replace(listOfPlayers.getPlayer(split[0]), messageWithoutUserName);
                         synchronized (currentOpponent) {
-                            System.out.println("Bis hier her");
                             currentOpponent.notify();
                         }
                     }

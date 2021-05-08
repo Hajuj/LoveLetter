@@ -55,6 +55,7 @@ public class Connection implements Closeable {
             try {
                 Thread.sleep(111);
             } catch (Exception e) {
+                e.printStackTrace();
             }
             return (Message) in.readObject();
 
