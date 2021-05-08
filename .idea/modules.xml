@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/chatrush.iml" filepath="$PROJECT_DIR$/chatrush.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../FIX/javafx-sdk-16/lib/lib.iml" filepath="$PROJECT_DIR$/../FIX/javafx-sdk-16/lib/lib.iml" />
-    </modules>
-  </component>
-</project>
