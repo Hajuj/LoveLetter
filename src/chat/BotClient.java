@@ -20,7 +20,6 @@ public class BotClient extends Client {
     private final Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
     private final Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
     private final int maxNumberOfPlayers = 4;
-    private final int minNumberOfPlayers = 4;
 
     private int numberOfPlayers;
     public int loveLetters;
@@ -65,10 +64,10 @@ public class BotClient extends Client {
             this.sendTextMessage("@" + newPlayer + " you are already in the wait list");
         } else {
             waitingList.add(newPlayer);
-            if (waitingList.size() < maxNumberOfPlayers || gameOn) {
+            if (waitingList.size() < maxNumberOfPlayers || waitingList.size() < numberOfPlayers || gameOn) {
                 if (waitingList.size()>1){
-                        numberOfPlayers = waitingList.size();}
-                else{numberOfPlayers=minNumberOfPlayers;}
+                    this.sendToAllPlayers("If you do not want to wait for more players, write @bot start");
+                }
                 this.sendTextMessage("@" + newPlayer + " you are in the wait list");
             } else {
                 for (int i = 0; i < numberOfPlayers; i++) {
@@ -89,12 +88,10 @@ public class BotClient extends Client {
                     case 4 -> setLoveLetters(4);
                 }
 
-
                 currentGame.setPlayers(listOfPlayers);
                 currentGame.setBotClient(this);
                 waitingList.clear();
                 gameOn = true;
-//                currentGame.start();
 
                 // sadThread because it toke us a long time to make him happy :(
                 Thread sadThread = new Thread(currentGame);
@@ -191,8 +188,9 @@ public class BotClient extends Client {
                     listOfPlayers.getCurrentScore(listOfPlayers.getCurrentPlayer());
                     break;
                 case "start":
-                    //TODO  Prio 1: Implement start check with notify
                     gameOn = true;
+                    numberOfPlayers = waitingList.size();
+
                     break;
                 case "1", "2", "3", "4", "5", "6", "7", "8": {
                     if (listOfPlayers.checkForUser(split[0])) {

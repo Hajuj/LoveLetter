@@ -202,11 +202,14 @@ public class PlayerList {
         for (Player p : players) {
             if (p.used().value() > winner.used().value()) {
                 winner = p;
+                botClient.sendToAllPlayers(" The cards were compared because there is a tie. \n " + winner.getName() + " has the highest total of the discard pile and won the round!");
             } else {
                 winner = p;
+                botClient.sendToAllPlayers(" The cards were compared. There is still a tie. The round won: \n" + winner.getName());
             }
         }
         return winner;
     }
+
 
 }

@@ -4,8 +4,6 @@ import cards.Card;
 import cards.Deck;
 import chat.BotClient;
 
-// TODO  Prio 1: limit players number from 2 to 4
-
 /**
  * The main game class. Contains methods for running the game.
  */
@@ -147,7 +145,7 @@ public class Game extends GameActions implements Runnable {
             }
             // add the winner of the round
             winner.addRoundWinner();
-            botClient.sendToAllPlayers(winner.getName() + " has won this round!");
+            botClient.sendToAllPlayers(winner.getName() + " has won this round!\n" + "\n"+"### NEW ROUND ### \n");
             players.print();
         }
         // gives the winner of the game
