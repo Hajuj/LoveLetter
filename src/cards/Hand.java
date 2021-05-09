@@ -9,6 +9,10 @@ public class Hand {
 
     private final ArrayList<Card> hand;
 
+    public ArrayList<Card> getHand() {
+        return hand;
+    }
+
     /**
      * Instantiates a new Hand.
      */

@@ -51,6 +51,17 @@ public class PlayerList {
         return false;
     }
 
+    // checks if all the players (other than current player) are protected.
+    public boolean allPlayersProtected(Player user) {
+        boolean allProtected = true;
+        for (Player p : players) {
+            if (!p.isProtected() && !p.equals(user)) {
+                allProtected = false;
+            }
+        }
+        return allProtected;
+    }
+
     /**
      * Adds a new Player object with the given name to the PlayerList.
      *
@@ -150,13 +161,9 @@ public class PlayerList {
         return null;
     }
 
-    public void getCurrentScore() {
-        for (Player p : players) {
-            botClient.sendTextMessage("\nThe score of [" + p.getName() + "] is: " + p.getLetterCount());
-        }
-
+    public void getCurrentScore(Player user) {
+        botClient.sendTextMessage("@" + user.getName() + " \nThe score of [" + user.getName() + "] is: " + user.getLetterCount());
     }
-
 
     /**
      * Deals a card to each Player in the list.
@@ -189,11 +196,12 @@ public class PlayerList {
      *
      * @return the player with the highest used pile value
      */
-// TODO Prio 1: all players win if there's still a tie after comparing the used cards. (if else in the for).
     public Player compareUsedPiles() {
         Player winner = players.getFirst();
         for (Player p : players) {
             if (p.used().value() > winner.used().value()) {
+                winner = p;
+            } else {
                 winner = p;
             }
         }

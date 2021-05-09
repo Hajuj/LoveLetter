@@ -41,8 +41,8 @@ abstract class GameActions {
             }
         }
         int card = botClient.getCurrentCards().get(user) - 2;
-        String cardName = cardNames.get(card);
-        while (!cardNames.contains(cardName.toLowerCase()) || cardName.equalsIgnoreCase("guard")) {
+        String cardName = cardNames.get(Math.abs(card));
+        while (card < 0 || !cardNames.contains(cardName.toLowerCase()) || cardName.equalsIgnoreCase("guard")) {
             botClient.sendTextMessage("@" + user.getName() + " Invalid card name \n Which card would you like to guess (other than Guard): ");
             synchronized (botClient.getCurrentCards()) {
                 try {
@@ -51,8 +51,8 @@ abstract class GameActions {
                     e.printStackTrace();
                 }
             }
-            int newCard = botClient.getCurrentCards().get(user);
-            cardName = cardNames.get(newCard);
+             card = botClient.getCurrentCards().get(user);
+            cardName = cardNames.get(card);
         }
         Card opponentCard = opponent.hand().peek(0);
         if (opponentCard.getName().equalsIgnoreCase(cardName)) {
@@ -114,7 +114,6 @@ abstract class GameActions {
      * @param user      the current player
      */
     void useHandmaiden(BotClient botClient, Player user) {
-        //TODO Prio 1: Bei Zwei Spielern führt es zu einer endlosschleife
         botClient.sendTextMessage("@" + user.getName() + " You are now protected until your next turn.");
         user.switchProtection();
     }
@@ -131,6 +130,10 @@ abstract class GameActions {
      * @param d        the deck of cards
      */
     void usePrince(Player opponent, Deck d) {
+        if (opponent.hand().getHand().contains(Card.PRINCESS)) {
+            opponent.discardCard();
+            return;
+        }
         opponent.discardCard();
         if (d.hasMoreCards()) {
             opponent.hand().add(d.dealCard());
@@ -163,8 +166,7 @@ abstract class GameActions {
      */
     void usePrincess(BotClient botClient, Player user) {
         user.discardCard();
-        botClient.sendToAllPlayers(user.getName() + " is eliminated!");
-
+        botClient.sendToAllPlayers(user.getName() + " discarded the Princess!\n" + user.getName() + " is eliminated!");
     }
 
 }

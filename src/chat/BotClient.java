@@ -22,7 +22,6 @@ public class BotClient extends Client {
     private final int numberOfPlayers = 2;
     private boolean gameOn = false;
 
-
     /**
      * Instantiates a new chat.Client.
      *
@@ -70,6 +69,7 @@ public class BotClient extends Client {
                 currentGame.setPlayers(listOfPlayers);
                 currentGame.setBotClient(this);
                 waitingList.clear();
+                gameOn = true;
 //                currentGame.start();
 
                 // sadThread because it toke us a long time to make him happy :(
@@ -77,6 +77,10 @@ public class BotClient extends Client {
                 sadThread.start();
             }
         }
+    }
+
+    public void stop() {
+        System.exit(0);
     }
 
     /**
@@ -160,10 +164,10 @@ public class BotClient extends Client {
                     startTheGame(split[0]);
                     break;
                 case "score":
-                    listOfPlayers.getCurrentScore();
+                    listOfPlayers.getCurrentScore(listOfPlayers.getCurrentPlayer());
                     break;
                 case "start":
-                    //TODO  Prio 1: Implement start check with notify or ask for number of players
+                    //TODO  Prio 1: Implement start check with notify
                     gameOn = true;
                     break;
                 case "1", "2", "3", "4", "5", "6", "7", "8": {
