@@ -68,6 +68,7 @@ public class Game extends GameActions implements Runnable {
             players.dealCards(deck);
             // next player
             while (!players.checkForRoundWinner() && deck.hasMoreCards()) {
+
                 if (winner != null) {
                     playerTurn = winner;
                 } else {
@@ -147,7 +148,8 @@ public class Game extends GameActions implements Runnable {
             }
             // add the winner of the round
             winner.addRoundWinner();
-            botClient.sendToAllPlayers(winner.getName() + " has won this round!");
+            botClient.sendToAllPlayers(winner.getName() + " has won this round!\n" + "\n");
+            botClient.sendToAllPlayers("### NEW ROUND ### \n");
             players.print();
         }
         // gives the winner of the game
