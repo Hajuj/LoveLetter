@@ -195,7 +195,9 @@ public class PlayerList {
         for (Player p : players) {
             if (p.used().value() > winner.used().value()) {
                 winner = p;
-            }
+            } /*else if (p.used().value() == winner.used().value()) {
+
+            }*/
         }
         return winner;
     }

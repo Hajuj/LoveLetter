@@ -1,6 +1,7 @@
 package chat;
 
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import server.Message;
 import server.MessageType;
 
@@ -18,40 +20,28 @@ import java.io.IOException;
  * The type chat.Client gui controller.
  */
 public class ClientGuiController extends Client {
-    private final ClientGuiModel model = new ClientGuiModel();
+    //private final ClientGuiModel model = new ClientGuiModel();
+    private final ClientGuiModel model;
 
-    private String userName;
 
-    @FXML
-    private TextArea messages;
-    @FXML
-    private Button loginButton;
-    @FXML
-    private Button startButton;
-    @FXML
-    private TextField nameField;
-    @FXML
-    private TextArea users;
-    @FXML
-    private Label yourNameLabel;
-    @FXML
-    private Label usersOnlineLabel;
-    @FXML
-    private TextField messageField;
-    @FXML
-    private Button sendButton;
-    @FXML
-    private Label errorLabel;
-    @FXML
-    private Label chatLabel;
 
     /**
      * Instantiates a new chat.Client.
      *
      * @throws IOException the io exception
      */
-    public ClientGuiController() throws IOException {
+    public ClientGuiController(ClientGuiModel model) throws IOException {
+        this.model = model;
     }
+
+
+    private String userName;
+
+    @FXML private TextArea messages, users;
+    @FXML private TextField nameField, messageField;
+    @FXML private Label yourNameLabel, usersOnlineLabel, errorLabel, chatLabel;
+    @FXML private Button sendButton, loginButton, startButton;
+
 
 
     /**
@@ -59,9 +49,20 @@ public class ClientGuiController extends Client {
      */
     /*Konstruktor für GUI Controller*/
     public void initialize() {
+        int obs;
+        int old;
+        int newV;
+        this.model.counterProperty().addListener(obs,old,newV)->{
+
+            Text mgs_text = new Text (this.model.getNewMessage().get((int)old)+"\n");
+
+
+        }
+
+        /*
         messageField.setDisable(true);
         messages.setEditable(false);
-        users.setEditable(false);
+        users.setEditable(false);*/
     }
 
 
@@ -70,18 +71,21 @@ public class ClientGuiController extends Client {
      */
     public synchronized void refreshMessages() {
         // TODO  Prio 1: replace with bindings
-        Platform.runLater(() -> messages.appendText(getModel().getNewMessage() + "\n"));
+        this.model.getNewMessage();
+        //Platform.runLater(() -> messages.appendText(getModel().getNewMessage() + "\n"));
     }
 
 
     /**
      * Send message button.
      *
-     * @param event the event
+     * //@param event the event
      */
-    @FXML
-    public void sendMessageButton(ActionEvent event) {
-        try {
+    @FXML public void sendMessageButton(/*ActionEvent event*/) {
+        this.model.setNewMessage(messageField.getText(), nameField.getText());
+        // connection.send(new Message((MessageType.TEXT), messageField.getText()));
+
+        /* try {
             connection.send(new Message(MessageType.TEXT, messageField.getText()));
             if (messageField.getText().equals("bye")) {
                 Platform.exit();
@@ -90,7 +94,7 @@ public class ClientGuiController extends Client {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        Platform.runLater(() -> messageField.clear());
+        Platform.runLater(() -> messageField.clear()); */
     }
 
 

@@ -32,6 +32,46 @@ public class ClientApplication extends Application {
 
     /*Design der Stage inklusive der Platzierung aller Elemente*/
 
+
+
+    /**
+     * Design of the Stage including the set of the scene with fxml-File and CSS-File
+     *
+     * @param primaryStage the window of the application
+     */
+    @Override
+    public void start(Stage primaryStage) {
+        try {
+            ClientGuiModel model = new ClientGuiModel();
+
+            ClientGuiController c;
+
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Chat.fxml"));
+            c = new ClientGuiController(model);
+            loader.setController(c);
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Chat.css").toString()));
+
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("LoveLetter Chat Login");
+            primaryStage.show();
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        /*Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Chat.fxml")));
+        stage.setTitle("LoveLetter Chat Login");
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Chat.css")).toString());
+        stage.setScene(scene);
+        stage.show();
+        System.out.println("start!"); */
+    }
+
     /**
      * starts before the application will close - Lifecycle of JavaFX
      */
@@ -39,21 +79,5 @@ public class ClientApplication extends Application {
     public void stop() {
         System.out.println("Stage is closing");
         System.exit(0);
-    }
-
-    /**
-     * Design of the Stage including the set of the scene with fxml-File and CSS-File
-     *
-     * @param stage the window of the application
-     */
-    @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Chat.fxml")));
-        stage.setTitle("LoveLetter Chat Login");
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Chat.css")).toString());
-        stage.setScene(scene);
-        stage.show();
-        System.out.println("start!");
     }
 }

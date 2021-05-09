@@ -63,7 +63,7 @@ public class Game extends GameActions implements Runnable {
      */
     public void start() throws InterruptedException {
 //        this.botClient = botClient;
-        botClient.sendToAllPlayers("The game has started!");
+        botClient.sendToAllPlayers("### The game has started! ### \n ");
         // ganz neues Spiel starten.
         while (players.getGameWinner() == null) {
             players.reset();
@@ -75,7 +75,7 @@ public class Game extends GameActions implements Runnable {
 
                 if (playerTurn.hand().hasCards()) {
                     players.printUsedPiles();
-                    botClient.sendToAllPlayers(playerTurn.getName() + "'s turn:");
+                    botClient.sendToAllPlayers("\n" + playerTurn.getName() + "'s turn:");
                     // wenn ein spieler geschützt war aber jetzt er ist dran -> nicht mehr geschützt
                     if (playerTurn.isProtected()) {
                         playerTurn.switchProtection();
@@ -119,8 +119,9 @@ public class Game extends GameActions implements Runnable {
             }
             // add the winner of the round
             winner.addRoundWinner();
-            botClient.sendToAllPlayers(winner.getName() + " has won this round!");
+            botClient.sendToAllPlayers(winner.getName() + " has won this round! \n \n");
             players.print();
+            botClient.sendToAllPlayers("### NEW ROUND ### \n");
         }
         // gives the winner of the game
         Player gameWinner = players.getGameWinner();
@@ -138,12 +139,30 @@ public class Game extends GameActions implements Runnable {
         this.deck.shuffleDeck();
     }
 
+//TODO Altug's Code
+    /*
+    public boolean checkProtection() {
+        Player current = players.getCurrentPlayer();
+        boolean res = false;
+        for(Player player : players.getPlayers()) {
+            if (!player.equals(current)) {
+                if(!player.isProtected()) {
+                    res = false;
+                } else {
+                    res = true;
+                }
+            }
+        }
+        return res;
+    } */
     /**
      * Determines the card used by the player and performs the card's action.
      *
      * @param card the played card
      * @param user the player of the card
      */
+
+
     private void playCard(Card card, Player user) {
         int value = card.value();
         user.used().add(card);
