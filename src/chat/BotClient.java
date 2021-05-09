@@ -232,7 +232,7 @@ public class BotClient extends Client {
                     break;
                 }
                 default:
-                    if (listOfPlayers.checkForUser(split[0]) /*&& listOfPlayers.checkForUser(messageWithoutUserName)*/) {
+                    if (listOfPlayers.checkForUser(split[0]) ) {
                         currentOpponent.replace(listOfPlayers.getPlayer(split[0]), messageWithoutUserName);
                         synchronized (currentOpponent) {
                             currentOpponent.notify();

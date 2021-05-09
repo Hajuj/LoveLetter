@@ -154,7 +154,8 @@ public class Game extends GameActions implements Runnable {
         Player gameWinner = players.getGameWinner();
         botClient.sendToAllPlayers(gameWinner + " has won the game and the heart of the princess!");
         botClient.setGameOn(false);
-        botClient.stop();
+        // botClient.stop();
+        // TODO do we need to stop the bot?
     }
 
     /**
