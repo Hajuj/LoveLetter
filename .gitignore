@@ -1,8 +1,2 @@
 # gitignore
 /.idea/
-/out/
-/src/
-/Chat/
-/JavaDocs/
-/production/
-README.md
