@@ -190,14 +190,14 @@ public class Game extends GameActions implements Runnable {
         user.used().add(card);
         if (!allProtected) {
             if (value < 4 || value == 5 || value == 6) {
-            Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
-            switch (value) {
-                case 1 -> useGuard(botClient, user, opponent);
-                case 2 -> usePriest(botClient, user, opponent);
-                case 3 -> useBaron(botClient, user, opponent);
-                case 5 -> usePrince(opponent, deck);
-                case 6 -> useKing(user, opponent);
-            }
+                Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
+                switch (value) {
+                    case 1 -> useGuard(botClient, user, opponent);
+                    case 2 -> usePriest(botClient, user, opponent);
+                    case 3 -> useBaron(botClient, user, opponent);
+                    case 5 -> usePrince(opponent, deck);
+                    case 6 -> useKing(user, opponent);
+                }
             } else {
                 switch (value) {
                     case 4 -> useHandmaiden(botClient, user);
