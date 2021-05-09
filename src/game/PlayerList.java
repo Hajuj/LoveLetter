@@ -157,6 +157,20 @@ public class PlayerList {
 
     }
 
+    public boolean allPlayersProtected() {
+        boolean allProtected = true;
+        for (Player p : players) {
+            if (!p.isProtected()) {
+                allProtected = false;
+            }
+        }
+        if (allProtected) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     /**
      * Deals a card to each Player in the list.
