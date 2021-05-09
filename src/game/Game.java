@@ -65,7 +65,7 @@ public class Game extends GameActions implements Runnable {
             setDeck();
             players.dealCards(deck);
             // next player
-            while (!players.checkForRoundWinner() && deck.hasMoreCards()) {
+            while (deck.hasMoreCards() && !players.checkForRoundWinner()) {
 
                 if (winner != null) {
                     playerTurn = winner;

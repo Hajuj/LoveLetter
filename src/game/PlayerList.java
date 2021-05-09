@@ -119,7 +119,6 @@ public class PlayerList {
         }
         return roundScore;
     }
-    // TODO check score output
 
     /**
      * Checks the list for a single Player with remaining cards.
