@@ -33,6 +33,7 @@ public class Deck {
      * 1 Princess
      */
     public void buildDeck() {
+        deck.clear();
         for (int i = 0; i < 5; i++) {
             deck.push(Card.GUARD);
         }

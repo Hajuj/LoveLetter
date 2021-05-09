@@ -15,6 +15,7 @@ public class PlayerList {
      */
     private final LinkedList<Player> players;
 
+
     private final BotClient botClient;
 
     /**
@@ -51,20 +52,36 @@ public class PlayerList {
         return false;
     }
 
+    public void getWinner(Player winner) {
+        int getWinner = players.indexOf(winner);
+        Player firstOne = players.getFirst();
+        players.set(0, winner);
+        players.set(getWinner, firstOne);
+    }
+
+    // checks if all the players (other than current player) are protected.
+    public boolean allPlayersProtected(Player user) {
+        boolean allProtected = true;
+        for (Player p : players) {
+            if (!p.isProtected() && !p.equals(user) && p.hand().hasCards()) {
+                allProtected = false;
+            }
+        }
+        return allProtected;
+    }
+
     /**
      * Adds a new Player object with the given name to the PlayerList.
      *
      * @param name the given player name
-     * @return true if the player is not already in the list and can be added, false if not
      */
-    public boolean addPlayer(String name) {
+    public void addPlayer(String name) {
         for (Player p : players) {
             if (p.getName().equalsIgnoreCase(name)) {
-                return false;
+                return;
             }
         }
         players.addLast(new Player(name));
-        return true;
     }
 
 
@@ -101,12 +118,13 @@ public class PlayerList {
     /**
      * Prints each Player in the list.
      */
-    public void print() {
-        System.out.println();
+
+    public String print() {
+        String roundScore = "";
         for (Player p : players) {
-            System.out.println(p);
+            roundScore = roundScore + p.toString() + "\n";
         }
-        System.out.println();
+        return roundScore;
     }
 
     /**
@@ -145,23 +163,16 @@ public class PlayerList {
      */
     public Player getGameWinner() {
         for (Player p : players) {
-            if (p.getLetterCount() == 5) {
+            if (p.getLetterCount() == botClient.getLoveLetters()) {
                 return p;
             }
         }
         return null;
     }
 
-    public void getCurrentScore() {
-        for (Player p : players) {
-            botClient.sendTextMessage ("\nThe score of [" + p.getName() + "] is: " + p.getLetterCount());
-            }
-
+    public void getCurrentScore(Player user) {
+        botClient.sendTextMessage("@" + user.getName() + " \nThe score of [" + user.getName() + "] is: " + user.getLetterCount());
     }
-
-
-
-
 
     /**
      * Deals a card to each Player in the list.
@@ -194,15 +205,19 @@ public class PlayerList {
      *
      * @return the player with the highest used pile value
      */
-// TODO all players win if there's still a tie after comparing the used cards. (if else in the for).
     public Player compareUsedPiles() {
         Player winner = players.getFirst();
         for (Player p : players) {
             if (p.used().value() > winner.used().value()) {
                 winner = p;
+                botClient.sendToAllPlayers(" The used cards were compared because there is no more cards in the Deck. \n " + winner.getName() + " has the highest total of the discard pile and won the round!");
+            } else {
+                winner = p;
+                botClient.sendToAllPlayers(" The cards were compared. There is still a tie. All players won the round: \n" + winner.getName());
             }
         }
         return winner;
     }
 
+//Todo Review method for Tie
 }

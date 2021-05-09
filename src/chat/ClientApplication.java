@@ -14,12 +14,23 @@ import java.util.Objects;
 public class ClientApplication extends Application {
 
     /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    /**
      * starts before the method start - Lifecycle of JavaFX
      */
     @Override
     public void init() {
         System.out.println("init!");
     }
+
+    /*Design der Stage inklusive der Platzierung aller Elemente*/
 
     /**
      * starts before the application will close - Lifecycle of JavaFX
@@ -30,12 +41,10 @@ public class ClientApplication extends Application {
         System.exit(0);
     }
 
-    /*Design der Stage inklusive der Platzierung aller Elemente*/
-
     /**
      * Design of the Stage including the set of the scene with fxml-File and CSS-File
+     *
      * @param stage the window of the application
-     * @throws Exception
      */
     @Override
     public void start(Stage stage) throws Exception {
@@ -46,14 +55,5 @@ public class ClientApplication extends Application {
         stage.setScene(scene);
         stage.show();
         System.out.println("start!");
-    }
-
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
 }

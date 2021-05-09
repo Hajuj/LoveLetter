@@ -19,8 +19,9 @@ public class Server {
      */
     /*Main Methode mit vorerst festen Werten (Hostname, Port Nummer)*/
     public static void main(String[] args) {
-        int port = 5000;
+        int port = 500;
         ConsoleHelper.writeMessage("Port Nummer: " + port);
+
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleHelper.writeMessage("Server läuft!");
             while (true) {
@@ -29,10 +30,8 @@ public class Server {
                 new Handler(socket).start();
             }
         } catch (Exception e) {
-            ConsoleHelper.writeMessage("Es gab leider einen Fehler beim Server." + e.getMessage());
-            System.out.println(e.getMessage());
+            ConsoleHelper.writeMessage("Es gab leider einen Fehler beim Server.");
         }
-
     }
 
     /**
@@ -190,9 +189,11 @@ public class Server {
                                 String directData = data.substring(data.indexOf(" ") + 1);
                                 sendDirectMessage(new Message(MessageType.TEXT, userName + " : " + data), connection);
                                 sendDirectMessage(new Message(MessageType.TEXT, userName + " to you : " + directData), connectionMap.get(usernameDirect));
+                            } else {
+                                sendDirectMessage(new Message(MessageType.TEXT, "User could not be found -- please try again"), connection);
                             }
                         } catch (StringIndexOutOfBoundsException e) {
-                            sendDirectMessage(new Message(MessageType.TEXT, "Error bei direct messaging"), connection);
+                            sendDirectMessage(new Message(MessageType.TEXT, "Error for your direct message -- please try again"), connection);
                         }
                     } else {
                         sendBroadcastMessage(new Message(MessageType.TEXT, userName + " : " + data));

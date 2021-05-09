@@ -1,7 +1,5 @@
 package chat;
 
-import server.*;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import server.Message;
+import server.MessageType;
 
 import java.awt.*;
 import java.io.IOException;
@@ -115,17 +115,14 @@ public class ClientGuiController extends Client {
      * Start bot client button.
      *
      * @param event the event
-     * @throws IOException the io exception
      */
     @FXML
-    public void startBotClientButton(ActionEvent event) throws IOException {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    BotClient.main(null);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+    public void startBotClientButton(ActionEvent event) {
+        EventQueue.invokeLater(() -> {
+            try {
+                BotClient.main(null);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
         startButton.setDisable(true);
@@ -142,6 +139,14 @@ public class ClientGuiController extends Client {
         StringBuilder sb = new StringBuilder();
         for (String userName : getModel().getAllUserNames()) {
             sb.append(userName).append("\n");
+        }
+        if(getModel().getAllUserNames().contains("bot")){
+
+            Platform.runLater(() -> startButton.setDisable(true));
+            Platform.runLater(() -> errorLabel.setText("LoveLetter running"));
+
+
+
         }
         Platform.runLater(() -> users.setText(sb.toString()));
     }
@@ -208,7 +213,7 @@ public class ClientGuiController extends Client {
     /*Getter Methode für Serverport - fixer Wert von 500*/
     @Override
     protected int getServerPort() {
-        return 5000;
+        return 500;
     }
 
 

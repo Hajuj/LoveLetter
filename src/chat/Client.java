@@ -1,15 +1,13 @@
 package chat;
 
-import server.*;
+import server.Connection;
+import server.ConsoleHelper;
+import server.Message;
+import server.MessageType;
 
 import java.io.IOException;
 import java.net.Socket;
 
-
-// TODO Check the users connected not showing, after writing a false name more than once.
-// TODO Check the notifyConnectionStatusChanged() (line 134 here) method again to fix the name and welcome problem.
-// TODO Fix message/error not showing, After trying to send a direct message but the name is not written correctly.
-// TODO Change the error message, when writing only '@' in chat.
 
 /**
  * The type chat.Client.
@@ -40,7 +38,7 @@ public class Client {
         try {
             connection.send(new Message(MessageType.TEXT, text));
         } catch (IOException e) {
-            ConsoleHelper.writeMessage("Error beim Senden");
+            ConsoleHelper.writeMessage("Error while sending");
             clientConnected = false;
         }
     }
@@ -53,7 +51,7 @@ public class Client {
         SocketThread socketThread = getSocketThread();
         // thread ist daemon
         socketThread.setDaemon(true);
-        socketThread.start();
+        socketThread.run();
         try {
             synchronized (this) {
                 wait();
@@ -93,8 +91,8 @@ public class Client {
      * @return the server port
      */
     protected int getServerPort() {
-        ConsoleHelper.writeMessage("server.Server Port: 5000");
-        return 5000;
+        ConsoleHelper.writeMessage("server.Server Port: 500");
+        return 500;
     }
 
     /**
