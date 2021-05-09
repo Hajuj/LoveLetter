@@ -1,7 +1,7 @@
 # gitignore
-/.idea/
-/src/
-/JavaDocs/
+/.idea
+/src
+/JavaDocs
 brave-barsche.iml
 README.md
-/production/
+/production
