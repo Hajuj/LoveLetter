@@ -52,11 +52,18 @@ public class PlayerList {
         return false;
     }
 
+    public void getWinner(Player winner) {
+        int getWinner = players.indexOf(winner);
+        Player firstOne = players.getFirst();
+        players.set(0, winner);
+        players.set(getWinner, firstOne);
+    }
+
     // checks if all the players (other than current player) are protected.
     public boolean allPlayersProtected(Player user) {
         boolean allProtected = true;
         for (Player p : players) {
-            if (!p.isProtected() && !p.equals(user)) {
+            if (!p.isProtected() && !p.equals(user) && p.hand().hasCards()) {
                 allProtected = false;
             }
         }
@@ -203,10 +210,10 @@ public class PlayerList {
         for (Player p : players) {
             if (p.used().value() > winner.used().value()) {
                 winner = p;
-                botClient.sendToAllPlayers(" The cards were compared because there is a tie. \n " + winner.getName() + " has the highest total of the discard pile and won the round!");
+                botClient.sendToAllPlayers(" The used cards were compared because there is no more cards in the Deck. \n " + winner.getName() + " has the highest total of the discard pile and won the round!");
             } else {
                 winner = p;
-                botClient.sendToAllPlayers(" The cards were compared. There is still a tie. The round won: \n" + winner.getName());
+                botClient.sendToAllPlayers(" The cards were compared. There is still a tie. All players won the round: \n" + winner.getName());
             }
         }
         return winner;

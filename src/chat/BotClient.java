@@ -82,14 +82,15 @@ public class BotClient extends Client {
 
     }
 
-
-    // TODO Re-Format
     protected void printHelpMessage(String newPlayer){
-        String helpMessage = "Hi " + newPlayer + "! I'm a LoveLetter Bot!" + "I can: \n";
-        helpMessage += "@bot play   -  play the LoveLetters game \n";
-        helpMessage += "@bot start   -  start the LoveLetters game \n";
-        helpMessage += "@bot score   -  actual LoveLetters score \n";
-        helpMessage += "@bot help   -  to see all the commands I can \n";
+        String helpMessage = "\n Hi  " + newPlayer + "!  I'm a LoveLetter Bot! " + " I can: \n";
+        helpMessage += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
+        helpMessage += "# \t"+ "@bot play"+"\t"+ "\t"+"> \t play the LoveLetters game \t \t  #\n";
+        helpMessage += "# \t"+ "@bot start"+"\t"+"\t"+ "> \t start the LoveLetters game \t  #\n";
+        helpMessage += "# \t"+ "@bot score"+"\t"+"\t"+ "> \t current LoveLetters score \t \t  #\n" ;
+        helpMessage += "# \t"+ "@bot help" +"\t"+ "\t"+"> \t see all the commands I can \t  #\n";
+        helpMessage += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
+
         this.sendTextMessage("@" + newPlayer + " " + helpMessage);
     }
 
@@ -126,10 +127,6 @@ public class BotClient extends Client {
             Thread sadThread = new Thread(currentGame);
             sadThread.start();
         }
-    }
-
-    public void stop() {
-        System.exit(0);
     }
 
     /**

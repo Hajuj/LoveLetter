@@ -66,14 +66,11 @@ public class Game extends GameActions implements Runnable {
             players.dealCards(deck);
             // next player
             while (deck.hasMoreCards() && !players.checkForRoundWinner()) {
-
                 if (winner != null) {
-                    playerTurn = winner;
+                    players.getWinner(winner);
                     winner = null;
-
-                } else {
-                    playerTurn = players.getCurrentPlayer();
                 }
+                playerTurn = players.getCurrentPlayer();
                 if (playerTurn.hand().hasCards()) {
                     players.printUsedPiles();
                     botClient.sendToAllPlayers(playerTurn.getName() + "'s turn:");
@@ -86,12 +83,10 @@ public class Game extends GameActions implements Runnable {
 
                     // checks if all the players (other than current player) are protected.
                     boolean allProtected = players.allPlayersProtected(playerTurn);
+                    // royaltyPos is card 5 oder 6
                     int royaltyPos = playerTurn.hand().royaltyPos();
                     // not all players are protected.
                     if (!allProtected) {
-
-                        // royaltyPos is card 5 oder 6
-                        // wenn ein spieler karte 5 oder 6 hat dann countess werfen
 
                     /*Unlike other cards, which take effect when discarded, the text on the Countess
                     applies while she is in your hand. In fact, the only time it doesn't apply
@@ -100,6 +95,7 @@ public class Game extends GameActions implements Runnable {
                     the other card in your hand. Of course, you can also discard the Countess even
                     if you do not have a royal family member in your hand.
                     The Countess likes to play mind games....*/
+                        // wenn ein spieler karte 5 oder 6 hat dann countess werfen
                         if (royaltyPos != -1) {
                             if (royaltyPos == 0 && playerTurn.hand().peek(1).value() == 7) {
                                 playCard(playerTurn.hand().remove(1), playerTurn, false);
@@ -154,8 +150,8 @@ public class Game extends GameActions implements Runnable {
         Player gameWinner = players.getGameWinner();
         botClient.sendToAllPlayers(gameWinner + " has won the game and the heart of the princess!");
         botClient.setGameOn(false);
-        // botClient.stop();
-        // TODO do we need to stop the bot?
+        botClient.sendToAllPlayers("To start a new game please reactivate the Bot!");
+        botClient.sendTextMessage("bye");
     }
 
     /**
@@ -191,8 +187,9 @@ public class Game extends GameActions implements Runnable {
                     case 8 -> usePrincess(botClient, user);
                 }
             }
-        } else if (value == 5 || value == 8) {
+        } else if (value == 4 || value == 5 || value == 8) {
             switch (value) {
+                case 4 -> useHandmaiden(botClient, user);
                 case 5 -> usePrince(getOpponent(players, user, true), deck);
                 case 8 -> usePrincess(botClient, user);
             }
