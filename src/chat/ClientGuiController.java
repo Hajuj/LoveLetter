@@ -144,6 +144,9 @@ public class ClientGuiController extends Client {
         if(getModel().getAllUserNames().contains("bot")){
 
             Platform.runLater(() -> startButton.setDisable(true));
+            Platform.runLater(() -> errorLabel.setText("LoveLetter running"));
+
+
 
         }
         Platform.runLater(() -> users.setText(sb.toString()));

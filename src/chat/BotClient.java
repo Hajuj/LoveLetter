@@ -19,7 +19,17 @@ public class BotClient extends Client {
     private final PlayerList listOfPlayers = new PlayerList(this);
     private final Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
     private final Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
-    private final int numberOfPlayers = 2;
+    private int numberOfPlayers = 2;
+    public int loveLetters;
+
+    public int getLoveLetters() {
+        return loveLetters;
+    }
+
+    public void setLoveLetters(int loveLetters) {
+        this.loveLetters = loveLetters;
+    }
+
     private boolean gameOn = false;
 
     /**
@@ -65,6 +75,14 @@ public class BotClient extends Client {
                     currentOpponent.put(p, p.getName());
                 }
                 // currentOpponent = "";
+
+                //loveLetters switch case
+                switch (numberOfPlayers) {
+                    case 2 -> setLoveLetters(7);
+                    case 3 -> setLoveLetters(5);
+                    case 4 -> setLoveLetters(4);
+                }
+
 
                 currentGame.setPlayers(listOfPlayers);
                 currentGame.setBotClient(this);

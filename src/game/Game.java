@@ -24,6 +24,7 @@ public class Game extends GameActions implements Runnable {
      * The input stream.
      */
 
+
     public BotClient botClient;
 
     /**

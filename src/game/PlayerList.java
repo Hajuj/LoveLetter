@@ -15,6 +15,7 @@ public class PlayerList {
      */
     private final LinkedList<Player> players;
 
+
     private final BotClient botClient;
 
     /**
@@ -154,7 +155,7 @@ public class PlayerList {
      */
     public Player getGameWinner() {
         for (Player p : players) {
-            if (p.getLetterCount() == 5) {
+            if (p.getLetterCount() == botClient.getLoveLetters()) {
                 return p;
             }
         }
