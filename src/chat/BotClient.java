@@ -19,7 +19,10 @@ public class BotClient extends Client {
     private final PlayerList listOfPlayers = new PlayerList(this);
     private final Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
     private final Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
-    private int numberOfPlayers = 2;
+    private final int maxNumberOfPlayers = 4;
+    private final int minNumberOfPlayers = 4;
+
+    private int numberOfPlayers;
     public int loveLetters;
 
     public int getLoveLetters() {
@@ -62,7 +65,10 @@ public class BotClient extends Client {
             this.sendTextMessage("@" + newPlayer + " you are already in the wait list");
         } else {
             waitingList.add(newPlayer);
-            if (waitingList.size() < numberOfPlayers || gameOn) {
+            if (waitingList.size() < maxNumberOfPlayers || gameOn) {
+                if (waitingList.size()>1){
+                        numberOfPlayers = waitingList.size();}
+                else{numberOfPlayers=minNumberOfPlayers;}
                 this.sendTextMessage("@" + newPlayer + " you are in the wait list");
             } else {
                 for (int i = 0; i < numberOfPlayers; i++) {
