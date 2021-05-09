@@ -6,6 +6,8 @@ import java.util.TreeSet;
 
 /**
  * The type Chat.Client GUI Model.
+ *
+ * @author Viktoria
  */
 public class ClientGuiModel {
     private final Set<String> allUserNames = new TreeSet<>();

@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 
 /**
  * The type Server.Console Helper.
+ *
+ * @author Mohamad, Altug
  */
 public class ConsoleHelper {
     private static final BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));

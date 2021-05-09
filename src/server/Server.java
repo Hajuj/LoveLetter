@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The type chat.Server.
+ *
+ * @author Viktoria, Mohamad, Altug
  */
 public class Server {
     private final static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();

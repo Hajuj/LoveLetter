@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 /**
  * The type Hand.
+ *
+ * @author Mohamad, Altug
  */
 public class Hand {
 

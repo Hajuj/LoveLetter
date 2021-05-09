@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 /**
  * The possible player actions to be taken during the game.
+ *
+ * @author Jonas, Viktoria, Mohamad, Altug, Chiara
  */
 abstract class GameActions {
 
@@ -23,6 +25,8 @@ abstract class GameActions {
      * @param botClient the bot client
      * @param user      the user
      * @param opponent  the targeted player
+     *
+     * @author Jonas
      */
     void useGuard(BotClient botClient, Player user, Player opponent) {
         ArrayList<String> cardNames = new ArrayList<>(Arrays.asList(Card.CARD_NAMES));
@@ -72,6 +76,8 @@ abstract class GameActions {
      * @param botClient the bot client
      * @param user      the user
      * @param opponent  the targeted player
+     *
+     * @author Altug
      */
     void usePriest(BotClient botClient, Player user, Player opponent) {
         Card opponentCard = opponent.hand().peek(0);
@@ -86,6 +92,8 @@ abstract class GameActions {
      * @param botClient the bot client
      * @param user      the initiator of the comparison
      * @param opponent  the targeted player
+     *
+     * @author Chiara
      */
     void useBaron(BotClient botClient, Player user, Player opponent) {
         Card userCard = user.hand().peek(0);
@@ -112,6 +120,8 @@ abstract class GameActions {
      *
      * @param botClient the bot client
      * @param user      the current player
+     *
+     * @author Mohamad
      */
     void useHandmaiden(BotClient botClient, Player user) {
         botClient.sendTextMessage("@" + user.getName() + " You are now protected until your next turn.");
@@ -128,6 +138,8 @@ abstract class GameActions {
      *
      * @param opponent the targeted player
      * @param d        the deck of cards
+     *
+     * @author Viktoria
      */
     void usePrince(Player opponent, Deck d) {
         if (opponent.hand().getHand().contains(Card.PRINCESS)) {
@@ -147,6 +159,8 @@ abstract class GameActions {
      *
      * @param user     the initiator of the swap
      * @param opponent the targeted player
+     *
+     * @author Altug
      */
     void useKing(Player user, Player opponent) {
         Card userCard = user.hand().remove(0);
@@ -163,6 +177,8 @@ abstract class GameActions {
      * being knocked out the round still apply (eg. Constable, Jester), however.
      *
      * @param user the current player
+     *
+     * @author Chiara
      */
     void usePrincess(BotClient botClient, Player user) {
         user.discardCard();

@@ -11,6 +11,8 @@ import java.net.Socket;
 
 /**
  * The type chat.Client.
+ *
+ * author Mohamad, Viktoria, Altug
  */
 /*chat.Client Class für Socket Verbindungen der Threads*/
 public class Client {

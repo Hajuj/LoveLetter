@@ -7,6 +7,8 @@ import java.util.LinkedList;
 
 /**
  * Class representing the collective list of players.
+ *
+ * @author Mohamad, Jonas, Viktoria
  */
 public class PlayerList {
 
@@ -210,9 +212,11 @@ public class PlayerList {
         for (Player p : players) {
             if (p.used().value() > winner.used().value()) {
                 winner = p;
+                botClient.setGameTie(false);
                 botClient.sendToAllPlayers(" The used cards were compared because there is no more cards in the Deck. \n " + winner.getName() + " has the highest total of the discard pile and won the round!");
             } else {
                 winner = p;
+                botClient.setGameTie(true);
                 botClient.sendToAllPlayers(" The cards were compared. There is still a tie. All players won the round: \n" + winner.getName());
             }
         }

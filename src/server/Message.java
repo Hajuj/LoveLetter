@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
  * The type Server.Message.
+ *
+ * @author Viktoria, Jonas
  */
 public class Message implements Serializable {
     private final MessageType type;

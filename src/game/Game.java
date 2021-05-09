@@ -6,6 +6,8 @@ import chat.BotClient;
 
 /**
  * The main game class. Contains methods for running the game.
+ *
+ * @author Mohamad, Viktoria, Jonas, Altug, Chiara
  */
 public class Game extends GameActions implements Runnable {
 
@@ -54,6 +56,8 @@ public class Game extends GameActions implements Runnable {
      * The main game loop.
      *
      * @throws InterruptedException the interrupted exception
+     *
+     * @author Mohamad, Jonas
      */
     public void start() throws InterruptedException {
         Player winner = null;
@@ -140,6 +144,13 @@ public class Game extends GameActions implements Runnable {
             } // if there's is a tie compare the used cards
             else {
                 winner = players.compareUsedPiles();
+                if (botClient.getGameTie()) {
+                    for (Player n : players.getPlayers()) {
+                        if (!n.equals(winner)) {
+                            n.addRoundWinner();
+                        }
+                    }
+                }
             }
             // add the winner of the round
             winner.addRoundWinner();
@@ -156,6 +167,7 @@ public class Game extends GameActions implements Runnable {
 
     /**
      * Builds a new full deck and shuffles it.
+     *
      */
     private void setDeck() {
         this.deck.buildDeck();
@@ -167,6 +179,8 @@ public class Game extends GameActions implements Runnable {
      *
      * @param card the played card
      * @param user the player of the card
+     *
+     * @author Mohamad, Jonas
      */
     private void playCard(Card card, Player user, boolean allProtected) {
         int value = card.value();
@@ -204,6 +218,8 @@ public class Game extends GameActions implements Runnable {
      *
      * @param user the current player
      * @return the chosen card
+     *
+     * @author Viktoria, Altug
      */
     private Card getCard(Player user) {
         botClient.sendTextMessage("@" + user.getName() + " " + user.hand().printHand() + " \n Which card would you like to play (1 for first, 2 for second): ");
@@ -240,6 +256,8 @@ public class Game extends GameActions implements Runnable {
      * @param playerList the list of players
      * @param user       the player choosing an opponent
      * @return the chosen target player
+     *
+     * @author Viktoria, Mohamad
      */
     private Player getOpponent(PlayerList playerList, Player user, boolean isPrince) {
         Player opponent = null;

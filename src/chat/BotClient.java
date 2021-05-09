@@ -20,6 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The type Bot client.
+ *
+ * @author Viktoria, Mohamad, Jonas, Altug
  */
 public class BotClient extends Client {
     private final static ArrayList<String> waitingList = new ArrayList<>();
@@ -140,6 +142,16 @@ public class BotClient extends Client {
         }
     }
 
+
+    public boolean gameTie;
+
+    public void setGameTie(boolean gameTie) {
+        this.gameTie = gameTie;
+    }
+
+    public boolean getGameTie() {
+        return gameTie;
+    }
 
     @Override
     protected SocketThread getSocketThread() {

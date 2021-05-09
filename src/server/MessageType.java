@@ -2,6 +2,8 @@ package server;
 
 /**
  * The enum Server.Message Type.
+ *
+ * @author Viktoria, Chiara
  */
 public enum MessageType {
     /**

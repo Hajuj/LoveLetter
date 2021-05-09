@@ -16,6 +16,8 @@ import java.io.IOException;
 
 /**
  * The type chat.Client gui controller.
+ *
+ * @author Chiara, Viktoria, Jonas
  */
 public class ClientGuiController extends Client {
     private final ClientGuiModel model = new ClientGuiModel();

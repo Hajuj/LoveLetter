@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 /**
  * The type Used pile.
+ *
+ * @author Jonas
  */
 public class UsedPile {
 

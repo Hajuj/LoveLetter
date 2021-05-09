@@ -9,6 +9,8 @@ import java.net.SocketAddress;
 
 /**
  * The type Server.Connection.
+ *
+ * @author Jonas, Mohamad
  */
 public class Connection implements Closeable {
     private final Socket socket;
