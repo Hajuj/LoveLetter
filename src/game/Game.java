@@ -83,9 +83,11 @@ public class Game extends GameActions implements Runnable {
                     // spieler zieht eine karte
                     playerTurn.hand().add(deck.dealCard());
 
-                    // royaltyPos is card 5 oder 6
-                    int royaltyPos = playerTurn.hand().royaltyPos();
-                    // wenn ein spieler karte 5 oder 6 hat dann countess werfen
+                    if (!players.allPlayersProtected()) {
+
+                        // royaltyPos is card 5 oder 6
+                        int royaltyPos = playerTurn.hand().royaltyPos();
+                        // wenn ein spieler karte 5 oder 6 hat dann countess werfen
 
                     /*Unlike other cards, which take effect when discarded, the text on the Countess
                     applies while she is in your hand. In fact, the only time it doesn't apply
@@ -94,17 +96,21 @@ public class Game extends GameActions implements Runnable {
                     the other card in your hand. Of course, you can also discard the Countess even
                     if you do not have a royal family member in your hand.
                     The Countess likes to play mind games....*/
-                    if (royaltyPos != -1) {
-                        if (royaltyPos == 0 && playerTurn.hand().peek(1).value() == 7) {
-                            playCard(playerTurn.hand().remove(1), playerTurn);
-                        } else if (royaltyPos == 1 && playerTurn.hand().peek(0).value() == 7) {
-                            playCard(playerTurn.hand().remove(0), playerTurn);
+                        if (royaltyPos != -1) {
+                            if (royaltyPos == 0 && playerTurn.hand().peek(1).value() == 7) {
+                                playCard(playerTurn.hand().remove(1), playerTurn);
+                            } else if (royaltyPos == 1 && playerTurn.hand().peek(0).value() == 7) {
+                                playCard(playerTurn.hand().remove(0), playerTurn);
+                            } else {
+                                playCard(getCard(playerTurn), playerTurn);
+                            }
+                            // spieler hat kein Prince 5 oder King 6
                         } else {
                             playCard(getCard(playerTurn), playerTurn);
                         }
-                        // spieler hat kein Prince 5 oder King 6
                     } else {
-                        playCard(getCard(playerTurn), playerTurn);
+                        botClient.sendTextMessage("@" + playerTurn.getName() + " All players are protected. Your card is discarded without calling its effect.");
+                        break;
                     }
                 }
             }
@@ -231,7 +237,6 @@ public class Game extends GameActions implements Runnable {
 
             } else if (!opponent.hand().hasCards()) {
                 botClient.sendTextMessage("@" + user.getName() + " This player is eliminated.");
-
             } else {
                 validTarget = true;
             }
