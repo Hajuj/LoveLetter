@@ -21,7 +21,6 @@ public class Server {
     public static void main(String[] args) {
         int port = 5000;
         ConsoleHelper.writeMessage("Port Nummer: " + port);
-
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleHelper.writeMessage("Server läuft!");
             while (true) {
@@ -31,7 +30,9 @@ public class Server {
             }
         } catch (Exception e) {
             ConsoleHelper.writeMessage("Es gab leider einen Fehler beim Server." + e.getMessage());
+            System.out.println(e.getMessage());
         }
+
     }
 
     /**

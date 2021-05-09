@@ -153,7 +153,7 @@ public class Game extends GameActions implements Runnable {
         // TODO make it as switch case
         if (value < 4 || value == 5 || value == 6) {
             Player opponent = value == 5 ? getOpponent(players, user, true) : getOpponent(players, user, false);
-            if (value == 1) {
+            if (value == 1 && !checkProtection()) {
                 useGuard(botClient, user, opponent);
             } else if (value == 2) {
                 usePriest(botClient, user, opponent);
@@ -172,6 +172,22 @@ public class Game extends GameActions implements Runnable {
             }
         }
     }
+
+    public boolean checkProtection() {
+        Player current = players.getCurrentPlayer();
+        boolean res = false;
+        for(Player player : players.getPlayers()) {
+            if (!player.equals(current)) {
+                if(!player.isProtected()) {
+                    res = false;
+                } else {
+                    res = true;
+                }
+            }
+        }
+        return res;
+    }
+
 
     /**
      * Allows for the user to pick a card from their hand to play.

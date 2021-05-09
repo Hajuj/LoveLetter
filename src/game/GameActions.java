@@ -138,6 +138,11 @@ abstract class GameActions {
         }
     }
 
+    public boolean checkPrincess(){
+        Player current = players.getCurrentPlayer();
+        boolean res = false;
+    }
+
     /**
      * When you discard King Arnaud IV, trade the card in your hand with the card
      * held by another player of your choice. You cannot trade with a player who is
