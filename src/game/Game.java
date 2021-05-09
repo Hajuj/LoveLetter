@@ -66,8 +66,11 @@ public class Game extends GameActions implements Runnable {
             players.dealCards(deck);
             // next player
             while (!players.checkForRoundWinner() && deck.hasMoreCards()) {
+
                 if (winner != null) {
                     playerTurn = winner;
+                    winner = null;
+
                 } else {
                     playerTurn = players.getCurrentPlayer();
                 }
@@ -141,7 +144,6 @@ public class Game extends GameActions implements Runnable {
             } // if there's is a tie compare the used cards
             else {
                 winner = players.compareUsedPiles();
-                winner.addRoundWinner();
             }
             // add the winner of the round
             winner.addRoundWinner();
