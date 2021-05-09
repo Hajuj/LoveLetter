@@ -14,10 +14,15 @@
       <change beforePath="$PROJECT_DIR$/src/chat/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/chat/ClientApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat/ClientApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/chat/ClientGuiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat/ClientGuiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chat/ClientGuiModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat/ClientGuiModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GameActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/PlayerList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/PlayerList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/ConsoleHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/ConsoleHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/MessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/MessageType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +65,7 @@
     <property name="project.structure.proportion" value="0.21974148" />
     <property name="project.structure.side.proportion" value="0.36953244" />
   </component>
-  <component name="RunManager" selected="Application.BotClient">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="BotClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="chat.BotClient" />
       <module name="brave-barsche" />
@@ -109,9 +114,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Server" />
         <item itemvalue="Application.BotClient" />
         <item itemvalue="Application.ClientApplication" />
-        <item itemvalue="Application.Server" />
       </list>
     </recent_temporary>
   </component>
@@ -152,7 +157,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620560215076</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="TODO commentary">
+      <created>1620598152234</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1620598152234</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -161,6 +173,7 @@
     <MESSAGE value="src updated" />
     <MESSAGE value="card functions" />
     <MESSAGE value="handmaid problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="handmaid problem" />
+    <MESSAGE value="TODO commentary" />
+    <option name="LAST_COMMIT_MESSAGE" value="TODO commentary" />
   </component>
 </project>

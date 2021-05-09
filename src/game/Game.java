@@ -6,6 +6,8 @@ import chat.BotClient;
 
 /**
  * The main game class. Contains methods for running the game.
+ *
+ * @author Altug, Chiara, Jonas, Mohamad, Viktoria
  */
 public class Game extends GameActions implements Runnable {
 
@@ -52,8 +54,15 @@ public class Game extends GameActions implements Runnable {
 
     /**
      * The main game loop.
+     * Sets up the game.
+     * Deals cards and declares turns.
+     * Edge game conditions :
+     * Royalty Position and used pile comperasion.
+     *
      *
      * @throws InterruptedException the interrupted exception
+     *
+     * @author Mohamad, Jonas
      */
     public void start() throws InterruptedException {
         Player winner = null;
@@ -88,13 +97,7 @@ public class Game extends GameActions implements Runnable {
                     // not all players are protected.
                     if (!allProtected) {
 
-                    /*Unlike other cards, which take effect when discarded, the text on the Countess
-                    applies while she is in your hand. In fact, the only time it doesn't apply
-                    is when you discard her. If you ever have the Countess and either the King or
-                    Prince in your hand, you must discard the Countess. You do not have to reveal
-                    the other card in your hand. Of course, you can also discard the Countess even
-                    if you do not have a royal family member in your hand.
-                    The Countess likes to play mind games....*/
+
                         // wenn ein spieler karte 5 oder 6 hat dann countess werfen
                         if (royaltyPos != -1) {
                             if (royaltyPos == 0 && playerTurn.hand().peek(1).value() == 7) {
@@ -140,6 +143,13 @@ public class Game extends GameActions implements Runnable {
             } // if there's is a tie compare the used cards
             else {
                 winner = players.compareUsedPiles();
+                if (botClient.getGameTie()) {
+                    for (Player n : players.getPlayers()) {
+                        if (!n.equals(winner)) {
+                            n.addRoundWinner();
+                        }
+                    }
+                }
             }
             // add the winner of the round
             winner.addRoundWinner();
@@ -156,6 +166,7 @@ public class Game extends GameActions implements Runnable {
 
     /**
      * Builds a new full deck and shuffles it.
+     *
      */
     private void setDeck() {
         this.deck.buildDeck();
@@ -167,6 +178,8 @@ public class Game extends GameActions implements Runnable {
      *
      * @param card the played card
      * @param user the player of the card
+     *
+     * @author Mohamad, Jonas
      */
     private void playCard(Card card, Player user, boolean allProtected) {
         int value = card.value();
@@ -204,6 +217,8 @@ public class Game extends GameActions implements Runnable {
      *
      * @param user the current player
      * @return the chosen card
+     *
+     * @author Viktoria, Altug
      */
     private Card getCard(Player user) {
         botClient.sendTextMessage("@" + user.getName() + " " + user.hand().printHand() + " \n Which card would you like to play (1 for first, 2 for second): ");
@@ -240,6 +255,8 @@ public class Game extends GameActions implements Runnable {
      * @param playerList the list of players
      * @param user       the player choosing an opponent
      * @return the chosen target player
+     *
+     * @author Viktoria, Mohamad
      */
     private Player getOpponent(PlayerList playerList, Player user, boolean isPrince) {
         Player opponent = null;
@@ -272,6 +289,9 @@ public class Game extends GameActions implements Runnable {
         return opponent;
     }
 
+    /**
+     * run method.
+     */
 
     @Override
     public void run() {

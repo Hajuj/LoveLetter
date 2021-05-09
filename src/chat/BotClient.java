@@ -20,6 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The type Bot client.
+ *
+ * @author Altug, Jonas, Mohamad, Viktoria
  */
 public class BotClient extends Client {
     private final static ArrayList<String> waitingList = new ArrayList<>();
@@ -32,9 +34,20 @@ public class BotClient extends Client {
     private int numberOfPlayers;
     public int loveLetters;
 
+    /**
+     * Returns the loveletters of a player
+     *
+     * @return
+     */
+
     public int getLoveLetters() {
         return loveLetters;
     }
+
+    /**
+     * loveletter setter
+     * @param loveLetters
+     */
 
     public void setLoveLetters(int loveLetters) {
         this.loveLetters = loveLetters;
@@ -82,6 +95,11 @@ public class BotClient extends Client {
 
     }
 
+    /**
+     * Prints command lines to give the bot commands.
+     * @param newPlayer
+     */
+
     protected void printHelpMessage(String newPlayer){
         String helpMessage = "\n Hi  " + newPlayer + "!  I'm a LoveLetter Bot! " + " I can: \n";
         helpMessage += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
@@ -93,6 +111,14 @@ public class BotClient extends Client {
 
         this.sendTextMessage("@" + newPlayer + " " + helpMessage);
     }
+
+    /**
+     * Starts all the fun .
+     * Puts players in waitinglist if there is less than 1.
+     * Adds every player to the waiting list.
+     * Sets the game conditions according to the player number.
+     * @param newPlayer
+     */
 
     protected void startTheAction(String newPlayer){
         if (waitingList.size() < 2 || gameOn) {
@@ -141,6 +167,26 @@ public class BotClient extends Client {
     }
 
 
+    public boolean gameTie;
+
+    /**
+     * Tie situation setter
+     * @param gameTie
+     */
+
+    public void setGameTie(boolean gameTie) {
+        this.gameTie = gameTie;
+    }
+
+    /**
+     * getter for the gametie situation.
+     * @return
+     */
+
+    public boolean getGameTie() {
+        return gameTie;
+    }
+
     @Override
     protected SocketThread getSocketThread() {
         return new BotSocketThread();
@@ -153,9 +199,14 @@ public class BotClient extends Client {
 
     @Override
     protected String getUserName() {
-        // because we love you Thomas <3
+
         return "bot";
     }
+
+    /**
+     * Situation of the game going on.
+     * @param gameOn
+     */
 
     public void setGameOn(boolean gameOn) {
         this.gameOn = gameOn;
@@ -189,6 +240,16 @@ public class BotClient extends Client {
             BotClient.this.sendTextMessage(hello);
             super.clientMainLoop();
         }
+
+        /**
+         * Actions of bot commands.
+         * Splits the messeage to receive the command.
+         * For the command Help:Prints the commands .
+         * For the command Play:Sets up the game.
+         * For the command Score:Gives the score.
+         * FAor the command Start:Starts the game.
+         * @param message the message
+         */
 
 
         @Override

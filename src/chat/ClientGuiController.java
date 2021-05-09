@@ -16,6 +16,8 @@ import java.io.IOException;
 
 /**
  * The type chat.Client gui controller.
+ *
+ * @author Chiara, Jonas, Viktoria,
  */
 public class ClientGuiController extends Client {
     private final ClientGuiModel model = new ClientGuiModel();
@@ -157,7 +159,7 @@ public class ClientGuiController extends Client {
      *
      * @param clientConnected the client connected
      */
-    /*Funktion um zu überprüfen ob die Verbindung weiterhin besteht*/
+
     public synchronized void notifyConnectionStatusChanged(boolean clientConnected) {
         if (clientConnected) {
             messageField.setDisable(false);
@@ -229,28 +231,40 @@ public class ClientGuiController extends Client {
      */
     public class GuiSocketThread extends SocketThread {
 
-        /*Verarbeiten der eingehenden Nachricht*/
+        /**
+         * Processes the message.
+         * @param message the message
+         */
         @Override
         protected void processIncomingMessage(String message) {
             model.setNewMessage(message);
             refreshMessages();
         }
 
-        /*Mitteilung über neuen Nutzer*/
+        /**
+         * Informs the players about a new player.
+         * @param userName the user name
+         */
         @Override
         protected void informAboutAddingNewUser(String userName) {
             model.addUser(userName);
             refreshUsers();
         }
 
-        /*Aktualisieren der Nutzer Liste*/
+        /**
+         * Informs the players about a player leaving the game.
+         * @param userName the user name
+         */
         @Override
         protected void informAboutDeletingNewUser(String userName) {
             model.deleteUser(userName);
             refreshUsers();
         }
 
-        /*Mitteilung falls eine Verbindung zum server.Server sich geändert hat*/
+        /**
+         * Informs the players about the connection status change.
+         * @param clientConnected the client connected
+         */
         @Override
         protected void notifyConnectionStatusChanged(boolean clientConnected) {
             super.notifyConnectionStatusChanged(clientConnected);

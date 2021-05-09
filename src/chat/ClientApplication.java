@@ -10,6 +10,8 @@ import java.util.Objects;
 
 /**
  * The type Chat.Client Application.
+ *
+ * @author Chiara, Jonas
  */
 public class ClientApplication extends Application {
 

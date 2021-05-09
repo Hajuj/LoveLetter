@@ -2,6 +2,8 @@ package cards;
 
 /**
  * Enum with all possible cards.
+ *
+ * @author Chiara
  */
 
 public enum Card {

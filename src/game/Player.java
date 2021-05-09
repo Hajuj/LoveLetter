@@ -5,6 +5,8 @@ import cards.UsedPile;
 
 /**
  * Class representing a Player of Love Letter.
+ *
+ * @author Altug, Chiara
  */
 public class Player {
 
