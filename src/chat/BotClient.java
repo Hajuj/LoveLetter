@@ -10,6 +10,13 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+// TODO Add in README FILE: No Lying implemented - all actions are automatically executed if necessary
+//Hinweis: Doch keine JAR erstellen -- Aber optional möglich //final date 11:59
+// Vortrag - vorstellen und Vorzüge ausarbeiten
+// Pro Kontra der letzten drei Projektwochen
+// Autoren in JavaDocs nennen --> Experten für den Code
+
+
 /**
  * The type Bot client.
  */
@@ -20,6 +27,7 @@ public class BotClient extends Client {
     private final Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
     private final Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
     private final int maxNumberOfPlayers = 4;
+    // TODO Maxnumber = 4
 
     private int numberOfPlayers;
     public int loveLetters;
@@ -64,39 +72,58 @@ public class BotClient extends Client {
             this.sendTextMessage("@" + newPlayer + " you are already in the wait list");
         } else {
             waitingList.add(newPlayer);
-            if (waitingList.size() < maxNumberOfPlayers || waitingList.size() < numberOfPlayers || gameOn) {
-                if (waitingList.size()>1){
-                    this.sendToAllPlayers("If you do not want to wait for more players, write @bot start");
-                }
-                this.sendTextMessage("@" + newPlayer + " you are in the wait list");
-            } else {
-                for (int i = 0; i < numberOfPlayers; i++) {
-                    listOfPlayers.addPlayer(waitingList.get(i));
-                }
-                for (Player p : listOfPlayers.getPlayers()) {
-                    currentCards.put(p, 10);
-                }
-                for (Player p : listOfPlayers.getPlayers()) {
-                    currentOpponent.put(p, p.getName());
-                }
-                // currentOpponent = "";
+            this.sendTextMessage("@" + newPlayer + " you are in the wait list");
+        }
 
-                //loveLetters switch case
-                switch (numberOfPlayers) {
-                    case 2 -> setLoveLetters(7);
-                    case 3 -> setLoveLetters(5);
-                    case 4 -> setLoveLetters(4);
-                }
+        if (waitingList.size()>1) {
+        for (String u : waitingList) {
+            this.sendTextMessage("@" + u + " If you do not want to wait for more players, write @bot start");
+        }}
+    }
 
-                currentGame.setPlayers(listOfPlayers);
-                currentGame.setBotClient(this);
-                waitingList.clear();
-                gameOn = true;
 
-                // sadThread because it toke us a long time to make him happy :(
-                Thread sadThread = new Thread(currentGame);
-                sadThread.start();
+    // TODO Re-Format
+    protected void printHelpMessage(String newPlayer){
+        String helpMessage = "Hi " + newPlayer + "! I'm a LoveLetter Bot!" + "I can: \n";
+        helpMessage += "@bot play   -  play the LoveLetters game \n";
+        helpMessage += "@bot start   -  start the LoveLetters game \n";
+        helpMessage += "@bot score   -  actual LoveLetters score \n";
+        helpMessage += "@bot help   -  to see all the commands I can \n";
+        this.sendTextMessage("@" + newPlayer + " " + helpMessage);
+    }
+
+    protected void startTheAction(String newPlayer){
+        if (waitingList.size() < 2 || gameOn) {
+            this.sendTextMessage("@" + newPlayer + " please wait for other players");
+        } else {
+            numberOfPlayers = waitingList.size();
+            // Max 4 Players
+            for (int i = 0; i < numberOfPlayers; i++) {
+                listOfPlayers.addPlayer(waitingList.get(i));
             }
+            for (Player p : listOfPlayers.getPlayers()) {
+                currentCards.put(p, 10);
+            }
+            for (Player p : listOfPlayers.getPlayers()) {
+                currentOpponent.put(p, p.getName());
+            }
+            // currentOpponent = "";
+
+            //loveLetters switch case
+            switch (numberOfPlayers) {
+                case 2 -> setLoveLetters(7);
+                case 3 -> setLoveLetters(5);
+                case 4 -> setLoveLetters(4);
+            }
+
+            currentGame.setPlayers(listOfPlayers);
+            currentGame.setBotClient(this);
+            waitingList.clear();
+            gameOn = true;
+
+            // sadThread because it toke us a long time to make him happy :(
+            Thread sadThread = new Thread(currentGame);
+            sadThread.start();
         }
     }
 
@@ -181,6 +208,9 @@ public class BotClient extends Client {
 
             //   String format = null;
             switch (messageWithoutUserName) {
+                case "help":
+                    printHelpMessage(split[0]);
+                    break;
                 case "play":
                     startTheGame(split[0]);
                     break;
@@ -188,8 +218,7 @@ public class BotClient extends Client {
                     listOfPlayers.getCurrentScore(listOfPlayers.getCurrentPlayer());
                     break;
                 case "start":
-                    gameOn = true;
-                    numberOfPlayers = waitingList.size();
+                    startTheAction(split[0]);
 
                     break;
                 case "1", "2", "3", "4", "5", "6", "7", "8": {

@@ -146,14 +146,13 @@ public class Game extends GameActions implements Runnable {
             // add the winner of the round
             winner.addRoundWinner();
             botClient.sendToAllPlayers(winner.getName() + " has won this round!\n" + "\n"+"### NEW ROUND ### \n");
-            players.print();
+            botClient.sendToAllPlayers(players.print());
         }
         // gives the winner of the game
         Player gameWinner = players.getGameWinner();
         botClient.sendToAllPlayers(gameWinner + " has won the game and the heart of the princess!");
         botClient.setGameOn(false);
         botClient.stop();
-
     }
 
     /**

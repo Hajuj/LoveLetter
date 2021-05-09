@@ -111,13 +111,15 @@ public class PlayerList {
     /**
      * Prints each Player in the list.
      */
-    public void print() {
-        System.out.println();
+
+    public String print() {
+        String roundScore = "";
         for (Player p : players) {
-            System.out.println(p);
+            roundScore = roundScore + p.toString() + "\n";
         }
-        System.out.println();
+        return roundScore;
     }
+    // TODO check score output
 
     /**
      * Checks the list for a single Player with remaining cards.
@@ -211,5 +213,5 @@ public class PlayerList {
         return winner;
     }
 
-
+//Todo Review method for Tie
 }
