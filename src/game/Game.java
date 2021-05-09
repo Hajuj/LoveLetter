@@ -5,7 +5,6 @@ import cards.Deck;
 import chat.BotClient;
 
 // TODO  Prio 1: limit players number from 2 to 4
-// TODO change the tokens needed according to the players number.
 
 /**
  * The main game class. Contains methods for running the game.
