@@ -51,7 +51,7 @@ abstract class GameActions {
                     e.printStackTrace();
                 }
             }
-             card = botClient.getCurrentCards().get(user);
+            card = botClient.getCurrentCards().get(user);
             cardName = cardNames.get(card);
         }
         Card opponentCard = opponent.hand().peek(0);
