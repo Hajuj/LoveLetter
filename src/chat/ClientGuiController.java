@@ -141,6 +141,11 @@ public class ClientGuiController extends Client {
         for (String userName : getModel().getAllUserNames()) {
             sb.append(userName).append("\n");
         }
+        if(getModel().getAllUserNames().contains("bot")){
+
+            Platform.runLater(() -> startButton.setDisable(true));
+
+        }
         Platform.runLater(() -> users.setText(sb.toString()));
     }
 

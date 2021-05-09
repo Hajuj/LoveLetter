@@ -4,13 +4,8 @@ import cards.Card;
 import cards.Deck;
 import chat.BotClient;
 
-import java.util.ArrayList;
-
-// TODO  Prio 1: applying the prince to a player who has the Princess won't make him lose the game.
-// TODO  Prio 1: if all players are protected, and a player tries to play one of these cards:
-//      Guard, Priest, Baron or King, the game should skip for the next round automatically,
-//      since the player can't choose himself or others (because they are protected).
-// TODO  Prio 1: limit players number from 2 to 4, and change the tokens needed according to the players number.
+// TODO  Prio 1: limit players number from 2 to 4
+// TODO change the tokens needed according to the players number.
 
 /**
  * The main game class. Contains methods for running the game.
@@ -57,14 +52,14 @@ public class Game extends GameActions implements Runnable {
         this.botClient = botClient;
     }
 
-
     /**
      * The main game loop.
      *
      * @throws InterruptedException the interrupted exception
      */
     public void start() throws InterruptedException {
-//        this.botClient = botClient;
+        Player winner = null;
+        Player playerTurn;
         botClient.sendToAllPlayers("The game has started!");
         // ganz neues Spiel starten.
         while (players.getGameWinner() == null) {
@@ -73,16 +68,11 @@ public class Game extends GameActions implements Runnable {
             players.dealCards(deck);
             // next player
             while (!players.checkForRoundWinner() && deck.hasMoreCards()) {
-                Player playerTurn = players.getCurrentPlayer();
-
-                // TODO related to the next todo.
-                // save all the players other than the current player.
-                ArrayList<Player> withoutCurrentPlayer = new ArrayList<Player>();
-                for (Player p : players.getPlayers()) {
-                    if (!playerTurn.equals(p))
-                        withoutCurrentPlayer.add(p);
+                if (winner != null) {
+                    playerTurn = winner;
+                } else {
+                    playerTurn = players.getCurrentPlayer();
                 }
-
                 if (playerTurn.hand().hasCards()) {
                     players.printUsedPiles();
                     botClient.sendToAllPlayers(playerTurn.getName() + "'s turn:");
@@ -93,15 +83,8 @@ public class Game extends GameActions implements Runnable {
                     // spieler zieht eine karte
                     playerTurn.hand().add(deck.dealCard());
 
-                    // TODO would be nicer as a method in PlayerList class.
                     // checks if all the players (other than current player) are protected.
-                    boolean allProtected = true;
-                    for (Player p : withoutCurrentPlayer) {
-                        if (!p.isProtected()) {
-                            allProtected = false;
-                        }
-                    }
-
+                    boolean allProtected = players.allPlayersProtected(playerTurn);
                     int royaltyPos = playerTurn.hand().royaltyPos();
                     // not all players are protected.
                     if (!allProtected) {
@@ -119,8 +102,10 @@ public class Game extends GameActions implements Runnable {
                         if (royaltyPos != -1) {
                             if (royaltyPos == 0 && playerTurn.hand().peek(1).value() == 7) {
                                 playCard(playerTurn.hand().remove(1), playerTurn, false);
+                                botClient.sendToAllPlayers("The Countess is discarded because player [" + playerTurn + "] has a King or a Prince.");
                             } else if (royaltyPos == 1 && playerTurn.hand().peek(0).value() == 7) {
                                 playCard(playerTurn.hand().remove(0), playerTurn, false);
+                                botClient.sendToAllPlayers("The Countess is discarded because player [" + playerTurn + "] has a King or a Prince.");
                             } else {
                                 playCard(getCard(playerTurn), playerTurn, false);
                             }
@@ -136,8 +121,10 @@ public class Game extends GameActions implements Runnable {
                         if (royaltyPos != -1) {
                             if (royaltyPos == 0 && playerTurn.hand().peek(1).value() == 7) {
                                 playCard(playerTurn.hand().remove(1), playerTurn, true);
+                                botClient.sendToAllPlayers("The Countess is discarded because player [" + playerTurn + "] has a King or a Prince.");
                             } else if (royaltyPos == 1 && playerTurn.hand().peek(0).value() == 7) {
                                 playCard(playerTurn.hand().remove(0), playerTurn, true);
+                                botClient.sendToAllPlayers("The Countess is discarded because player [" + playerTurn + "] has a King or a Prince.");
                                 // if you have a royal card, but the other card is not a countess.
                             } else {
                                 playCard(getCard(playerTurn), playerTurn, true);
@@ -149,7 +136,7 @@ public class Game extends GameActions implements Runnable {
                     }
                 }
             }
-            Player winner;
+//            Player winner;
             // winner of the round
             if (players.checkForRoundWinner() && players.getRoundWinner() != null) {
                 winner = players.getRoundWinner();
@@ -167,7 +154,7 @@ public class Game extends GameActions implements Runnable {
         Player gameWinner = players.getGameWinner();
         botClient.sendToAllPlayers(gameWinner + " has won the game and the heart of the princess!");
         botClient.setGameOn(false);
-        // botClient.stop();
+        botClient.stop();
 
     }
 
