@@ -7,6 +7,8 @@ import java.util.LinkedList;
 
 /**
  * Class representing the collective list of players.
+ *
+ * @author Jonas, Mohamad, Viktoria
  */
 public class PlayerList {
 
@@ -52,6 +54,11 @@ public class PlayerList {
         return false;
     }
 
+    /**
+     * getter for a winner.
+     * @param winner  for the winner
+     */
+
     public void getWinner(Player winner) {
         int getWinner = players.indexOf(winner);
         Player firstOne = players.getFirst();
@@ -59,7 +66,12 @@ public class PlayerList {
         players.set(getWinner, firstOne);
     }
 
-    // checks if all the players (other than current player) are protected.
+    /**
+     * Checks if all the players except the current player are protected by the card Handmaid
+     * and being used to avoid getting stuck in a if clause.
+     * @param user  for the user
+     * @return  the user
+     */
     public boolean allPlayersProtected(Player user) {
         boolean allProtected = true;
         for (Player p : players) {
@@ -120,11 +132,11 @@ public class PlayerList {
      */
 
     public String print() {
-        StringBuilder roundScore = new StringBuilder();
+        String roundScore = "";
         for (Player p : players) {
-            roundScore.append(p.toString()).append("\n");
+            roundScore = roundScore + p.toString() + "\n";
         }
-        return roundScore.toString();
+        return roundScore;
     }
 
     /**
@@ -170,6 +182,11 @@ public class PlayerList {
         return null;
     }
 
+    /**
+     * Prints the score of the current player.
+     * @param user for the user
+     */
+
     public void getCurrentScore(Player user) {
         botClient.sendTextMessage("@" + user.getName() + " \nThe score of [" + user.getName() + "] is: " + user.getLetterCount());
     }
@@ -202,6 +219,7 @@ public class PlayerList {
 
     /**
      * Returns the player with the highest used pile value.
+     * Used to determine who wins in case of a tie of a comparison of the hands.
      *
      * @return the player with the highest used pile value
      */
@@ -210,14 +228,15 @@ public class PlayerList {
         for (Player p : players) {
             if (p.used().value() > winner.used().value()) {
                 winner = p;
+                botClient.setGameTie(false);
                 botClient.sendToAllPlayers(" The used cards were compared because there is no more cards in the Deck. \n " + winner.getName() + " has the highest total of the discard pile and won the round!");
             } else {
                 winner = p;
+                botClient.setGameTie(true);
                 botClient.sendToAllPlayers(" The cards were compared. There is still a tie. All players won the round: \n" + winner.getName());
             }
         }
         return winner;
     }
 
-//Todo Review method for Tie
 }

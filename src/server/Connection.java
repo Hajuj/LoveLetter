@@ -9,6 +9,8 @@ import java.net.SocketAddress;
 
 /**
  * The type Server.Connection.
+ *
+ * @author Jonas, Mohamad
  */
 public class Connection implements Closeable {
     private final Socket socket;
@@ -16,12 +18,12 @@ public class Connection implements Closeable {
     private final ObjectOutputStream out;
 
     /**
-     * Instantiates a new Server.Connection.
+     * Starts a new Server.Connection.
      *
      * @param socket the socket
      * @throws IOException the IO exception
      */
-    /*Verbindung der Sockets*/
+
     public Connection(Socket socket) throws IOException {
         this.socket = socket;
         this.out = new ObjectOutputStream(socket.getOutputStream());
@@ -29,12 +31,12 @@ public class Connection implements Closeable {
     }
 
     /**
-     * Send.
+     * Send method for the messages.
      *
      * @param message the message
      * @throws IOException the IO exception
      */
-    /*Senden der Nachricht*/
+
     public void send(Message message) throws IOException {
         synchronized (out) {
             out.writeObject(message);
@@ -42,16 +44,16 @@ public class Connection implements Closeable {
     }
 
     /**
-     * Receive message.
+     * Receive method for the messages.
      *
      * @return the message
      * @throws IOException            the IO exception
      * @throws ClassNotFoundException the class not found exception
      */
-    /*Empfangen der Nachricht*/
+
     public Message receive() throws IOException, ClassNotFoundException {
         synchronized (in) {
-            // notwendig für langsame CPUs und natürlicherem Spielfluss
+
             try {
                 Thread.sleep(111);
             } catch (Exception e) {
@@ -62,7 +64,10 @@ public class Connection implements Closeable {
         }
     }
 
-    /*Trennen der Verbindung*/
+    /**
+     * Closes the input and output.
+     * @throws IOException for IO
+     */
     @Override
     public void close() throws IOException {
         in.close();

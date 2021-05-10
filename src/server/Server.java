@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The type chat.Server.
+ *
+ * @author Altug, Mohamad, Viktoria
  */
 public class Server {
     private final static Map<String, Connection> connectionMap = new ConcurrentHashMap<>();
@@ -91,6 +93,7 @@ public class Server {
 
         /**
          * Instantiates a new Handler.
+         * Handler handles connection and socket .
          *
          * @param socket the socket
          */
@@ -128,6 +131,14 @@ public class Server {
             ConsoleHelper.writeMessage("Socket " + socket.getRemoteSocketAddress() + " closed.");
         }
 
+        /**
+         * Server Handshake with busy waiting.
+         * Takes the username and checks if it fits to the rules.If not gives out the according warning message.
+         * @param connection for the connection
+         * @return  the userName
+         * @throws IOException for IO
+         * @throws ClassNotFoundException for Class not found
+         */
         /*Handshake Serverseitig: Überprüfen der Informationen und stetiges aktualisieren mit busy waiting*/
         private String serverHandshake(Connection connection) throws IOException, ClassNotFoundException {
             while (true) {
@@ -160,6 +171,13 @@ public class Server {
             }
         }
 
+        /**
+         * Notifies other players about a new player.
+         * @param connection  for the connection
+         * @param userName  for the userName
+         * @throws IOException for IO
+         */
+
         /*Informieren der User über eine neue Person im Chat */
         private void notifyUsers(Connection connection, String userName) throws IOException {
             for (String name : connectionMap.keySet()) {
@@ -168,6 +186,17 @@ public class Server {
                 connection.send(new Message(MessageType.USER_ADDED, name));
             }
         }
+
+        /**
+         * Server main loop.
+         * Receives messages and checks them for commands.
+         * Bye command : Disconnect from server.
+         * @ command : Direct message.
+         * @param connection  for the connection
+         * @param userName  for the userName
+         * @throws IOException for IO
+         * @throws ClassNotFoundException for Class not found
+         */
 
         /*Busy Waiting Loop für das Schließen der Verbindung*/
         private void serverMainLoop(Connection connection, String userName) throws IOException, ClassNotFoundException {

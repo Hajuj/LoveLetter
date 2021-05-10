@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
  * The type Server.Message.
+ *
+ * @author Jonas, Viktoria
  */
 public class Message implements Serializable {
     private final MessageType type;
@@ -33,7 +35,7 @@ public class Message implements Serializable {
     }
 
     /**
-     * Gets data.
+     * Getter for data.
      *
      * @return the data
      */
@@ -43,7 +45,7 @@ public class Message implements Serializable {
     }
 
     /**
-     * Gets type.
+     * Getter for type.
      *
      * @return the type
      */

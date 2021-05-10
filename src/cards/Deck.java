@@ -6,6 +6,8 @@ import java.util.Stack;
 
 /**
  * Class representing a deck of Card objects.
+ *
+ * @author Viktoria
  */
 public class Deck {
 
