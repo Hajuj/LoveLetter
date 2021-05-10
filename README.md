@@ -6,7 +6,7 @@ The game can be played with 2-4 players, your goal is to get your love letter in
 
 From a deck with only sixteen cards, each player starts with only one card in hand; one card is removed from play. On a turn, you draw one card, and play one card, trying to expose others and knock them from the game. Powerful cards lead to early gains, but make you a target. Rely on weaker cards for too long, however, and your letter may be tossed in the fire!
 
-To get more familiar with the game rules, just visit the offical website here: http://alderac.com/wp-content/uploads/2017/11/Love-Letter-Premium_Rulebook.pdf
+To get more familiar with the game rules, just visit the official website here: http://alderac.com/wp-content/uploads/2017/11/Love-Letter-Premium_Rulebook.pdf
 
 ### Start the game
 First, please clone or download the project to your local machine. Then, in order to start the game, just run first the Server (Server.Server class) and then run the Client Application (Chat.ClientApplication class).
