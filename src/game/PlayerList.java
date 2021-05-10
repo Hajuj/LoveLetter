@@ -120,11 +120,11 @@ public class PlayerList {
      */
 
     public String print() {
-        String roundScore = "";
+        StringBuilder roundScore = new StringBuilder();
         for (Player p : players) {
-            roundScore = roundScore + p.toString() + "\n";
+            roundScore.append(p.toString()).append("\n");
         }
-        return roundScore;
+        return roundScore.toString();
     }
 
     /**

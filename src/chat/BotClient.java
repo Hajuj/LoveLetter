@@ -27,9 +27,7 @@ public class BotClient extends Client {
     private final PlayerList listOfPlayers = new PlayerList(this);
     private final Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
     private final Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
-    private final int maxNumberOfPlayers = 4;
 
-    private int numberOfPlayers;
     public int loveLetters;
 
     public int getLoveLetters() {
@@ -74,7 +72,8 @@ public class BotClient extends Client {
             waitingList.add(newPlayer);
             this.sendTextMessage("@" + newPlayer + " you are in the wait list");
         }
-        if (waitingList.size()==maxNumberOfPlayers){startTheAction(newPlayer);}
+        int maxNumberOfPlayers = 4;
+        if (waitingList.size()== maxNumberOfPlayers){startTheAction(newPlayer);}
         else if (waitingList.size()>1) {
         for (String u : waitingList) {
             this.sendTextMessage("@" + u + " If you do not want to wait for more players, write @bot start");
@@ -98,10 +97,10 @@ public class BotClient extends Client {
         if (waitingList.size() < 2 || gameOn) {
             this.sendTextMessage("@" + newPlayer + " please wait for other players");
         } else {
-            numberOfPlayers = waitingList.size();
+            int numberOfPlayers = waitingList.size();
             // Max 4 Players
-            for (int i = 0; i < numberOfPlayers; i++) {
-                listOfPlayers.addPlayer(waitingList.get(i));
+            for (String s : waitingList) {
+                listOfPlayers.addPlayer(s);
             }
             for (Player p : listOfPlayers.getPlayers()) {
                 currentCards.put(p, 10);
