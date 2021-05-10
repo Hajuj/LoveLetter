@@ -1,33 +1,31 @@
-# Informationen
-Hallo Brave Barsche,
+# Welcome!
+This is our University project for the card game Love Letter, it is a game of risk, deduction, and luck.
 
-dies hier ist euer Git-Repository, welches ihr im Rahmen des Softwareentwicklungspraktikums nutzen könnt und sollt. Im derzeitigen Zustand befindet sich in diesem dieses Readme, welches ihr grade lest, und ein [.gitignore](https://git-scm.com/docs/gitignore)-File.
+## Game Rules
+The game can be played with 2-4 players, your goal is to get your love letter into Princess Annette's hands while deflecting the letters from competing suitors.
 
-## Handhabung
+From a deck with only sixteen cards, each player starts with only one card in hand; one card is removed from play. On a turn, you draw one card, and play one card, trying to expose others and knock them from the game. Powerful cards lead to early gains, but make you a target. Rely on weaker cards for too long, however, and your letter may be tossed in the fire!
 
-Eine sehr einfach und verständliche Anleitung zum Thema "git" findet ihr unter folgender Adresse:  https://rogerdudler.github.io/git-guide/index.de.html (Bitte schaut euch diese mindestens einmal an!)
+To get more familiar with the game rules, just visit the official website here: http://alderac.com/wp-content/uploads/2017/11/Love-Letter-Premium_Rulebook.pdf
 
-### Download
-* Git für eure Kommandozeile könnt ihr euch hier herunterladen: https://git-scm.com/downloads
-* Als Plugin für Eclipse: https://www.eclipse.org/egit/
-* Einbindung in IntelliJ: https://www.jetbrains.com/help/idea/using-git-integration.html
+### Start the game
+First, please clone or download the project to your local machine. Then, in order to start the game, just run first the server (server.server class) and then run the Client Application (chat.ClientApplication class).
+* Note that you have to run ClientApplication class more than once in order to connect more clients to the server.
 
+Once you are connected you can start chatting with other clients in the server, or you can use the Bot commands to start a game and play with others. But you need to start the BotClient first.
 
-### Einstellungen
+To start LoveLetter in Chat:
+1. You can press the button play, to activate the Bot Client. He welcomes all in the chat.
+2. You should send "@bot play", the Bot Client will set you in the waiting list.
+3. After two Players in the waiting list, the Bot Client will inform, how they can start the game. If there are four players on the waiting list, the bot client starts the game automatically.
 
-    git config --global user.name "Vorname Nachname"
-    git config --global user.email "name@cip.ifi.lmu.de"
+* You can always call the Bot commands by writing @Bot Help.
+* You can leave the chat with the command "bye" at any time.
 
-### Klonen des Repositorys
-Die Adresse eures Repositorys findet ihr oben rechts auf dieser Seite, wenn ihr auf den blauen `Clone` Knopf klickt. 
-Auf euren Computer bekommt ihr dieses dann, indem ihr im gewünschten Verzeichnis folgenden Befehl aufruft:
+The BotClient follows the rules precisely -- so there is no room for cheating. (Often, if you don't have a choice what card to play, the bot will just play it for you.)
 
-    
-    git clone git@gitlab2.cip.ifi.lmu.de:dbs_sep/dbs_sep2021/brave-barsche.git
+#### Requirements 
+In order to run the project without problems, you'll need to install the following first:
+* Java 16
+* JavaFX 16
 
-Dies setzt einen von euch erstellten SSH Schlüssel voraus. Informiert euch bitte, wie ihr dies mit eurem Betriebssystem am Besten macht. Alternativ ist es auch möglich mit https zu arbeiten. 
-
-## Keine Angst!
-Git und GitLab bieten eine Menge an Funktionen. Wir möchten euch ermutigen diese zu erkunden und zu experimentieren. Solltet ihr Hemmungen haben an diesem Repository zu werkeln, könnt ihr euch auch gerne eigene Repositorys hier im GitLab erstellen und dort euer Wissen erweitern.
-
-Solltet ihr im Laufe des Praktikums dazu entscheiden mit Branches zu arbeiten, würden wir euch bitten diese nicht mutwillig zu löschen. Um die schlimmsten Unfälle zu verhindern, ist in diesem Repository das Löschen des `master` Branches sowie `git push --force` auf diesem Branch nicht möglich. Falls ihr zusätzliche Branches geschützt haben möchtet, wendet euch bitte an euren Tutor.
