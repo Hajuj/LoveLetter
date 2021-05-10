@@ -12,8 +12,10 @@ To get more familiar with the game rules, just visit the official website here: 
 First, please clone or download the project to your local machine. Then, in order to start the game, just run first the Server (Server.Server class) and then run the Client Application (Chat.ClientApplication class).
 * Note that you have to run ClientApplication class more than once in order to connect more clients to the server.
 
-Once you are connected you can start chatting with other clients in the server, or you can use the Bot commands to start a game and play with others.
+Once you are connected you can start chatting with other clients in the server, or you can use the Bot commands to start a game and play with others. But you need to start the BotClient first.
 * (You can always call the Bot commands by writing @Bot Help).
+
+The BotClient follows the rules precisely -- so there is no room for cheating. (Often, if you don't have a choice what card to play, the bot will just play it for you.)
 
 #### Requirements 
 In order to run the project without problems, you'll need to install the following first:
