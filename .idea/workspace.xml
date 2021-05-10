@@ -5,25 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d0d68a5-9c57-4de2-9f8d-c85a03867b40" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cards/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cards/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cards/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cards/Deck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cards/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cards/Hand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cards/UsedPile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cards/UsedPile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chat/BotClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat/BotClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chat/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chat/ClientApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat/ClientApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/chat/ClientGuiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat/ClientGuiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chat/ClientGuiModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chat/ClientGuiModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/GameActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/PlayerList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/PlayerList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Connection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/ConsoleHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/ConsoleHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/MessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/MessageType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620598152234</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="JavaDocs done.">
+      <created>1620603698839</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1620603698839</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -174,6 +165,7 @@
     <MESSAGE value="card functions" />
     <MESSAGE value="handmaid problem" />
     <MESSAGE value="TODO commentary" />
-    <option name="LAST_COMMIT_MESSAGE" value="TODO commentary" />
+    <MESSAGE value="JavaDocs done." />
+    <option name="LAST_COMMIT_MESSAGE" value="JavaDocs done." />
   </component>
 </project>
