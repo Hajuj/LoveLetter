@@ -13,7 +13,14 @@ First, please clone or download the project to your local machine. Then, in orde
 * Note that you have to run ClientApplication class more than once in order to connect more clients to the server.
 
 Once you are connected you can start chatting with other clients in the server, or you can use the Bot commands to start a game and play with others. But you need to start the BotClient first.
-* (You can always call the Bot commands by writing @Bot Help).
+
+To start LoveLetter in Chat:
+1. You can press the button play, to activate the Bot Client. He welcomes all in the chat.
+2. You should send "@bot play", the Bot Client will set you in the waiting list.
+3. After two Players in the waiting list, the Bot Client will inform, how they can start the game. If there are four players on the waiting list, the bot client starts the game automatically.
+
+* You can always call the Bot commands by writing @Bot Help.
+* You can leave the chat with the command "bye" at any time.
 
 The BotClient follows the rules precisely -- so there is no room for cheating. (Often, if you don't have a choice what card to play, the bot will just play it for you.)
 
