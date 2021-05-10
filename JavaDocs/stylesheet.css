@@ -221,7 +221,7 @@ ul.sub-nav-list li {
     overflow:hidden;
 }
 /*
- * Hide navigation links and search box in printUsedPiles layout
+ * Hide navigation links and search box in print layout
  */
 @media print {
     ul.nav-list, div.sub-nav  {

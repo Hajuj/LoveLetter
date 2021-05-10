@@ -176,6 +176,7 @@ abstract class GameActions {
      * apply (you do not draw a card from the Prince, for example). Effects tied to
      * being knocked out the round still apply (eg. Constable, Jester), however.
      *
+     * @param botClient the botClient
      * @param user the current player
      *
      * @author Chiara
