@@ -10,14 +10,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-// TODO Add in README FILE: No Lying implemented - all actions are automatically executed if necessary
-//Hinweis: Doch keine JAR erstellen -- Aber optional möglich //final date 11:59
-// Vortrag - vorstellen und Vorzüge ausarbeiten
-// Pro Kontra der letzten drei Projektwochen
-
-// TODo Autoren in JavaDocs nennen --> Experten für den Code
-
-
 /**
  * The type Bot client.
  *
