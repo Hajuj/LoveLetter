@@ -22,6 +22,9 @@ public class BotClient extends Client {
     private final Map<Player, Integer> currentCards = new ConcurrentHashMap<>();
     private final Map<Player, String> currentOpponent = new ConcurrentHashMap<>();
 
+    /**
+     * Number of Tokens depending on Player Number
+     */
     public int loveLetters;
 
     /**
@@ -157,7 +160,9 @@ public class BotClient extends Client {
         }
     }
 
-
+    /**
+     * Attribute gameTie if there is a tie
+     */
     public boolean gameTie;
 
     /**

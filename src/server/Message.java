@@ -8,7 +8,15 @@ import java.io.Serializable;
  * @author Jonas, Viktoria
  */
 public class Message implements Serializable {
+
+    /**
+     * Instantiates a new type of Message.
+     */
     private final MessageType type;
+
+    /**
+     * Instantiates a new String of Data.
+     */
     private final String data;
 
     /**

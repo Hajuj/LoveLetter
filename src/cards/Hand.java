@@ -11,6 +11,11 @@ public class Hand {
 
     private final ArrayList<Card> hand;
 
+    /**
+     * Getter for Hand.
+     *
+     * @return the Hand of the Player
+     */
     public ArrayList<Card> getHand() {
         return hand;
     }
