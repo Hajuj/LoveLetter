@@ -270,7 +270,7 @@ public class BotClient extends Client {
                     startTheGame(split[0]);
                     break;
                 case "score":
-                    listOfPlayers.getCurrentScore(listOfPlayers.getCurrentPlayer());
+                    listOfPlayers.getCurrentScore(listOfPlayers.getPlayer(split[0]));
                     break;
                 case "start":
                     startTheAction(split[0]);
