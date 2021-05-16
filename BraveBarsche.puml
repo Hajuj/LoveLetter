@@ -1,0 +1,159 @@
+@startuml
+'https://plantuml.com/class-diagram
+class Main
+
+class Client
+class ClientApplication
+class ClientGuiController
+class ClientGuiModel
+class Connection
+class ConsoleHelper
+class MessageType
+class Message
+class Server
+class Handler
+class GuiSocketThread
+class Thread
+
+class Game
+class GameActions
+class Player
+class Robot
+class Register
+class Phase
+class PlayRound
+class GameField
+
+
+abstract class Card
+abstract class Deck
+
+class Wall
+class Tile
+class StartPoint
+class RotatingBelt
+class RestartPoint
+class PushPanel
+class Pit
+class Laser
+class Gear
+class EnergySpace
+class Empty
+class Checkpoint
+class Belt
+class Antenna
+
+class UTurn
+class TurnRight
+class TurnLeft
+class PowerUp
+class MoveI
+class MoveII
+class MoveIII
+class BackUp
+class Again
+
+class DeckWorm
+class DeckVirus
+class DeckTrojan
+class DeckSpam
+class DeckHand
+class DeckRegister
+class DeckDraw
+class DeckDiscard
+
+class Worm
+class Virus
+class Trojan
+class Spam
+
+Player "1" *-- "1" Register
+Game "1" *-- "3" Phase
+Game "1" --* "1" Server
+GameField "1" --* "1" Tile
+Main --o Game
+Player "1" *-- "1" Deck
+Player "m" --* "1" Game
+Player "1" *-- "1" Robot
+Game "1" *-- "1" PlayRound
+GameActions --* Tile
+GameActions --* Card
+
+
+
+
+package "Tile" #BBBBBB {
+Tile <|-- Antenna
+Tile <|-- Belt
+Tile <|-- RotatingBelt
+Tile <|-- EnergySpace
+Tile <|-- PushPanel
+Tile <|-- Pit
+Tile <|-- RestartPoint
+Tile <|-- Checkpoint
+Tile <|-- Empty
+Tile <|-- Gear
+Tile <|-- Laser
+Tile <|-- StartPoint
+Tile <|-- Wall
+}
+
+package "Card" #FFBBFF {
+Card <|-- MoveI
+Card <|-- MoveII
+Card <|-- MoveIII
+Card <|-- BackUp
+Card <|-- PowerUp
+Card <|-- UTurn
+Card <|-- TurnLeft
+Card <|-- TurnRight
+Card <|-- Again
+Card <|-- Virus
+Card <|-- Worm
+Card <|-- Spam
+Card <|-- Trojan
+}
+
+package "Deck" #DDDDDD {
+Deck <|-- DeckDiscard
+Deck <|-- DeckDraw
+Deck <|-- DeckHand
+Deck <|-- DeckWorm
+Deck <|-- DeckRegister
+Deck <|-- DeckSpam
+Deck <|-- DeckVirus
+Deck <|-- DeckTrojan
+}
+
+
+
+Server +-- Handler
+Client +-- SocketThread
+ClientGuiController +-- GuiSocketThread
+
+ConsoleHelper *-- Client
+
+Client <|-- ClientGuiController
+Client <|-- GuiSocketThread: extends
+Thread <|-- SocketThread: extends
+Thread <|-- Handler: extends
+
+
+
+Message --> MessageType: MessageType
+
+ClientApplication .. Client
+ClientApplication .. ClientGuiController
+ClientGuiController .. ClientGuiModel
+Message .. Client
+Message .. Server
+
+Connection ..> Socket
+Client ..> Connection
+
+
+
+
+
+
+@enduml

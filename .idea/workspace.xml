@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d0d68a5-9c57-4de2-9f8d-c85a03867b40" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/gitignore.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -175,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620637177400</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="JavaDocs done.V2.0. and organised and gitignore">
+      <created>1620640589959</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1620640589959</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -188,6 +194,7 @@
     <MESSAGE value="JavaDocs done." />
     <MESSAGE value="JavaDocs done.V2.0." />
     <MESSAGE value="JavaDocs done.V2.0. and organised" />
-    <option name="LAST_COMMIT_MESSAGE" value="JavaDocs done.V2.0. and organised" />
+    <MESSAGE value="JavaDocs done.V2.0. and organised and gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="JavaDocs done.V2.0. and organised and gitignore" />
   </component>
 </project>
